@@ -15,7 +15,7 @@ Copy the [TribeInstallPacks.bat](https://github.com/Tboske/TribeEngine/blob/mast
 
   If you followed my [Basic-VCPKG-guide](https://github.com/Tboske/Basic-VCPKG-guide/blob/main/README.md), I suggested installing VCPKG in `C:\vcpkg\`.
 
-If you copied it into this directory, just run it and it should install everything. When the .bat file finishes the installation, you should be able to compile the project!
+after having copied the .bat file, just run it and it should install everything. When the .bat file finishes the installation, you should be able to compile the project!
 
 #### seperate commands
 Here are all the commands the .bat file runs and you can run them seperatly if you'd like.
