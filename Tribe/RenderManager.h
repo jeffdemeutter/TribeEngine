@@ -30,7 +30,9 @@ public:
 private:
 	friend class Singleton<RenderManager>;
 	RenderManager() = default;
-	
+
+	int m_Width = 640;
+	int m_Height = 480;
 	SDL_Renderer* m_Renderer{};
 	SDL_Window* m_Window{};
 	SDL_Color m_clearColor{};

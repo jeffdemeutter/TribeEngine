@@ -36,35 +36,38 @@ void RenderManager::InitImpl()
 {
 	PrintSDLVersion();
 
+	// init sdl for video usage
 	if (SDL_Init(SDL_INIT_VIDEO) != 0)
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 
+	// create the window
 	m_Window = SDL_CreateWindow(
 		"Programming 4 assignment",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		640,
-		480,
+		m_Width,
+		m_Height,
 		SDL_WINDOW_OPENGL // | SDL_WINDOW_ALWAYS_ON_TOP
 	);
 	if (m_Window == nullptr)
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 
-	
+	// create the renderer
 	m_Renderer = SDL_CreateRenderer(
 		m_Window, 
 		GetOpenGLDriverIndex(), 
-		SDL_RENDERER_ACCELERATED
+		SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE
 	);
 	if (m_Renderer == nullptr) 
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 
+	// initialize imgui
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGui_ImplSDL2_InitForOpenGL(m_Window, SDL_GL_GetCurrentContext());
 	ImGui_ImplOpenGL2_Init();
 
-	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	//ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	//ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 }
 
