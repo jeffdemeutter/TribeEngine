@@ -16,12 +16,12 @@ I provide a .bat file to install these packages easily. I also provide a list of
 #### Usage .bat file
 Copy the [TribeInstallPacks.bat](https://github.com/Tboske/TribeEngine/blob/master/TribeInstallPacks.bat) into your VCPKG install location. 
 
-  If you followed my [Basic-VCPKG-guide](https://github.com/Tboske/Basic-VCPKG-guide/blob/main/README.md), I suggested installing VCPKG in `C:\vcpkg\`.
+If you followed my [Basic-VCPKG-guide](https://github.com/Tboske/Basic-VCPKG-guide/blob/main/README.md), I suggested installing VCPKG in `C:\vcpkg\`, so I will use this as example. If this is not applicable to you, use your VCPKG install directory.
 
-after having copied the .bat file, just run it and it should install everything. When the .bat file finishes the installation, you should be able to compile the project!
+After you have copied the .bat file, just run it and it should install everything. When the .bat file finishes the installation, you should be able to compile the project!
 
 #### Commands list
-Here are all the commands the .bat file runs and you can run them seperatly if you'd like.
+If you prefer running all these commands yourself, you can! Below are all the commands listed up, it's as easy as just copy and pasting them. Make sure you run these commands in cmd within the directory of VCPKG.
 
 - `vcpkg install glm`
 - `vcpkg install glm:x64-windows`
