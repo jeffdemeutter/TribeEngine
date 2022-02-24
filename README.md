@@ -6,6 +6,11 @@ This project uses VCPKG, for extra information about the VCPKG installation, I s
 
 ---
 
+### clone the repo
+if you clone the repo it should give errors, since no packages are installed yet through VCPKG. In the next paragraph I will explain how to install those packages.
+
+---
+
 ### Packages to install 
 The Tribe (engine) uses multiple libraries/packages and we manage those packages with vcpkg. I provide a single command that installs all the packages.
 
