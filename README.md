@@ -4,11 +4,14 @@
 ### Installing VCPKG
 This project uses VCPKG, for extra information about the VCPKG installation, I suggest you take a look at my [Basic-VCPKG-guide](https://github.com/Tboske/Basic-VCPKG-guide/blob/main/README.md).
 
+---
 
 ### Packages to install 
 The Tribe (engine) uses multiple libraries/packages and we manage those packages with vcpkg. 
 
 I provide a .bat file to install these packages easily. I also provide a list of all the commands that are ran by the .bat file, in case you want to run these commands individually.
+
+---
 
 #### usage .bat file
 Copy the [TribeInstallPacks.bat](https://github.com/Tboske/TribeEngine/blob/master/TribeInstallPacks.bat) into your VCPKG install location. 
