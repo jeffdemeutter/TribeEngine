@@ -2,43 +2,35 @@
 
 ## How to use
 ### Installing VCPKG
-This project uses VCPKG, for extra information about the VCPKG installation, I suggest you take a look at my [Basic-VCPKG-guide](https://github.com/Tboske/Basic-VCPKG-guide/blob/main/README.md).
+This project uses VCPKG, for extra information about the VCPKG installation, I suggest you take a look at the installing VCPKG section of my [Basic-VCPKG-guide](https://github.com/Tboske/Basic-VCPKG-guide/blob/main/README.md).
+
+---
+
+### clone the repo
+if you clone the repo it should give errors, since no packages are installed yet through VCPKG. In the next paragraph I will explain how to install those packages.
 
 ---
 
 ### Packages to install 
-The Tribe (engine) uses multiple libraries/packages and we manage those packages with vcpkg. 
+The Tribe (engine) uses multiple libraries/packages and we manage those packages with vcpkg. I provide a single command that installs all the packages.
 
-I provide a .bat file to install these packages easily. I also provide a list of all the commands that are ran by the .bat file, in case you want to run these commands individually.
+Packages:
+- SDL2
+- SDL2-ttf
+- SDL2-image
+- opengl
+- glm
+- ImGui
 
 ---
 
-#### Usage .bat file
-Copy the [TribeInstallPacks.bat](https://github.com/Tboske/TribeEngine/blob/master/TribeInstallPacks.bat) into your VCPKG install location. 
+### Installing mandatory packages
+If you followed my [Basic-VCPKG-guide](https://github.com/Tboske/Basic-VCPKG-guide/blob/main/README.md), I suggested installing VCPKG in `C:\vcpkg\`, so I will use this as example. If this is not applicable to you, use your VCPKG install directory.
 
-  If you followed my [Basic-VCPKG-guide](https://github.com/Tboske/Basic-VCPKG-guide/blob/main/README.md), I suggested installing VCPKG in `C:\vcpkg\`.
+Open the cmd in the `C:\vcpkg\` directory and then execute the command below. This will install all necessary packages in x86 and x64. 
 
-after having copied the .bat file, just run it and it should install everything. When the .bat file finishes the installation, you should be able to compile the project!
+`vcpkg install glm glm:x64-windows imgui imgui:x64-windows imgui[opengl2-binding] imgui[opengl2-binding]:x64-windows imgui[sdl2-binding] imgui[sdl2-binding]:x64-windows opengl opengl:x64-windows SDL2 SDL2:x64-windows SDL2-ttf SDL2-ttf:x64-windows SDL2-image SDL2-image:x64-windows sdl2-image[libjpeg-turbo] sdl2-image[libjpeg-turbo]:x64-windows --recurse`
 
-#### Commands list
-Here are all the commands the .bat file runs and you can run them seperatly if you'd like.
+This can take quite a while, since it is in fact downloading all of the packages in x86 and x64. After this is done you should be able to compile my project in visual studio.
 
-- `vcpkg install glm`
-- `vcpkg install glm:x64-windows`
-- `vcpkg install imgui`
-- `vcpkg install imgui:x64-windows`
-- `vcpkg install imgui[opengl2-binding] --recurse`
-- `vcpkg install imgui[opengl2-binding]:x64-windows --recurse`
-- `vcpkg install imgui[sdl2-binding] --recurse`
-- `vcpkg install imgui[sdl2-binding]:x64-windows --recurse`
-- `vcpkg install opengl`
-- `vcpkg install opengl:x64-windows`
-- `vcpkg install SDL2`
-- `vcpkg install SDL2:x64-windows`
-- `vcpkg install SDL2-ttf`
-- `vcpkg install SDL2-ttf:x64-windows`
-- `vcpkg install SDL2-image`
-- `vcpkg install SDL2-image:x64-windows`
-- `vcpkg install sdl2-image[libjpeg-turbo] --recurse`
-- `vcpkg install sdl2-image[libjpeg-turbo]:x64-windows --recurse`
-
+You can also run `vcpkg integrate install` to make sure all packages are globally accessible for MSBuild.
