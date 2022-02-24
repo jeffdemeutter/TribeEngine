@@ -47,7 +47,7 @@ void RenderManager::InitImpl()
 		SDL_WINDOWPOS_CENTERED,
 		m_Width,
 		m_Height,
-		SDL_WINDOW_OPENGL // | SDL_WINDOW_ALWAYS_ON_TOP
+		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE // | SDL_WINDOW_ALWAYS_ON_TOP
 	);
 	if (m_Window == nullptr)
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
@@ -56,7 +56,7 @@ void RenderManager::InitImpl()
 	m_Renderer = SDL_CreateRenderer(
 		m_Window, 
 		GetOpenGLDriverIndex(), 
-		SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE
+		SDL_RENDERER_ACCELERATED //| SDL_RENDERER_TARGETTEXTURE
 	);
 	if (m_Renderer == nullptr) 
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
@@ -73,22 +73,35 @@ void RenderManager::InitImpl()
 
 void RenderManager::RenderImpl() const
 {
+	// clear renderer
 	const auto& color = GetBackgroundColor();
 	SDL_SetRenderDrawColor(m_Renderer, color.r, color.g, color.b, color.a);
 	SDL_RenderClear(m_Renderer);
 
+	// render scenes
 	SceneManager::Render();
 
+	// render imgui
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplSDL2_NewFrame(m_Window);
 	ImGui::NewFrame();
-
 	SceneManager::RenderUI();
 
+
+	// end imgui frame
 	ImGui::Render();
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 
 	SDL_RenderPresent(m_Renderer);
+}
+
+void RenderManager::UpdateWindow(int width, int height)
+{
+	auto& inst = GetInstance();
+	inst.m_Width = width;
+	inst.m_Height = height;
+
+	SDL_SetWindowSize(inst.m_Window, width, height);
 }
 
 RenderManager::~RenderManager()
@@ -106,25 +119,4 @@ RenderManager::~RenderManager()
 	SDL_DestroyWindow(m_Window);
 	m_Window = nullptr;
 	SDL_Quit();
-}
-
-void RenderManager::RenderTextureImpl(SDL_Texture* pTexture, float x, float y) const
-{
-	SDL_Rect dst{};
-	dst.x = static_cast<int>(x);
-	dst.y = static_cast<int>(y);
-	SDL_QueryTexture(pTexture, nullptr, nullptr, &dst.w, &dst.h);
-	SDL_RenderCopy(GetSDLRendererImpl(), pTexture, nullptr, &dst);
-
-}
-
-void RenderManager::RenderTextureImpl(SDL_Texture* pTexture, float x, float y, float width, float height) const
-{
-	SDL_Rect dst{};
-	dst.x = static_cast<int>(x);
-	dst.y = static_cast<int>(y);
-	dst.w = static_cast<int>(width);
-	dst.h = static_cast<int>(height);
-	SDL_RenderCopy(GetSDLRendererImpl(), pTexture, nullptr, &dst);
-
 }

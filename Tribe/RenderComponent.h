@@ -7,7 +7,7 @@ class RenderComponent : public Component
 {
 public:
 	RenderComponent(GameObject* go, TransformComponent* pTransform);
-	RenderComponent(GameObject* go, TransformComponent* pTransform, const std::string& pTexture);
+	RenderComponent(GameObject* go, TransformComponent* pTransform, const std::string& pTexture, bool drawFill = false);
 	~RenderComponent() override;
 	RenderComponent(const RenderComponent&) = default;
 	RenderComponent(RenderComponent&&) noexcept = default;
@@ -25,5 +25,7 @@ public:
 private:
 	Texture2D* m_pTexture = nullptr;
 	TransformComponent* m_pTransformComponent = nullptr;
+
+	bool m_DrawFill = false;
 };
 

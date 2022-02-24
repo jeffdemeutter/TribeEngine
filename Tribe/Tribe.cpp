@@ -15,12 +15,6 @@
 
 using namespace std;
 
-
-void Tribe::Initialize()
-{
-	
-}
-
 /**
  * Code constructing the scene world starts here
  */
@@ -28,13 +22,15 @@ void Tribe::LoadGame() const
 {
 	Scene* scene = SceneManager::CreateScene("Demo");
 
+	// background
 	auto go = new GameObject();
 	{
 		const auto pTransform = go->AddComponent(new TransformComponent(go));
-		go->AddComponent(new RenderComponent(go, pTransform, "background.jpg"));
+		go->AddComponent(new RenderComponent(go, pTransform, "background.jpg", true));
 	}
 	scene->Add(go);
 
+	// logo
 	go = new GameObject();
 	{
 		const auto pTransform = go->AddComponent(new TransformComponent(go, 216, 180));
@@ -42,7 +38,7 @@ void Tribe::LoadGame() const
 	}
 	scene->Add(go);
 
-
+	// text object
 	Font* pFont = ResourceManager::LoadFont("Lingua.otf", 36);
 	go = new GameObject();
 	{
@@ -52,7 +48,7 @@ void Tribe::LoadGame() const
 	}
 	scene->Add(go);
 
-
+	// fps object
 	go = new GameObject();
 	{
 		const auto pTransform = go->AddComponent(new TransformComponent(go));
@@ -61,11 +57,6 @@ void Tribe::LoadGame() const
 		go->AddComponent(new FpsComponent(go, pText));
 	}
 	scene->Add(go);
-}
-
-void Tribe::Cleanup()
-{
-
 }
 
 void Tribe::Run()
@@ -98,6 +89,4 @@ void Tribe::Run()
 			this_thread::sleep_for(Timer::GetSleepTime());
 		}
 	}
-
-	Cleanup();
 }

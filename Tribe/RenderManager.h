@@ -14,18 +14,14 @@ public:
 	RenderManager& operator=(const RenderManager&) = delete;
 	RenderManager& operator=(RenderManager&&) noexcept = delete;
 
+
 	static void Init() { GetInstance().InitImpl(); }
 	static void Render() { GetInstance().RenderImpl(); }
 
-	static void RenderTexture(SDL_Texture* pTexture, float x, float y)
-		{ GetInstance().RenderTextureImpl(pTexture, x, y); }
-	static void RenderTexture(SDL_Texture* pTexture, float x, float y, float width, float height)
-		{ GetInstance().RenderTextureImpl(pTexture, x, y, width, height); }
-
-	static SDL_Renderer* GetSDLRenderer() { return GetInstance().GetSDLRendererImpl(); }
-
-	const SDL_Color& GetBackgroundColor() const { return m_clearColor; }
-	void SetBackgroundColor(const SDL_Color& color) { m_clearColor = color; }
+	static SDL_Renderer* GetSDLRenderer() { return GetInstance().m_Renderer; }
+	static SDL_Rect GetWindowRect() { return { 0, 0, GetInstance().m_Width, GetInstance().m_Height }; }
+	static SDL_Color GetBackgroundColor() { return GetInstance().m_ClearColor; }
+	static void SetBackgroundColor(const SDL_Color& color) { GetInstance().m_ClearColor = color; }
 
 private:
 	friend class Singleton<RenderManager>;
@@ -35,16 +31,14 @@ private:
 	int m_Height = 480;
 	SDL_Renderer* m_Renderer{};
 	SDL_Window* m_Window{};
-	SDL_Color m_clearColor{};
+	SDL_Color m_ClearColor{};
 
 
 	void InitImpl();
 	void RenderImpl() const;
-	void RenderTextureImpl(SDL_Texture* pTexture, float x, float y) const;
-	void RenderTextureImpl(SDL_Texture* pTexture, float x, float y, float width, float height) const;
 
-
-	SDL_Renderer* GetSDLRendererImpl() const { return m_Renderer; }
+	friend class InputManager;
+	static void UpdateWindow(int width, int height);
 };
 
 

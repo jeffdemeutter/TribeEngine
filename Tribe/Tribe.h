@@ -14,7 +14,5 @@ public:
 	void Run();
 
 private:
-	void Initialize();
 	void LoadGame() const;
-	void Cleanup();
 };

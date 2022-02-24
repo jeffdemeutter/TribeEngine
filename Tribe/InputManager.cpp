@@ -1,5 +1,6 @@
 #include "TribePCH.h"
 #include "InputManager.h"
+#include "RenderManager.h"
 
 bool InputManager::ProcessInputImpl()
 {
@@ -7,16 +8,22 @@ bool InputManager::ProcessInputImpl()
 	XInputGetState(0, &m_CurrentState);
 
 	SDL_Event e;
-	while (SDL_PollEvent(&e)) {
-		if (e.type == SDL_QUIT) {
+	while (SDL_PollEvent(&e)) 
+	{
+		// check to quit
+		if (e.type == SDL_QUIT)
 			return false;
+		
+		// window resize
+		if (e.type == SDL_WINDOWEVENT)
+		{
+			if (e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
+			{
+				RenderManager::UpdateWindow(e.window.data1, e.window.data2);
+				return true;
+			}
 		}
-		if (e.type == SDL_KEYDOWN) {
 			
-		}
-		if (e.type == SDL_MOUSEBUTTONDOWN) {
-			
-		}
 	}
 
 	return true;

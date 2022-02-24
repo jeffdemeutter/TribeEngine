@@ -10,10 +10,11 @@ RenderComponent::RenderComponent(GameObject* go, TransformComponent* pTransform)
 {
 }
 
-RenderComponent::RenderComponent(GameObject* go, TransformComponent* pTransform, const std::string& pTexture)
+RenderComponent::RenderComponent(GameObject* go, TransformComponent* pTransform, const std::string& pTexture, bool drawFill)
 	: Component( go )
 	, m_pTexture { ResourceManager::LoadTexture(pTexture) }
 	, m_pTransformComponent{ pTransform }
+	, m_DrawFill(drawFill)
 {
 }
 
@@ -24,6 +25,11 @@ RenderComponent::~RenderComponent()
 
 void RenderComponent::Render() const
 {
-	if (m_pTexture)
+	if (!m_pTexture)
+		return;
+
+	if (m_DrawFill)
+		m_pTexture->DrawFillScreen();
+	else 
 		m_pTexture->Draw(m_pTransformComponent->GetPosition());
 }
