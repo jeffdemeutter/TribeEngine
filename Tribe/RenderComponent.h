@@ -1,5 +1,5 @@
 #pragma once
-#include "Component.h"
+#include "BaseComponent.h"
 
 class Texture2D;
 class TransformComponent;

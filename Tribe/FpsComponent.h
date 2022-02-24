@@ -1,5 +1,5 @@
 #pragma once
-#include "Component.h"
+#include "BaseComponent.h"
 
 class TextComponent;
 class FpsComponent final : public Component
