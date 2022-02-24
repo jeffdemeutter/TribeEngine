@@ -23,22 +23,5 @@ After you have copied the .bat file, just run it and it should install everythin
 #### Commands list
 If you prefer running all these commands yourself, you can! Below are all the commands listed up, it's as easy as just copy and pasting them. Make sure you run these commands in cmd within the directory of VCPKG.
 
-- `vcpkg install glm`
-- `vcpkg install glm:x64-windows`
-- `vcpkg install imgui`
-- `vcpkg install imgui:x64-windows`
-- `vcpkg install imgui[opengl2-binding] --recurse`
-- `vcpkg install imgui[opengl2-binding]:x64-windows --recurse`
-- `vcpkg install imgui[sdl2-binding] --recurse`
-- `vcpkg install imgui[sdl2-binding]:x64-windows --recurse`
-- `vcpkg install opengl`
-- `vcpkg install opengl:x64-windows`
-- `vcpkg install SDL2`
-- `vcpkg install SDL2:x64-windows`
-- `vcpkg install SDL2-ttf`
-- `vcpkg install SDL2-ttf:x64-windows`
-- `vcpkg install SDL2-image`
-- `vcpkg install SDL2-image:x64-windows`
-- `vcpkg install sdl2-image[libjpeg-turbo] --recurse`
-- `vcpkg install sdl2-image[libjpeg-turbo]:x64-windows --recurse`
+- `vcpkg install glm glm:x64-windows imgui imgui:x64-windows imgui[opengl2-binding] imgui[opengl2-binding]:x64-windows imgui[sdl2-binding] imgui[sdl2-binding]:x64-windows opengl opengl:x64-windows SDL2 SDL2:x64-windows SDL2-ttf SDL2-ttf:x64-windows SDL2-image SDL2-image:x64-windows sdl2-image[libjpeg-turbo] sdl2-image[libjpeg-turbo]:x64-windows --recurse`
 
