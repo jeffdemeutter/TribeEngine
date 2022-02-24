@@ -1,5 +1,5 @@
 #include "TribePCH.h"
-#include "tribe.h"
+#include "Tribe.h"
 #include <thread>
 
 #include "InputManager.h"
@@ -10,46 +10,15 @@
 #include "Scene.h"
 #include "Timer.h"
 
-#include "FpsComponent.h"
-#include "RenderComponent.h"
-#include "TransformComponent.h"
-#include "TextComponent.h"
+#include "Components.h"
 
 
 using namespace std;
 
-void PrintSDLVersion()
-{
-	SDL_version compiled{};
-	SDL_version linked{};
-
-	SDL_VERSION(&compiled);
-	SDL_GetVersion(&linked);
-	printf("We compiled against SDL version %d.%d.%d ...\n",
-		compiled.major, compiled.minor, compiled.patch);
-	printf("We are linking against SDL version %d.%d.%d.\n",
-		linked.major, linked.minor, linked.patch);
-}
 
 void Tribe::Initialize()
 {
-	PrintSDLVersion();
 	
-	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
-		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
-
-	m_Window = SDL_CreateWindow(
-		"Programming 4 assignment",
-		SDL_WINDOWPOS_CENTERED,
-		SDL_WINDOWPOS_CENTERED,
-		640,
-		480,
-		SDL_WINDOW_OPENGL // | SDL_WINDOW_ALWAYS_ON_TOP
-	);
-	if (m_Window == nullptr) 
-		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
-
-	RenderManager::Init(m_Window);
 }
 
 /**
@@ -96,14 +65,13 @@ void Tribe::LoadGame() const
 
 void Tribe::Cleanup()
 {
-	SDL_DestroyWindow(m_Window);
-	m_Window = nullptr;
-	SDL_Quit();
+
 }
 
 void Tribe::Run()
 {
-	Initialize();
+	// intitializes the window
+	RenderManager::Init();
 
 	// tell the resource manager where he can find the game data
 	ResourceManager::Init("../Data/");

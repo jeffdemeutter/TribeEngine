@@ -14,7 +14,7 @@ public:
 	RenderManager& operator=(const RenderManager&) = delete;
 	RenderManager& operator=(RenderManager&&) noexcept = delete;
 
-	static void Init(SDL_Window* pWindow) { GetInstance().InitImpl(pWindow); }
+	static void Init() { GetInstance().InitImpl(); }
 	static void Render() { GetInstance().RenderImpl(); }
 
 	static void RenderTexture(SDL_Texture* pTexture, float x, float y)
@@ -30,13 +30,13 @@ public:
 private:
 	friend class Singleton<RenderManager>;
 	RenderManager() = default;
-
+	
 	SDL_Renderer* m_Renderer{};
 	SDL_Window* m_Window{};
 	SDL_Color m_clearColor{};
 
 
-	void InitImpl(SDL_Window* pWindow);
+	void InitImpl();
 	void RenderImpl() const;
 	void RenderTextureImpl(SDL_Texture* pTexture, float x, float y) const;
 	void RenderTextureImpl(SDL_Texture* pTexture, float x, float y, float width, float height) const;

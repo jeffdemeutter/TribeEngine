@@ -19,11 +19,40 @@ int GetOpenGLDriverIndex()
 	return openglIndex;
 }
 
-void RenderManager::InitImpl(SDL_Window * window)
+void PrintSDLVersion()
 {
-	m_Window = window;
+	SDL_version compiled{};
+	SDL_version linked{};
+
+	SDL_VERSION(&compiled);
+	SDL_GetVersion(&linked);
+	printf("We compiled against SDL version %d.%d.%d ...\n",
+		compiled.major, compiled.minor, compiled.patch);
+	printf("We are linking against SDL version %d.%d.%d.\n",
+		linked.major, linked.minor, linked.patch);
+}
+
+void RenderManager::InitImpl()
+{
+	PrintSDLVersion();
+
+	if (SDL_Init(SDL_INIT_VIDEO) != 0)
+		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
+
+	m_Window = SDL_CreateWindow(
+		"Programming 4 assignment",
+		SDL_WINDOWPOS_CENTERED,
+		SDL_WINDOWPOS_CENTERED,
+		640,
+		480,
+		SDL_WINDOW_OPENGL // | SDL_WINDOW_ALWAYS_ON_TOP
+	);
+	if (m_Window == nullptr)
+		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
+
+	
 	m_Renderer = SDL_CreateRenderer(
-		window, 
+		m_Window, 
 		GetOpenGLDriverIndex(), 
 		SDL_RENDERER_ACCELERATED
 	);
@@ -32,8 +61,11 @@ void RenderManager::InitImpl(SDL_Window * window)
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
-	ImGui_ImplSDL2_InitForOpenGL(window, SDL_GL_GetCurrentContext());
+	ImGui_ImplSDL2_InitForOpenGL(m_Window, SDL_GL_GetCurrentContext());
 	ImGui_ImplOpenGL2_Init();
+
+	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	//ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 }
 
 void RenderManager::RenderImpl() const
@@ -67,6 +99,10 @@ RenderManager::~RenderManager()
 		SDL_DestroyRenderer(m_Renderer);
 		m_Renderer = nullptr;
 	}
+
+	SDL_DestroyWindow(m_Window);
+	m_Window = nullptr;
+	SDL_Quit();
 }
 
 void RenderManager::RenderTextureImpl(SDL_Texture* pTexture, float x, float y) const

@@ -15,7 +15,8 @@
 #pragma warning (pop)
 
 
-#include "imgui.h"
+#include <imgui.h>
+#include <imgui_internal.h>
 
 template<class T>
 inline void SafeDelete(T& pObjectToDelete)

@@ -14,8 +14,6 @@ public:
 	void Run();
 
 private:
-	SDL_Window* m_Window{};
-
 	void Initialize();
 	void LoadGame() const;
 	void Cleanup();
