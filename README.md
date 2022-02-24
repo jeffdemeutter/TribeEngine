@@ -11,10 +11,13 @@ The Tribe (engine) uses multiple libraries/packages and we manage those packages
 I provide a .bat file to install these packages easily. I also provide a list of all the commands that are ran by the .bat file, in case you want to run these commands individually.
 
 #### usage .bat file
-Copy the 
+Copy the TribeInstallPacks.bat into your VCPKG install location. If you followed my [Basic-VCPKG-guide](https://github.com/Tboske/Basic-VCPKG-guide/blob/main/README.md), I suggested putting this in `C:\vcpkg\`
+If you copied it into this directory, just run it and it should install everything. 
 
-You need multiple packages to use the Tribe Engine. Here I will list all the commands needed to install the packages via VCPKG. 
-The [Basic-VCPKG-guide](https://github.com/Tboske/Basic-VCPKG-guide/blob/main/README.md) I've written also contains the basic commands and where you execute those commands.
+If this is done, you should be able to compile the project!
+
+#### seperate commands
+Here are all the commands the .bat file runs and you can run them seperatly if you'd like.
 
 - `vcpkg install glm`
 - `vcpkg install glm --triplet=x64-windows`
