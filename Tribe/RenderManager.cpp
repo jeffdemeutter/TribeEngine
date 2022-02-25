@@ -4,7 +4,6 @@
 
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl2.h"
-#include "Texture2D.h"
 
 int GetOpenGLDriverIndex()
 {
@@ -68,8 +67,10 @@ void RenderManager::InitImpl()
 	ImGui_ImplSDL2_InitForOpenGL(m_Window, SDL_GL_GetCurrentContext());
 	ImGui_ImplOpenGL2_Init();
 
-	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-	//ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+
 }
 
 void RenderManager::RenderImpl() const
@@ -78,6 +79,7 @@ void RenderManager::RenderImpl() const
 	const auto& color = GetBackgroundColor();
 	SDL_SetRenderDrawColor(m_Renderer, color.r, color.g, color.b, color.a);
 	SDL_RenderClear(m_Renderer);
+	
 
 	// render scenes
 	SceneManager::Render();
@@ -103,17 +105,11 @@ void RenderManager::RenderUI() const
 	ImGui_ImplSDL2_NewFrame(m_Window);
 	ImGui::NewFrame();
 
+	ImGui::DockSpaceOverViewport();
 
-	// open the first menu on the left
-	static ImGuiWindowFlags flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse
-	| ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize;
-	static ImGuiDockNodeFlags dockFlags = ImGuiDockNodeFlags_CentralNode | ImGuiDockNodeFlags_NoTabBar;
-	ImGui::Begin("main", NULL, flags);
+	ImGui::ShowDemoWindow();
+	ImGui::Begin("main");
 	{
-		// init settings for this window
-		ImGui::SetWindowPos({ 0, 0 }); // ensures that the window is alligned to the left
-		ImGui::SetWindowSize({ 200 , float(m_Height) });
-		
 		
 		ImGui::End();
 	}
