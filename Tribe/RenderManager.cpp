@@ -4,6 +4,7 @@
 
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl2.h"
+#include "Texture2D.h"
 
 int GetOpenGLDriverIndex()
 {
@@ -67,7 +68,7 @@ void RenderManager::InitImpl()
 	ImGui_ImplSDL2_InitForOpenGL(m_Window, SDL_GL_GetCurrentContext());
 	ImGui_ImplOpenGL2_Init();
 
-	//ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	//ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 }
 
@@ -80,17 +81,8 @@ void RenderManager::RenderImpl() const
 
 	// render scenes
 	SceneManager::Render();
-
-	// render imgui
-	ImGui_ImplOpenGL2_NewFrame();
-	ImGui_ImplSDL2_NewFrame(m_Window);
-	ImGui::NewFrame();
-	SceneManager::RenderUI();
-
-
-	// end imgui frame
-	ImGui::Render();
-	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+	
+	RenderUI();
 
 	SDL_RenderPresent(m_Renderer);
 }
@@ -104,18 +96,50 @@ void RenderManager::UpdateWindow(int width, int height)
 	SDL_SetWindowSize(inst.m_Window, width, height);
 }
 
+void RenderManager::RenderUI() const
+{
+	// render imgui
+	ImGui_ImplOpenGL2_NewFrame();
+	ImGui_ImplSDL2_NewFrame(m_Window);
+	ImGui::NewFrame();
+
+
+	// open the first menu on the left
+	static ImGuiWindowFlags flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse
+	| ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize;
+	static ImGuiDockNodeFlags dockFlags = ImGuiDockNodeFlags_CentralNode | ImGuiDockNodeFlags_NoTabBar;
+	ImGui::Begin("main", NULL, flags);
+	{
+		// init settings for this window
+		ImGui::SetWindowPos({ 0, 0 }); // ensures that the window is alligned to the left
+		ImGui::SetWindowSize({ 200 , float(m_Height) });
+		
+		
+		ImGui::End();
+	}
+
+
+	// render other ui elements
+	SceneManager::RenderUI();
+
+	// end imgui frame
+	ImGui::Render();
+	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+}
+
 RenderManager::~RenderManager()
 {
+	// destroy imgui
 	ImGui_ImplOpenGL2_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
 
+	// cleanup all sdl stuff
 	if (m_Renderer != nullptr)
 	{
 		SDL_DestroyRenderer(m_Renderer);
 		m_Renderer = nullptr;
 	}
-
 	SDL_DestroyWindow(m_Window);
 	m_Window = nullptr;
 	SDL_Quit();

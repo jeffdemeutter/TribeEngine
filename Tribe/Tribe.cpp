@@ -82,9 +82,9 @@ void Tribe::Run()
 
 
 			SceneManager::Update();
-			
 
 			RenderManager::Render();
+			
 			
 			this_thread::sleep_for(Timer::GetSleepTime());
 		}

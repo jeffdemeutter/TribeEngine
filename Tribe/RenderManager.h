@@ -39,6 +39,8 @@ private:
 
 	friend class InputManager;
 	static void UpdateWindow(int width, int height);
+
+	void RenderUI() const;
 };
 
 

@@ -28,7 +28,8 @@ void SceneManager::RenderImpl() const
 
 void SceneManager::RenderUIImpl()
 {
-
+	ImGui::Begin("test");
+	ImGui::End();
 }
 
 Scene* SceneManager::CreateSceneImpl(const std::string& name)

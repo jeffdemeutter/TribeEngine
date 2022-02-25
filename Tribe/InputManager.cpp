@@ -2,6 +2,8 @@
 #include "InputManager.h"
 #include "RenderManager.h"
 
+#include "imgui_impl_sdl.h"
+
 bool InputManager::ProcessInputImpl()
 {
 	ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
@@ -23,7 +25,9 @@ bool InputManager::ProcessInputImpl()
 				return true;
 			}
 		}
-			
+
+		// process event imgui
+		ImGui_ImplSDL2_ProcessEvent(&e);
 	}
 
 	return true;
