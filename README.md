@@ -1,8 +1,8 @@
 # TribeEngine
 
 ## How to use
-### Installing VCPKG
-This project uses VCPKG, for extra information about the VCPKG installation, I suggest you take a look at the installing VCPKG section of my [Basic-VCPKG-guide](https://github.com/Tboske/Basic-VCPKG-guide/blob/main/README.md).
+### Install VCPKG
+This project uses VCPKG to manage the packages/libraries. For extra information about installing VCPKG, I recommend you to look into the official ["Getting started with VCPKG" page](https://vcpkg.io/en/getting-started.html). You can also take a look at my [Basic-VCPKG-guide](https://github.com/Tboske/Basic-VCPKG-guide/blob/main/README.md).
 
 ---
 
