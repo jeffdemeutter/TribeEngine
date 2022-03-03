@@ -6,7 +6,7 @@ This project uses VCPKG to manage the packages/libraries. For extra information 
 
 ---
 
-### clone the repo
+### Clone this repo
 if you clone the repo it should give errors, since no packages are installed yet through VCPKG. In the next paragraph I will explain how to install those packages.
 
 ---
