@@ -49,9 +49,11 @@ template <typename T>
 T* GameObject::GetComponent() const
 {
 	const auto d = &typeid(T);
-	if (Component* comp = m_pComponents.at(d))
-		return static_cast<T*>(comp);
 
+	if (m_pComponents.find(d) != m_pComponents.cend())
+		return static_cast<T*>(m_pComponents.at(d));
+
+	// component does not exist
 	return nullptr;
 }
 
