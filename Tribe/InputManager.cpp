@@ -4,6 +4,14 @@
 
 #include "imgui_impl_sdl.h"
 
+InputManager::~InputManager()
+{
+	for (auto pCommand : m_Commands)
+		SafeDelete(pCommand.second);
+
+	m_Commands.clear();
+}
+
 bool InputManager::ProcessInputImpl()
 {
 	// updates the state of the controller
@@ -45,6 +53,8 @@ bool InputManager::ProcessInputImpl()
 		}
 
 		// process game input
+		//if (e.key.keysym.scancode == SDLK_a)
+		//	return false;
 
 		// process event imgui
 		ImGui_ImplSDL2_ProcessEvent(&e);

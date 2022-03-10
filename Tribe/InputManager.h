@@ -8,6 +8,7 @@
 class InputManager final : public Singleton<InputManager>
 {
 public:
+	~InputManager() override;
 	// first : Virtual-key code of the key, button, or stick movement.
 	// second : Flags that indicate the keyboard state at the time of the input event.
 	using ControllerPair = std::pair<WORD, WORD>;
