@@ -16,46 +16,49 @@ bool InputManager::ProcessInputImpl()
 	// check if controller is connected
 	if (result == ERROR_SUCCESS)
 	{
+		// process game input
 		for (const auto& controllerCommand : m_Commands)
 			if (IsInputTrue(controllerCommand.first))
 				controllerCommand.second->Execute();
 
-		// check if the game has to quit
-		return IsInputTrue({ static_cast<WORD>(VK_PAD_BACK), static_cast<WORD>(XINPUT_KEYSTROKE_KEYUP) });
+
+		// check to quit
+		if (IsInputTrue({ static_cast<WORD>(VK_PAD_BACK), static_cast<WORD>(XINPUT_KEYSTROKE_KEYUP) }))
+			return false;
+	}
+
+	SDL_Event e;
+	while (SDL_PollEvent(&e)) 
+	{
+		// check to quit
+		if (e.type == SDL_QUIT)
+			return false;
+		
+		// window resize
+		if (e.type == SDL_WINDOWEVENT)
+		{
+			if (e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
+			{
+				RenderManager::UpdateWindow(e.window.data1, e.window.data2);
+				return true;
+			}
+		}
+
+		// process game input
+
+		// process event imgui
+		ImGui_ImplSDL2_ProcessEvent(&e);
 	}
 
 	return true;
-
-	//SDL_Event e;
-	//while (SDL_PollEvent(&e)) 
-	//{
-	//	// check to quit
-	//	if (e.type == SDL_QUIT)
-	//		return false;
-	//	
-	//	// window resize
-	//	if (e.type == SDL_WINDOWEVENT)
-	//	{
-	//		if (e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
-	//		{
-	//			RenderManager::UpdateWindow(e.window.data1, e.window.data2);
-	//			return true;
-	//		}
-	//	}
-
-	//	// process event imgui
-	//	ImGui_ImplSDL2_ProcessEvent(&e);
-	//}
-
-	//return true;
 }
 
-void InputManager::AddInputMethodImpl(KeyPair keyPair, Command* pCommand)
+void InputManager::AddInputMethodImpl(ControllerPair keyPair, Command* pCommand)
 {
 	m_Commands[keyPair] = pCommand;
 }
 
-bool InputManager::IsInputTrue(KeyPair inputCheck)
+bool InputManager::IsInputTrue(ControllerPair inputCheck)
 {
 	if (m_ControllerKeyStroke.VirtualKey == inputCheck.first)
 		return m_ControllerKeyStroke.Flags & inputCheck.second;
