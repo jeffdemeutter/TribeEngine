@@ -66,9 +66,7 @@ void Tribe::LoadGame() const
 		//InputManager::AddInputMethod( XINPUT_GAMEPAD_A, XINPUT_KEYSTROKE_KEYUP, pFire);
 		InputManager::AddInputMethod(VK_GAMEPAD_A, XINPUT_KEYSTROKE_KEYUP, pFire);
 	}
-	scene->Add(go);
-	// add input
-	
+	scene->Add(go);	
 }
 
 void Tribe::Run()
