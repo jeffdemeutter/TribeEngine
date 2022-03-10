@@ -6,7 +6,7 @@ class Component;
 class GameObject final
 {
 public:
-	GameObject() = default;
+	GameObject(std::string&& name = "default") : m_ObjectName(name) {}
 	GameObject(const GameObject& other) = delete;
 	GameObject(GameObject&& other) = delete;
 	GameObject& operator=(const GameObject& other) = delete;
@@ -21,9 +21,21 @@ public:
 	void Render() const;
 	void RenderUI();
 
+	void SetParent(const GameObject* go);
+
+	void SetName(const std::string& name) { m_ObjectName = name; }
+	const std::string& GetName() const { return m_ObjectName; }
+
+protected:
+
+
+
 private:
+	std::string m_ObjectName = "default";
 	std::unordered_map<const std::type_info*, Component*> m_pComponents{};
 	std::vector<GameObject*> m_pChildren{};
+	GameObject* m_pParent = nullptr;
+
 };
 
 template <typename T>

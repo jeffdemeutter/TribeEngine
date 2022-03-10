@@ -23,7 +23,7 @@ void Tribe::LoadGame() const
 	Scene* scene = SceneManager::CreateScene("Demo");
 
 	// background
-	auto go = new GameObject();
+	auto go = new GameObject("Background");
 	{
 		const auto pTransform = go->AddComponent(new TransformComponent(go));
 		go->AddComponent(new RenderComponent(go, pTransform, "background.jpg", true));
@@ -31,7 +31,7 @@ void Tribe::LoadGame() const
 	scene->Add(go);
 
 	// logo
-	go = new GameObject();
+	go = new GameObject("Logo");
 	{
 		const auto pTransform = go->AddComponent(new TransformComponent(go, 216, 180));
 		go->AddComponent(new RenderComponent(go, pTransform, "logo.png"));
@@ -40,7 +40,7 @@ void Tribe::LoadGame() const
 
 	// text object
 	Font* pFont = ResourceManager::LoadFont("Lingua.otf", 36);
-	go = new GameObject();
+	go = new GameObject("Prog4 text");
 	{
 		const auto pTransform = go->AddComponent(new TransformComponent(go, 80, 20));
 		const auto pRender = go->AddComponent(new RenderComponent(go, pTransform));
@@ -49,7 +49,7 @@ void Tribe::LoadGame() const
 	scene->Add(go);
 
 	// fps object
-	go = new GameObject();
+	go = new GameObject("Fps object");
 	{
 		const auto pTransform = go->AddComponent(new TransformComponent(go));
 		const auto pRender = go->AddComponent(new RenderComponent(go, pTransform));
@@ -57,6 +57,18 @@ void Tribe::LoadGame() const
 		go->AddComponent(new FpsComponent(go, pText));
 	}
 	scene->Add(go);
+
+	// printer
+	go = new GameObject("Printer");
+	{
+		const auto pPrinter = go->AddComponent(new PrinterComponent(go, "fire"));
+		Command* pFire = new Command([pPrinter] { pPrinter->Print(); });
+		//InputManager::AddInputMethod( XINPUT_GAMEPAD_A, XINPUT_KEYSTROKE_KEYUP, pFire);
+		InputManager::AddInputMethod(VK_GAMEPAD_A, XINPUT_KEYSTROKE_KEYUP, pFire);
+	}
+	scene->Add(go);
+	// add input
+	
 }
 
 void Tribe::Run()
@@ -71,14 +83,13 @@ void Tribe::Run()
 
 	{			
 		Timer::Start();
-		bool doContinue = true;
-		while (doContinue)
+		for (bool running = true; running;)
 		{
 			// update all time related info
 			Timer::Update();
 
 			// process an input
-			doContinue = InputManager::ProcessInput();
+			running = InputManager::ProcessInput();
 
 
 			SceneManager::Update();

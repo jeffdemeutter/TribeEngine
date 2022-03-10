@@ -28,7 +28,9 @@ void SceneManager::RenderImpl() const
 
 void SceneManager::RenderUIImpl()
 {
-	ImGui::Begin("test");
+	ImGui::Begin("Scenes");
+	for (const auto& scene : m_Scenes)
+		scene->RenderUI();
 	ImGui::End();
 }
 

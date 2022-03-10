@@ -16,6 +16,9 @@
     <Filter Include="Components">
       <UniqueIdentifier>{5397b39b-5ef2-4d7d-b803-f9da97a70472}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Command">
+      <UniqueIdentifier>{b1ad8fba-4b33-41d2-a7ca-b41f2ea59802}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SceneManager.h">
@@ -72,6 +75,12 @@
     <ClInclude Include="Components.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="Commands.h">
+      <Filter>Command</Filter>
+    </ClInclude>
+    <ClInclude Include="PrinterComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -121,6 +130,9 @@
     </ClCompile>
     <ClCompile Include="TribePCH.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="PrinterComponent.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

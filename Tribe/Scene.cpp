@@ -32,9 +32,15 @@ void Scene::Render() const
 
 void Scene::RenderUI()
 {
-	for (const auto& object : m_pObjects)
+	//ImGuiTreeNodeFlags treeFlags = ImGuiTreeNodeFlags_DefaultOpen;
+
+	// pass on this pointer as parameter, to prevent issues with imgui and multiple scenes with the same name
+	if (ImGui::TreeNode(this, m_Name.c_str()))
 	{
-		object->RenderUI();
+		for (const auto& object : m_pObjects)
+			object->RenderUI();
+		
+		ImGui::TreePop();
 	}
 }
 

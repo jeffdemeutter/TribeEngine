@@ -100,17 +100,20 @@ void RenderManager::UpdateWindow(int width, int height)
 
 void RenderManager::RenderUI() const
 {
+	if (!RenderImGui)
+		return;
+
 	// render imgui
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplSDL2_NewFrame(m_Window);
 	ImGui::NewFrame();
+	
+	ImGui::DockSpaceOverViewport(nullptr, ImGuiDockNodeFlags_PassthruCentralNode);
 
-	ImGui::DockSpaceOverViewport();
-
-	ImGui::ShowDemoWindow();
+	//ImGui::ShowDemoWindow();
 	ImGui::Begin("main");
 	{
-		
+		ImGui::Text("Enable/Disable ImGui with 'TAB'");
 		ImGui::End();
 	}
 
