@@ -6,10 +6,9 @@
 
 InputManager::~InputManager()
 {
-	for (auto pCommand : m_Commands)
-		SafeDelete(pCommand.second);
-
-	m_Commands.clear();
+	for (auto input : m_Commands)
+		SafeDelete(input.pCommand);
+	
 }
 
 bool InputManager::ProcessInputImpl()
@@ -26,8 +25,8 @@ bool InputManager::ProcessInputImpl()
 	{
 		// process game input
 		for (const auto& controllerCommand : m_Commands)
-			if (IsInputTrue(controllerCommand.first))
-				controllerCommand.second->Execute();
+			if (IsInputTrue(controllerCommand))
+				controllerCommand.Execute();
 
 
 		// check to quit
@@ -35,45 +34,95 @@ bool InputManager::ProcessInputImpl()
 			return false;
 	}
 
+
+	return HandleKeyboard();
+}
+
+void InputManager::AddInputMethodImpl(const Input& input)
+{
+	m_Commands.push_back(input);
+}
+
+bool InputManager::IsInputTrue(const Input& input)
+{
+	if (m_ControllerKeyStroke.VirtualKey == input.ControllerButton)
+		return m_ControllerKeyStroke.Flags & input.ControllerStroke;
+
+	return false;
+}
+
+bool InputManager::HandleKeyboard()
+{
 	SDL_Event e;
-	while (SDL_PollEvent(&e)) 
+	while (SDL_PollEvent(&e))
 	{
-		// check to quit
-		if (e.type == SDL_QUIT)
-			return false;
-		
-		// window resize
-		if (e.type == SDL_WINDOWEVENT)
+		switch (e.type)
 		{
+		case SDL_QUIT:
+			return false;
+
+		case SDL_WINDOWEVENT:
 			if (e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
 			{
 				RenderManager::UpdateWindow(e.window.data1, e.window.data2);
 				return true;
 			}
-		}
 
-		// process game input
-		//if (e.key.keysym.scancode == SDLK_a)
-		//	return false;
+		case SDL_KEYDOWN:
+			for (Input& input : m_Commands)
+			{
+				// if not the same key
+				if (e.key.keysym.scancode != input.keyboardKey)
+					continue;
+				// if key was already down
+				if (input.keyboardKeyDown)
+					continue;
+				// set key down for next frame
+				input.keyboardKeyDown = true;
+				// checks if the input is a pressed input
+				if (input.keyboardStroke != KeyboardStroke::pressed)
+					continue;
+
+				input.Execute();
+			}
+			break;
+
+		case SDL_KEYUP:
+			for (Input& input : m_Commands)
+			{
+				// if not the same key
+				if (e.key.keysym.scancode != input.keyboardKey)
+					continue;
+				// reset the button when its released
+				input.keyboardKeyDown = false;
+				// check if the input is a released input
+				if (input.keyboardStroke != KeyboardStroke::released)
+					continue;
+
+				input.Execute();
+			}
+			break;
+		}
 
 		// process event imgui
 		ImGui_ImplSDL2_ProcessEvent(&e);
 	}
 
+	// check continuous input
+	const Uint8* keyState = SDL_GetKeyboardState(nullptr);
+	for (const Input& input : m_Commands)
+	{
+		if (!input.keyboardKeyDown)
+			continue;
+		if (input.keyboardStroke != KeyboardStroke::hold)
+			continue;
+		if (!keyState[input.keyboardKey])
+			continue;
+
+		input.Execute();
+	}
+
 	return true;
-}
-
-void InputManager::AddInputMethodImpl(ControllerPair keyPair, Command* pCommand)
-{
-	m_Commands[keyPair] = pCommand;
-}
-
-bool InputManager::IsInputTrue(ControllerPair inputCheck)
-{
-	if (m_ControllerKeyStroke.VirtualKey == inputCheck.first)
-		return m_ControllerKeyStroke.Flags & inputCheck.second;
-
-	return false;
 }
 
 

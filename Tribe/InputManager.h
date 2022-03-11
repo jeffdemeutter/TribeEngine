@@ -1,5 +1,4 @@
 #pragma once
-#include <map>
 #include <XInput.h>
 #include "Singleton.h"
 #include "Commands.h"
@@ -9,14 +8,31 @@ class InputManager final : public Singleton<InputManager>
 {
 public:
 	~InputManager() override;
-	// first : Virtual-key code of the key, button, or stick movement.
-	// second : Flags that indicate the keyboard state at the time of the input event.
-	using ControllerPair = std::pair<WORD, WORD>;
+
+	enum class KeyboardStroke
+	{
+		hold,
+		pressed,
+		released
+	};
+	struct Input
+	{
+		WORD ControllerButton;
+		WORD ControllerStroke;
+
+		SDL_Scancode keyboardKey;
+		KeyboardStroke keyboardStroke;
+		// need a bool to check for key input down
+		bool keyboardKeyDown = false;
+
+		Command* pCommand = nullptr;
+		void Execute() const { pCommand->Execute(); }
+	};
 
 
 	static bool ProcessInput() { return GetInstance().ProcessInputImpl(); }
-	static void AddInputMethod(WORD gamepadButton, WORD keyStroke, Command* pCommand) {
-		GetInstance().AddInputMethodImpl(ControllerPair{gamepadButton, keyStroke}, pCommand);
+	static void AddInputMethod(const Input& input) {
+		GetInstance().AddInputMethodImpl(input);
 	}
 private:
 	friend class Singleton<InputManager>;
@@ -25,13 +41,14 @@ private:
 
 	XINPUT_STATE m_ControllerState{};
 	XINPUT_KEYSTROKE m_ControllerKeyStroke{};
-
-	std::map<ControllerPair, Command*> m_Commands;
+	
+	std::vector<Input> m_Commands;
 	
 	
 	bool ProcessInputImpl();
-	void AddInputMethodImpl(ControllerPair keyPair, Command* pCommand);
-	bool IsInputTrue(ControllerPair inputCheck);
+	void AddInputMethodImpl(const Input& input);
+	bool IsInputTrue(const Input& input);
+	bool HandleKeyboard();
 };
 
 

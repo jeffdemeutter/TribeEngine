@@ -62,9 +62,14 @@ void Tribe::LoadGame() const
 	go = new GameObject("Printer");
 	{
 		const auto pPrinter = go->AddComponent(new PrinterComponent(go, "fire"));
-		Command* pFire = new Command([pPrinter] { pPrinter->Print(); });
-		//InputManager::AddInputMethod( XINPUT_GAMEPAD_A, XINPUT_KEYSTROKE_KEYUP, pFire);
-		InputManager::AddInputMethod(VK_GAMEPAD_A, XINPUT_KEYSTROKE_KEYUP, pFire);
+
+		InputManager::Input input;
+			input.ControllerButton = XINPUT_GAMEPAD_A;
+			input.ControllerStroke = XINPUT_KEYSTROKE_KEYUP;
+			input.keyboardKey = SDL_SCANCODE_A;
+			input.keyboardStroke = InputManager::KeyboardStroke::hold;
+			input.pCommand = new Command([pPrinter] { pPrinter->Print(); });
+		InputManager::AddInputMethod(input);	
 	}
 	scene->Add(go);	
 }
