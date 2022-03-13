@@ -17,7 +17,9 @@ public:
 	};
 	struct Input
 	{
+		// use VK_PAD_
 		WORD ControllerButton;
+		// use XINPUT_KEYSTROKE_
 		WORD ControllerStroke;
 
 		SDL_Scancode keyboardKey;
@@ -32,7 +34,7 @@ public:
 
 	static bool ProcessInput() { return GetInstance().ProcessInputImpl(); }
 	static void AddInputMethod(const Input& input) {
-		GetInstance().AddInputMethodImpl(input);
+		GetInstance().m_Commands.push_back(input);
 	}
 private:
 	friend class Singleton<InputManager>;
@@ -46,9 +48,9 @@ private:
 	
 	
 	bool ProcessInputImpl();
-	void AddInputMethodImpl(const Input& input);
-	bool IsInputTrue(const Input& input);
+	bool CheckControllerInput(const Input& input);
 	bool HandleKeyboard();
+	bool HandleController();
 };
 
 

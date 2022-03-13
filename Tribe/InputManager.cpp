@@ -13,37 +13,13 @@ InputManager::~InputManager()
 
 bool InputManager::ProcessInputImpl()
 {
-	// updates the state of the controller
-	ZeroMemory(&m_ControllerState, sizeof(XINPUT_STATE));
-	DWORD result = XInputGetState(0, &m_ControllerState);
-
-	ZeroMemory(&m_ControllerKeyStroke, sizeof(XINPUT_KEYSTROKE));
-	XInputGetKeystroke(0, 0, &m_ControllerKeyStroke);
-
-	// check if controller is connected
-	if (result == ERROR_SUCCESS)
-	{
-		// process game input
-		for (const auto& controllerCommand : m_Commands)
-			if (IsInputTrue(controllerCommand))
-				controllerCommand.Execute();
-
-
-		// check to quit
-		if (IsInputTrue({ static_cast<WORD>(VK_PAD_BACK), static_cast<WORD>(XINPUT_KEYSTROKE_KEYUP) }))
-			return false;
-	}
-
+	if (!HandleController())
+		return false;
 
 	return HandleKeyboard();
 }
 
-void InputManager::AddInputMethodImpl(const Input& input)
-{
-	m_Commands.push_back(input);
-}
-
-bool InputManager::IsInputTrue(const Input& input)
+bool InputManager::CheckControllerInput(const Input& input)
 {
 	if (m_ControllerKeyStroke.VirtualKey == input.ControllerButton)
 		return m_ControllerKeyStroke.Flags & input.ControllerStroke;
@@ -121,6 +97,33 @@ bool InputManager::HandleKeyboard()
 
 		input.Execute();
 	}
+
+	return true;
+}
+
+bool InputManager::HandleController()
+{
+	// updates the state of the controller
+	ZeroMemory(&m_ControllerState, sizeof(XINPUT_STATE));
+	DWORD result = XInputGetState(0, &m_ControllerState);
+
+	ZeroMemory(&m_ControllerKeyStroke, sizeof(XINPUT_KEYSTROKE));
+	XInputGetKeystroke(0, 0, &m_ControllerKeyStroke);
+
+	// check if controller is connected
+	if (result != ERROR_SUCCESS)
+		return true;
+
+
+	// process game input
+	for (const auto& controllerCommand : m_Commands)
+		if (CheckControllerInput(controllerCommand))
+			controllerCommand.Execute();
+
+	// check to quit
+	if (CheckControllerInput({ static_cast<WORD>(VK_PAD_BACK), static_cast<WORD>(XINPUT_KEYSTROKE_KEYUP) }))
+		return false;
+	
 
 	return true;
 }
