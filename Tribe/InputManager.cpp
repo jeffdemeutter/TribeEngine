@@ -119,11 +119,7 @@ bool InputManager::HandleController()
 	for (const auto& controllerCommand : m_Commands)
 		if (CheckControllerInput(controllerCommand))
 			controllerCommand.Execute();
-
-	// check to quit
-	if (CheckControllerInput({ static_cast<WORD>(VK_PAD_BACK), static_cast<WORD>(XINPUT_KEYSTROKE_KEYUP) }))
-		return false;
-	
+		
 
 	return true;
 }
