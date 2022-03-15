@@ -15,25 +15,30 @@ public:
 		pressed,
 		released
 	};
-	struct Input
+	struct InputAction
 	{
+		int Player = 0;
+
 		// use VK_PAD_
 		WORD ControllerButton;
 		// use XINPUT_KEYSTROKE_
 		WORD ControllerStroke;
 
 		SDL_Scancode keyboardKey;
-		KeyboardStroke keyboardStroke;
+		KeyboardStroke keyboardStroke = KeyboardStroke::pressed;
 		// need a bool to check for key input down
-		bool keyboardKeyDown = false;
 
 		Command* pCommand = nullptr;
 		void Execute() const { pCommand->Execute(); }
+
+	private:
+		friend class InputManager;
+		bool keyboardKeyDown = false;
 	};
 
 
 	static bool ProcessInput() { return GetInstance().ProcessInputImpl(); }
-	static void AddInputMethod(const Input& input) {
+	static void AddInputMethod(const InputAction& input) {
 		GetInstance().m_Commands.push_back(input);
 	}
 private:
@@ -44,11 +49,11 @@ private:
 	XINPUT_STATE m_ControllerState{};
 	XINPUT_KEYSTROKE m_ControllerKeyStroke{};
 	
-	std::vector<Input> m_Commands;
+	std::vector<InputAction> m_Commands;
 	
 	
 	bool ProcessInputImpl();
-	bool CheckControllerInput(const Input& input);
+	bool CheckControllerInput(const InputAction& input);
 	bool HandleKeyboard();
 	bool HandleController();
 };

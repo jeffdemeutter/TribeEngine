@@ -63,15 +63,46 @@ void Tribe::LoadGame() const
 	{
 		const auto pPrinter = go->AddComponent(new PrinterComponent(go, "fire"));
 
-		InputManager::Input input;
+		InputManager::InputAction input;
 			input.ControllerButton = XINPUT_GAMEPAD_A;
 			input.ControllerStroke = XINPUT_KEYSTROKE_KEYUP;
 			input.keyboardKey = SDL_SCANCODE_A;
 			input.keyboardStroke = InputManager::KeyboardStroke::hold;
 			input.pCommand = new Command([pPrinter] { pPrinter->Print(); });
-		InputManager::AddInputMethod(input);	
+		InputManager::AddInputMethod(input);
 	}
-	scene->Add(go);	
+	scene->Add(go);
+
+	auto* pPeterPepper = new GameObject("PeterPepper");
+	{
+		auto pPeter = pPeterPepper->AddComponent(new PeterPepperComponent(pPeterPepper));
+
+		InputManager::InputAction input;
+			input.keyboardKey = SDL_SCANCODE_D;
+			input.pCommand = new Command([pPeter] { pPeter->DoDamage(); });
+		InputManager::AddInputMethod(input);
+	}
+	scene->Add(pPeterPepper);
+
+	auto* pDeadSign = new GameObject("DeadSign");
+	{
+		const auto pTransform = pDeadSign->AddComponent(new TransformComponent(pDeadSign, 100,100));
+		const auto pRender = pDeadSign->AddComponent(new RenderComponent(pDeadSign, pTransform));
+		const auto pText = pDeadSign->AddComponent(new TextComponent(pDeadSign, pRender, "The player has died!", pFont, { 255,0,0,255 }, false));
+
+		pDeadSign->AddComponent(new DeadSignComponent(pDeadSign, pText));
+	}
+	scene->Add(pDeadSign);
+
+	auto* pLivesSign = new GameObject("DeadSign");
+	{
+		const auto pTransform = pLivesSign->AddComponent(new TransformComponent(pLivesSign, 100, 70));
+		const auto pRender = pLivesSign->AddComponent(new RenderComponent(pLivesSign, pTransform));
+		const auto pText = pLivesSign->AddComponent(new TextComponent(pLivesSign, pRender, "", pFont));
+
+		pLivesSign->AddComponent(new RemainingLivesComponent(pLivesSign, pText));
+	}
+	scene->Add(pLivesSign);
 }
 
 void Tribe::Run()

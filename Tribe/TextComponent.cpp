@@ -7,11 +7,12 @@
 #include "GameObject.h"
 #include "RenderManager.h"
 
-TextComponent::TextComponent(GameObject* go, RenderComponent* pRenderComponent, const std::string& text, Font* pFont, const SDL_Color& color)
+TextComponent::TextComponent(GameObject* go, RenderComponent* pRenderComponent, const std::string& text, Font* pFont, const SDL_Color& color, bool isVisible)
 	: Component(go)
 	, m_pFont{ pFont }
 	, m_Color{ color }
-	, m_pRenderComponent{ pRenderComponent }
+	, m_IsVisible(isVisible)
+	, m_pRenderComponent{pRenderComponent}
 {
 	SetText(text);
 }
@@ -29,6 +30,9 @@ void TextComponent::SetText(const std::string& text)
 {
 	m_Text = text;
 
+	if (m_Text.empty())
+		return;
+
 	SafeDelete(m_pTexture);
 
 	const auto surf = TTF_RenderText_Blended(m_pFont->GetFont(), m_Text.c_str(), m_Color);
@@ -41,6 +45,16 @@ void TextComponent::SetText(const std::string& text)
 
 	SDL_FreeSurface(surf);
 	m_pTexture = new Texture2D(texture);
-	m_pRenderComponent->SetTexture(m_pTexture);
+
+	if (m_IsVisible)
+		m_pRenderComponent->SetTexture(m_pTexture);
+}
+
+void TextComponent::SetVisibility(bool visible)
+{
+	m_IsVisible = visible;
+
+	if (m_IsVisible)
+		m_pRenderComponent->SetTexture(m_pTexture);
 }
 

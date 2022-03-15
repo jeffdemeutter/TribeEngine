@@ -81,6 +81,19 @@
     <ClInclude Include="PrinterComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="HealthComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PeterPepperComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DeadSignComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h" />
+    <ClInclude Include="RemainingLivesComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -132,6 +145,19 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="PrinterComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="PeterPepperComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DeadSignComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="RemainingLivesComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>

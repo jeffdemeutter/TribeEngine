@@ -19,7 +19,7 @@ bool InputManager::ProcessInputImpl()
 	return HandleKeyboard();
 }
 
-bool InputManager::CheckControllerInput(const Input& input)
+bool InputManager::CheckControllerInput(const InputAction& input)
 {
 	if (m_ControllerKeyStroke.VirtualKey == input.ControllerButton)
 		return m_ControllerKeyStroke.Flags & input.ControllerStroke;
@@ -45,7 +45,7 @@ bool InputManager::HandleKeyboard()
 			}
 
 		case SDL_KEYDOWN:
-			for (Input& input : m_Commands)
+			for (InputAction& input : m_Commands)
 			{
 				// if not the same key
 				if (e.key.keysym.scancode != input.keyboardKey)
@@ -64,7 +64,7 @@ bool InputManager::HandleKeyboard()
 			break;
 
 		case SDL_KEYUP:
-			for (Input& input : m_Commands)
+			for (InputAction& input : m_Commands)
 			{
 				// if not the same key
 				if (e.key.keysym.scancode != input.keyboardKey)
@@ -86,7 +86,7 @@ bool InputManager::HandleKeyboard()
 
 	// check continuous input
 	const Uint8* keyState = SDL_GetKeyboardState(nullptr);
-	for (const Input& input : m_Commands)
+	for (const InputAction& input : m_Commands)
 	{
 		if (!input.keyboardKeyDown)
 			continue;
