@@ -7,7 +7,9 @@
 enum EventType
 {
 	PlayerDied,
-	TookDamage
+	TookDamage,
+	EnemyDied,
+	BurgerDrop
 };
 
 
@@ -25,12 +27,12 @@ public:
 	struct EventHandler
 	{
 		EventType type;
-		std::function<void(GameObject*)> handle;
+		std::function<void(GameObject*, EventType type)> handle;
 	};
 
 	static void Notify(GameObject* go, EventType type);
 
-	static void AddEventHandle(EventType type, const std::function<void(GameObject*)>& handle);
+	static void AddEventHandle(EventType type, const std::function<void(GameObject*, EventType type)>& handle);
 
 private:
 	friend class Singleton<EventManager>;

@@ -9,3 +9,4 @@
 #include "RemainingLivesComponent.h"
 #include "PeterPepperComponent.h"
 #include "DeadSignComponent.h"
+#include "PointsDisplayComponent.h"

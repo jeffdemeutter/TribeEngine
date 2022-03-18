@@ -103,6 +103,16 @@ void Tribe::LoadGame() const
 		pLivesSign->AddComponent(new RemainingLivesComponent(pLivesSign, pText));
 	}
 	scene->Add(pLivesSign);
+
+	auto* pPointsDisplay = new GameObject("PointDisplay");
+	{
+		const auto pTransform = pPointsDisplay->AddComponent(new TransformComponent(pPointsDisplay, 100, 70));
+		const auto pRender = pPointsDisplay->AddComponent(new RenderComponent(pPointsDisplay, pTransform));
+		const auto pText = pPointsDisplay->AddComponent(new TextComponent(pPointsDisplay, pRender, "", pFont));
+
+		pPointsDisplay->AddComponent(new PointsDisplayComponent(pPointsDisplay, pText));
+	}
+	scene->Add(pPointsDisplay);
 }
 
 void Tribe::Run()

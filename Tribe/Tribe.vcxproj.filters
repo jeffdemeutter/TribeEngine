@@ -94,6 +94,9 @@
     <ClInclude Include="RemainingLivesComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="PointsDisplayComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -158,6 +161,9 @@
     </ClCompile>
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="RemainingLivesComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="PointsDisplayComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>

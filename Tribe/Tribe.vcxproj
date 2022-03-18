@@ -166,6 +166,7 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PeterPepperComponent.cpp" />
+    <ClCompile Include="PointsDisplayComponent.cpp" />
     <ClCompile Include="PrinterComponent.cpp" />
     <ClCompile Include="RemainingLivesComponent.cpp" />
     <ClCompile Include="Tribe.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="PeterPepperComponent.h" />
+    <ClInclude Include="PointsDisplayComponent.h" />
     <ClInclude Include="PrinterComponent.h" />
     <ClInclude Include="RemainingLivesComponent.h" />
     <ClInclude Include="Tribe.h" />

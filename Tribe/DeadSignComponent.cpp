@@ -2,15 +2,14 @@
 #include "DeadSignComponent.h"
 
 #include "TextComponent.h"
-#include "EventManager.h"
 
 DeadSignComponent::DeadSignComponent(GameObject* go, TextComponent* pText)
 	: Component(go)
 	, m_pTextComponent(pText)
 {
-	EventManager::AddEventHandle(PlayerDied, [this](GameObject* go) {this->NotifyDead(go); });
+	EventManager::AddEventHandle(PlayerDied, [this](GameObject* go, EventType type) {this->NotifyDead(go, type); });
 }
-void DeadSignComponent::NotifyDead(GameObject*)
+void DeadSignComponent::NotifyDead(GameObject*, EventType)
 {
 	m_pTextComponent->SetVisibility(true);
 }
