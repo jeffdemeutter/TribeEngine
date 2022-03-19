@@ -21,5 +21,6 @@ public:
 private:
 	TextComponent* m_pTextComponent = nullptr;
 	int m_Score = 0;
+	std::string m_Prefix = "Score: ";
 };
 

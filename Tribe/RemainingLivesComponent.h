@@ -15,8 +15,9 @@ public:
 
 	void UpdateLives(GameObject* go, EventType type) const;
 
-	virtual void Update() override {};
-	virtual void Render() const override {};
+	virtual void Update() override {}
+	virtual void Render() const override {}
+
 
 private:
 	TextComponent* m_pTextComponent = nullptr;

@@ -10,12 +10,14 @@ RemainingLivesComponent::RemainingLivesComponent(GameObject* go, TextComponent* 
 {
 
 
-	EventManager::AddEventHandle(TookDamage, [this](GameObject* go, EventType type) {this->UpdateLives(go, type); });
+	EventManager::AddEventHandle(TookDamage, [this](GameObject* go, EventType type) { UpdateLives(go, type); });
+
+	m_pTextComponent->SetText(m_Prefix + std::to_string(PeterPepperComponent::GetMaxHealth()));
 }
 
 RemainingLivesComponent::~RemainingLivesComponent()
 {
-	m_pTextComponent = nullptr;
+	m_pTextComponent = nullptr;	
 }
 
 void RemainingLivesComponent::UpdateLives(GameObject* go, EventType) const

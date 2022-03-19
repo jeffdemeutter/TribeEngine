@@ -17,7 +17,11 @@ public:
 	void DoDamage();
 
 	int GetCurrentHealth() const { return m_Health; }
+
+	static int GetMaxHealth() { return m_MaxHealth; }
+
 private:
 	int m_Health = 3;
 
+	static constexpr int m_MaxHealth = 3;
 };

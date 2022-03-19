@@ -9,4 +9,6 @@
 #include "RemainingLivesComponent.h"
 #include "PeterPepperComponent.h"
 #include "DeadSignComponent.h"
+#include "EnemyComponent.h"
 #include "PointsDisplayComponent.h"
+#include "BurgerComponent.h"
