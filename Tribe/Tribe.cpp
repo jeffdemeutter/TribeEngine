@@ -2,6 +2,7 @@
 #include "Tribe.h"
 #include <thread>
 
+#include "Achievements.h"
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "RenderManager.h"
@@ -12,7 +13,6 @@
 
 #include "Components.h"
 
-
 using namespace std;
 
 /**
@@ -20,6 +20,15 @@ using namespace std;
  */
 void Tribe::LoadGame() const
 {
+	// add achievements
+	Achievement_t achievements[] =
+	{
+		_ACH_ID(ACH_WIN_ONE_GAME, "Winner"),
+	};
+
+	Achievements::GetInstance().AddAchievements(achievements, 1);
+
+	// scene
 	Scene* scene = SceneManager::CreateScene("Demo");
 	Font* pFont = ResourceManager::LoadFont("Lingua.otf", 36);
 
@@ -48,9 +57,25 @@ void Tribe::LoadGame() const
 		InputManager::InputAction input;
 			input.keyboardKey = SDL_SCANCODE_D;
 			input.pCommand = new Command([pPeter] { pPeter->DoDamage(); });
+			input.ControllerButton = VK_PAD_X;
+			input.ControllerStroke = XINPUT_KEYSTROKE_KEYUP;
 		InputManager::AddInputMethod(input);
 	}
 	scene->Add(pPeterPepper);
+
+	auto* pPeterPepper2 = new GameObject("PeterPepper2");
+	{
+		auto pPeter = pPeterPepper2->AddComponent(new PeterPepperComponent(pPeterPepper2));
+
+		InputManager::InputAction input;
+		input.ControllerID = 1;
+		input.keyboardKey = SDL_SCANCODE_D;
+		input.pCommand = new Command([pPeter] { pPeter->DoDamage(); });
+		input.ControllerButton = VK_PAD_X;
+		input.ControllerStroke = XINPUT_KEYSTROKE_KEYUP;
+		InputManager::AddInputMethod(input);
+	}
+	scene->Add(pPeterPepper2);
 
 	auto* pDeadDisplay = new GameObject("DeadSign");
 	{
@@ -66,7 +91,17 @@ void Tribe::LoadGame() const
 	{
 		const auto pTransform = pLivesDisplay->AddComponent(new TransformComponent(pLivesDisplay, 100, 70));
 		const auto pRender = pLivesDisplay->AddComponent(new RenderComponent(pLivesDisplay, pTransform));
-		const auto pText = pLivesDisplay->AddComponent(new TextComponent(pLivesDisplay, pRender, "", pFont));
+		const auto pText = pLivesDisplay->AddComponent(new TextComponent(pLivesDisplay, pRender, "", pFont, { 255, 0, 0,255 }));
+
+		pLivesDisplay->AddComponent(new RemainingLivesComponent(pLivesDisplay, pText));
+	}
+	scene->Add(pLivesDisplay);
+
+	pLivesDisplay = new GameObject("LivesDisplay2");
+	{
+		const auto pTransform = pLivesDisplay->AddComponent(new TransformComponent(pLivesDisplay, 100, 250));
+		const auto pRender = pLivesDisplay->AddComponent(new RenderComponent(pLivesDisplay, pTransform));
+		const auto pText = pLivesDisplay->AddComponent(new TextComponent(pLivesDisplay, pRender, "", pFont, {0, 255, 0,255}));
 
 		pLivesDisplay->AddComponent(new RemainingLivesComponent(pLivesDisplay, pText));
 	}
@@ -118,7 +153,17 @@ void Tribe::LoadGame() const
 	{
 		const auto pTransform = pPointsDisplay->AddComponent(new TransformComponent(pPointsDisplay, 100, 40));
 		const auto pRender = pPointsDisplay->AddComponent(new RenderComponent(pPointsDisplay, pTransform));
-		const auto pText = pPointsDisplay->AddComponent(new TextComponent(pPointsDisplay, pRender, "", pFont));
+		const auto pText = pPointsDisplay->AddComponent(new TextComponent(pPointsDisplay, pRender, "", pFont, { 255, 0, 0,255 }));
+
+		pPointsDisplay->AddComponent(new PointsDisplayComponent(pPointsDisplay, pText));
+	}
+	scene->Add(pPointsDisplay);
+
+	pPointsDisplay = new GameObject("PointDisplay2");
+	{
+		const auto pTransform = pPointsDisplay->AddComponent(new TransformComponent(pPointsDisplay, 100, 290));
+		const auto pRender = pPointsDisplay->AddComponent(new RenderComponent(pPointsDisplay, pTransform));
+		const auto pText = pPointsDisplay->AddComponent(new TextComponent(pPointsDisplay, pRender, "", pFont, { 0, 255, 0,255 }));
 
 		pPointsDisplay->AddComponent(new PointsDisplayComponent(pPointsDisplay, pText));
 	}
@@ -134,7 +179,6 @@ void Tribe::Run()
 	ResourceManager::Init("../Data/");
 
 	LoadGame();
-
 	{			
 		Timer::Start();
 		for (bool running = true; running;)
@@ -149,6 +193,8 @@ void Tribe::Run()
 			SceneManager::Update();
 
 			RenderManager::Render();
+
+			SteamAPI_RunCallbacks();
 			
 			
 			this_thread::sleep_for(Timer::GetSleepTime());

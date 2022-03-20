@@ -10,12 +10,12 @@ public:
 	Singleton& operator=(const Singleton& other) = delete;
 	Singleton& operator=(Singleton&& other) = delete;
 
-protected:
 	static T& GetInstance()
 	{
 		static T instance{};
 		return instance;
 	}
+protected:
 
 	Singleton() = default;
 };

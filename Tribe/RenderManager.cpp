@@ -114,6 +114,12 @@ void RenderManager::RenderUI() const
 	ImGui::Begin("main");
 	{
 		ImGui::Text("Enable/Disable ImGui with 'TAB'");
+		ImGui::Text("Inputs:");
+		ImGui::Text("keyboard - D | Controller - X | Damages the player");
+		ImGui::Text("keyboard - G | Controller - A | Kills an enemy (10 points)");
+		ImGui::Text("keyboard - H | Controller - B | Drops a Burger (20 points)");
+		
+
 		ImGui::End();
 	}
 
