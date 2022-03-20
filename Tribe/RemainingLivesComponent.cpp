@@ -22,6 +22,6 @@ RemainingLivesComponent::~RemainingLivesComponent()
 
 void RemainingLivesComponent::UpdateLives(GameObject* go, EventType) const
 {
-	auto pPeter = go->GetComponent<PeterPepperComponent>();
+	const auto pPeter = go->GetComponent<PeterPepperComponent>();
 	m_pTextComponent->SetText(m_Prefix + std::to_string(pPeter->GetCurrentHealth()));
 }

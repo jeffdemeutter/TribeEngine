@@ -19,12 +19,15 @@ bool InputManager::ProcessInputImpl()
 	return HandleKeyboard();
 }
 
-bool InputManager::CheckControllerInput(const InputAction& input)
+bool InputManager::CheckControllerInput(int controllerID, const InputAction& input)
 {
-	if (m_ControllerKeyStroke.VirtualKey == input.ControllerButton)
-		return m_ControllerKeyStroke.Flags & input.ControllerStroke;
+	if (controllerID != input.ControllerID)
+		return false;
 
-	return false;
+	if (m_ControllerKeyStroke.VirtualKey != input.ControllerButton)
+		return false;
+
+	return m_ControllerKeyStroke.Flags & input.ControllerStroke;
 }
 
 bool InputManager::HandleKeyboard()
@@ -103,23 +106,32 @@ bool InputManager::HandleKeyboard()
 
 bool InputManager::HandleController()
 {
-	// updates the state of the controller
-	ZeroMemory(&m_ControllerState, sizeof(XINPUT_STATE));
-	DWORD result = XInputGetState(0, &m_ControllerState);
+	for (DWORD i = 0; i < XUSER_MAX_COUNT; i++)
+	{
+		ZeroMemory(&m_ControllerState, sizeof(XINPUT_STATE));
+		ZeroMemory(&m_ControllerKeyStroke, sizeof(XINPUT_KEYSTROKE));
+		XInputGetKeystroke(i, 0, &m_ControllerKeyStroke);
 
-	ZeroMemory(&m_ControllerKeyStroke, sizeof(XINPUT_KEYSTROKE));
-	XInputGetKeystroke(0, 0, &m_ControllerKeyStroke);
-
-	// check if controller is connected
-	if (result != ERROR_SUCCESS)
-		return true;
+		if (XInputGetState(i, &m_ControllerState) != ERROR_SUCCESS)
+			continue;
 
 
-	// process game input
-	for (const auto& controllerCommand : m_Commands)
-		if (CheckControllerInput(controllerCommand))
-			controllerCommand.Execute();
-		
+		// process game input
+		for (const auto& controllerCommand : m_Commands)
+			if (CheckControllerInput(i, controllerCommand))
+				controllerCommand.Execute();
+	}
+
+	//// updates the state of the controller
+	//ZeroMemory(&m_ControllerState, sizeof(XINPUT_STATE));
+	//DWORD result = XInputGetState(0, &m_ControllerState);
+
+	//ZeroMemory(&m_ControllerKeyStroke, sizeof(XINPUT_KEYSTROKE));
+	//XInputGetKeystroke(0, 0, &m_ControllerKeyStroke);
+
+	//// check if controller is connected
+	//if (result != ERROR_SUCCESS)
+	//	return true;		
 
 	return true;
 }

@@ -17,7 +17,8 @@ public:
 	};
 	struct InputAction
 	{
-		int Player = 0;
+		// this only applies for controllers
+		int ControllerID = 0;
 
 		// use VK_PAD_
 		WORD ControllerButton;
@@ -44,8 +45,7 @@ public:
 private:
 	friend class Singleton<InputManager>;
 	InputManager() = default;
-
-
+	
 	XINPUT_STATE m_ControllerState{};
 	XINPUT_KEYSTROKE m_ControllerKeyStroke{};
 	
@@ -53,7 +53,7 @@ private:
 	
 	
 	bool ProcessInputImpl();
-	bool CheckControllerInput(const InputAction& input);
+	bool CheckControllerInput(int controllerID, const InputAction& input);
 	bool HandleKeyboard();
 	bool HandleController();
 };

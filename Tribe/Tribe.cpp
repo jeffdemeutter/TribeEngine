@@ -79,8 +79,17 @@ void Tribe::LoadGame() const
 		InputManager::InputAction input;
 		input.keyboardKey = SDL_SCANCODE_F;
 		input.keyboardStroke = InputManager::KeyboardStroke::released;
+		input.ControllerButton = VK_PAD_A;
+		input.ControllerStroke = XINPUT_KEYSTROKE_KEYUP;
 		input.pCommand = new Command([pEnemy] { pEnemy->KillEnemy(); });
 		InputManager::AddInputMethod(input);
+
+		InputManager::InputAction inputP2;
+		inputP2.ControllerID = 1;
+		inputP2.ControllerButton = VK_PAD_A;
+		inputP2.ControllerStroke = XINPUT_KEYSTROKE_KEYUP;
+		inputP2.pCommand = new Command([pEnemy] { pEnemy->KillEnemy(); });
+		InputManager::AddInputMethod(inputP2);
 	}
 	scene->Add(pEnemyObject);
 
@@ -91,8 +100,17 @@ void Tribe::LoadGame() const
 		InputManager::InputAction input;
 		input.keyboardKey = SDL_SCANCODE_G;
 		input.keyboardStroke = InputManager::KeyboardStroke::released;
+		input.ControllerButton = VK_PAD_B;
+		input.ControllerStroke = XINPUT_KEYSTROKE_KEYUP;
 		input.pCommand = new Command([pBurgerComp] { pBurgerComp->DropBurger(); });
 		InputManager::AddInputMethod(input);
+
+		InputManager::InputAction inputP2;
+		inputP2.ControllerID = 1;
+		inputP2.ControllerButton = VK_PAD_B;
+		inputP2.ControllerStroke = XINPUT_KEYSTROKE_KEYUP;
+		inputP2.pCommand = new Command([pBurgerComp] { pBurgerComp->DropBurger(); });
+		InputManager::AddInputMethod(inputP2);
 	}
 	scene->Add(pBurger);
 
