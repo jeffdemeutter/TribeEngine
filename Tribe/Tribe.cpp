@@ -23,11 +23,21 @@ void Tribe::LoadGame() const
 	Scene* scene = SceneManager::CreateScene("Demo");
 	Font* pFont = ResourceManager::LoadFont("Lingua.otf", 36);
 
+	// Player
+	auto spriteSheet = ResourceManager::LoadTexture("btspritesheet.png");
+	auto go = new GameObject("Player");
+	{
+		auto* pComp = go->AddComponent(new TransformComponent(go));
+		go->AddComponent(new RenderComponent(go, pComp, spriteSheet));
+	}
+	scene->Add(go);
+
 	// background
-	auto go = new GameObject("Background");
+	auto backgroundImg = ResourceManager::LoadTexture("background.jpg");
+	go = new GameObject("Background");
 	{
 		const auto pTransform = go->AddComponent(new TransformComponent(go));
-		go->AddComponent(new RenderComponent(go, pTransform, "background.jpg", true));
+		go->AddComponent(new RenderComponent(go, pTransform, backgroundImg, true));
 	}
 	scene->Add(go);
 
@@ -41,7 +51,7 @@ void Tribe::LoadGame() const
 	}
 	scene->Add(go);
 
-	auto* pPeterPepper = new GameObject("PeterPepper");
+	/*auto* pPeterPepper = new GameObject("PeterPepper");
 	{
 		auto pPeter = pPeterPepper->AddComponent(new PeterPepperComponent(pPeterPepper));
 
@@ -158,7 +168,7 @@ void Tribe::LoadGame() const
 
 		pPointsDisplay->AddComponent(new PointsDisplayComponent(pPointsDisplay, pText));
 	}
-	scene->Add(pPointsDisplay);
+	scene->Add(pPointsDisplay);*/
 }
 
 void Tribe::Run()

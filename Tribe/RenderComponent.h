@@ -3,11 +3,11 @@
 
 class Texture2D;
 class TransformComponent;
-class RenderComponent : public Component
+class RenderComponent final: public Component
 {
 public:
 	RenderComponent(GameObject* go, TransformComponent* pTransform);
-	RenderComponent(GameObject* go, TransformComponent* pTransform, const std::string& pTexture, bool drawFill = false);
+	RenderComponent(GameObject* go, TransformComponent* pTransform, Texture2D* pTexture, bool drawFill = false);
 	~RenderComponent() override;
 	RenderComponent(const RenderComponent&) = delete;
 	RenderComponent(RenderComponent&&) noexcept = delete;
