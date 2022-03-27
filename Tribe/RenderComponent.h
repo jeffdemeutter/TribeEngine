@@ -9,10 +9,10 @@ public:
 	RenderComponent(GameObject* go, TransformComponent* pTransform);
 	RenderComponent(GameObject* go, TransformComponent* pTransform, const std::string& pTexture, bool drawFill = false);
 	~RenderComponent() override;
-	RenderComponent(const RenderComponent&) = default;
-	RenderComponent(RenderComponent&&) noexcept = default;
-	RenderComponent& operator=(const RenderComponent&) = default;
-	RenderComponent& operator=(RenderComponent&&) noexcept = default;
+	RenderComponent(const RenderComponent&) = delete;
+	RenderComponent(RenderComponent&&) noexcept = delete;
+	RenderComponent& operator=(const RenderComponent&) = delete;
+	RenderComponent& operator=(RenderComponent&&) noexcept = delete;
 	
 	virtual void Update() override {}
 	virtual void Render() const override;
