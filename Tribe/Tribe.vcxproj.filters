@@ -103,7 +103,6 @@
     <ClInclude Include="EnemyComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="Achievements.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -179,7 +178,6 @@
     <ClCompile Include="EnemyComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="Achievements.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

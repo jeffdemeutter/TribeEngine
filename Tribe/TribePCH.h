@@ -16,8 +16,6 @@
 #pragma warning (pop)
 
 
-#include <steam_api.h>
-
 #include <imgui.h>
 #include <imgui_internal.h>
 

@@ -2,7 +2,6 @@
 #include "PointsDisplayComponent.h"
 
 #include "TextComponent.h"
-#include "Achievements.h"
 
 PointsDisplayComponent::PointsDisplayComponent(GameObject* go, TextComponent* pText)
 	: Component(go)
@@ -34,9 +33,7 @@ void PointsDisplayComponent::UpdateScore(GameObject*, EventType type)
 
 	m_pTextComponent->SetText(m_Prefix + std::to_string(m_Score));
 
-	
-	if (m_Score >= 500)
-		Achievements::GetInstance().SetAchievement("ACH_WIN_100_GAMES");
+
 }
 
 void PointsDisplayComponent::Update()

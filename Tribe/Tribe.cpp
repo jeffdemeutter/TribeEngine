@@ -2,7 +2,6 @@
 #include "Tribe.h"
 #include <thread>
 
-#include "Achievements.h"
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "RenderManager.h"
@@ -20,14 +19,6 @@ using namespace std;
  */
 void Tribe::LoadGame() const
 {
-	// add achievements
-	Achievement_t achievements[] =
-	{
-		_ACH_ID(ACH_WIN_ONE_GAME, "Winner"),
-	};
-
-	Achievements::GetInstance().AddAchievements(achievements, 1);
-
 	// scene
 	Scene* scene = SceneManager::CreateScene("Demo");
 	Font* pFont = ResourceManager::LoadFont("Lingua.otf", 36);
@@ -193,8 +184,6 @@ void Tribe::Run()
 			SceneManager::Update();
 
 			RenderManager::Render();
-
-			SteamAPI_RunCallbacks();
 			
 			
 			this_thread::sleep_for(Timer::GetSleepTime());
