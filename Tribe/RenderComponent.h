@@ -1,5 +1,8 @@
 #pragma once
+#include <optional>
+
 #include "BaseComponent.h"
+
 
 class Texture2D;
 class TransformComponent;
@@ -7,7 +10,7 @@ class RenderComponent : public Component
 {
 public:
 	RenderComponent(GameObject* go, TransformComponent* pTransform);
-	RenderComponent(GameObject* go, TransformComponent* pTransform, const std::string& pTexture, bool drawFill = false);
+	RenderComponent(GameObject* go, TransformComponent* pTransform, const std::string& pTexture, bool fillScreen = false);
 	~RenderComponent() override;
 	RenderComponent(const RenderComponent&) = default;
 	RenderComponent(RenderComponent&&) noexcept = default;
@@ -22,10 +25,17 @@ public:
 		m_pTexture = pTexture;
 	}
 
+	void SetSrcRect(const SDL_Rect& srcRect)
+	{
+		m_SrcRect = srcRect;
+	}
+
 private:
 	Texture2D* m_pTexture = nullptr;
 	TransformComponent* m_pTransformComponent = nullptr;
 
-	bool m_DrawFill = false;
+	bool m_FillScreen = false;
+
+	std::optional<SDL_Rect> m_SrcRect;
 };
 

@@ -32,6 +32,16 @@ void Texture2D::Draw(const glm::vec3& pos) const
 	Draw(pos.x, pos.y);
 }
 
+void Texture2D::Draw(const glm::vec3& pos, const SDL_Rect& srcRect, float scale)
+{
+	SDL_Rect dst{};
+	dst.x = static_cast<int>(pos.x);
+	dst.y = static_cast<int>(pos.y);
+	dst.w = static_cast<int>(srcRect.w * scale);
+	dst.h = static_cast<int>(srcRect.h * scale);
+	SDL_RenderCopy(RenderManager::GetSDLRenderer(), m_pTexture, &srcRect, &dst);
+}
+
 void Texture2D::DrawFillScreen() const
 {
 	SDL_Rect dst = RenderManager::GetWindowRect();
