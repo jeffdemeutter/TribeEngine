@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Texture2D.h"
 #include "RenderComponent.h"
+#include "ResourceManager.h"
 
 RenderComponent::RenderComponent(GameObject* go, TransformComponent* pTransform)
 	: Component(go)
@@ -9,7 +10,7 @@ RenderComponent::RenderComponent(GameObject* go, TransformComponent* pTransform)
 {
 }
 
-RenderComponent::RenderComponent(GameObject* go, TransformComponent* pTransform, const std::string& pTexture, bool drawFill)
+RenderComponent::RenderComponent(GameObject* go, TransformComponent* pTransform, const std::string& pTexture, bool fillScreen)
 	: Component( go )
 	, m_pTexture { ResourceManager::LoadTexture(pTexture) }
 	, m_pTransformComponent{ pTransform }
