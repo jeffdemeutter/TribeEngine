@@ -119,53 +119,75 @@ void Tribe::LoadGame() const
 	//}
 	//scene->Add(pEnemyObject);
 
-	go = new GameObject("Bun Top");
+	go = new GameObject("Level");
+	LevelComponent* pLevel;
 	{
-		auto pTransform = go->AddComponent(new TransformComponent(go, 50, 50));
-		auto pRender = go->AddComponent(new RenderComponent(go, pTransform, "spritesheet.png"));
-		go->AddComponent(new BurgerComponent(go, pRender, BurgerComponent::bunTop));
+		pLevel = go->AddComponent(new LevelComponent(go, 6));
 	}
 	scene->Add(go);
 
-	go = new GameObject("Bun Bottom");
+	go = new GameObject("");
 	{
-		auto pTransform = go->AddComponent(new TransformComponent(go, 50, 140));
-		auto pRender = go->AddComponent(new RenderComponent(go, pTransform, "spritesheet.png"));
-		go->AddComponent(new BurgerComponent(go, pRender, BurgerComponent::bunBottom));
+		auto pTrans = go->AddComponent(new TransformComponent(go));
+		go->AddComponent(new CrossComponent(go, pLevel, pTrans, {0,0}));
 	}
 	scene->Add(go);
 
-	go = new GameObject("Cheese");
-	{
-		auto pTransform = go->AddComponent(new TransformComponent(go, 50, 220));
-		auto pRender = go->AddComponent(new RenderComponent(go, pTransform, "spritesheet.png"));
-		go->AddComponent(new BurgerComponent(go, pRender, BurgerComponent::cheese));
-	}
-	scene->Add(go);
 
-	go = new GameObject("Burger");
-	{
-		auto pTransform = go->AddComponent(new TransformComponent(go, 50, 300));
-		auto pRender = go->AddComponent(new RenderComponent(go, pTransform, "spritesheet.png"));
-		go->AddComponent(new BurgerComponent(go, pRender, BurgerComponent::burger));
-	}
-	scene->Add(go);
+	// ====================================================================================
+	// Burger objects
+	// ====================================================================================
 
-	go = new GameObject("Tomato");
-	{
-		auto pTransform = go->AddComponent(new TransformComponent(go, 50, 380));
-		auto pRender = go->AddComponent(new RenderComponent(go, pTransform, "spritesheet.png"));
-		go->AddComponent(new BurgerComponent(go, pRender, BurgerComponent::tomato));
-	}
-	scene->Add(go);
+	//go = new GameObject("Bun Top");
+	//{
+	//	auto pTransform = go->AddComponent(new TransformComponent(go, 50, 50));
+	//	auto pRender = go->AddComponent(new RenderComponent(go, pTransform, "spritesheet.png"));
+	//	go->AddComponent(new BurgerComponent(go, pRender, BurgerComponent::bunTop));
+	//}
+	//scene->Add(go);
 
-	go = new GameObject("Salad");
-	{
-		auto pTransform = go->AddComponent(new TransformComponent(go, 50, 460));
-		auto pRender = go->AddComponent(new RenderComponent(go, pTransform, "spritesheet.png"));
-		go->AddComponent(new BurgerComponent(go, pRender, BurgerComponent::salad));
-	}
-	scene->Add(go);
+	//go = new GameObject("Bun Bottom");
+	//{
+	//	auto pTransform = go->AddComponent(new TransformComponent(go, 50, 140));
+	//	auto pRender = go->AddComponent(new RenderComponent(go, pTransform, "spritesheet.png"));
+	//	go->AddComponent(new BurgerComponent(go, pRender, BurgerComponent::bunBottom));
+	//}
+	//scene->Add(go);
+
+	//go = new GameObject("Cheese");
+	//{
+	//	auto pTransform = go->AddComponent(new TransformComponent(go, 50, 220));
+	//	auto pRender = go->AddComponent(new RenderComponent(go, pTransform, "spritesheet.png"));
+	//	go->AddComponent(new BurgerComponent(go, pRender, BurgerComponent::cheese));
+	//}
+	//scene->Add(go);
+
+	//go = new GameObject("Burger");
+	//{
+	//	auto pTransform = go->AddComponent(new TransformComponent(go, 50, 300));
+	//	auto pRender = go->AddComponent(new RenderComponent(go, pTransform, "spritesheet.png"));
+	//	go->AddComponent(new BurgerComponent(go, pRender, BurgerComponent::burger));
+	//}
+	//scene->Add(go);
+
+	//go = new GameObject("Tomato");
+	//{
+	//	auto pTransform = go->AddComponent(new TransformComponent(go, 50, 380));
+	//	auto pRender = go->AddComponent(new RenderComponent(go, pTransform, "spritesheet.png"));
+	//	go->AddComponent(new BurgerComponent(go, pRender, BurgerComponent::tomato));
+	//}
+	//scene->Add(go);
+
+	//go = new GameObject("Salad");
+	//{
+	//	auto pTransform = go->AddComponent(new TransformComponent(go, 50, 460));
+	//	auto pRender = go->AddComponent(new RenderComponent(go, pTransform, "spritesheet.png"));
+	//	go->AddComponent(new BurgerComponent(go, pRender, BurgerComponent::salad));
+	//}
+	//scene->Add(go);
+
+	// =======================================================================================
+	// =======================================================================================
 
 	//auto* pPointsDisplay = new GameObject("PointDisplay");
 	//{

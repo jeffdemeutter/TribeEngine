@@ -19,6 +19,15 @@
     <Filter Include="Command">
       <UniqueIdentifier>{b1ad8fba-4b33-41d2-a7ca-b41f2ea59802}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\LevelComponents">
+      <UniqueIdentifier>{1969f6df-ec04-4c45-8607-e39e9d37e305}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Core">
+      <UniqueIdentifier>{4c23225b-ca97-481c-ae22-028a3cda2efb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Pawn">
+      <UniqueIdentifier>{dc52378b-fcdf-4ebe-9843-12641cd1ecdf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SceneManager.h">
@@ -54,9 +63,6 @@
     <ClInclude Include="Timer.h">
       <Filter>Managers</Filter>
     </ClInclude>
-    <ClInclude Include="BaseComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="RenderComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -72,9 +78,6 @@
     <ClInclude Include="TribePCH.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Components.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="Commands.h">
       <Filter>Command</Filter>
     </ClInclude>
@@ -82,9 +85,6 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="HealthComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PeterPepperComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="DeadSignComponent.h">
@@ -97,11 +97,29 @@
     <ClInclude Include="PointsDisplayComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="BurgerComponent.h">
-      <Filter>Components</Filter>
+    <ClInclude Include="PlatformComponent.h">
+      <Filter>Components\LevelComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="CrossComponent.h">
+      <Filter>Components\LevelComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseComponent.h">
+      <Filter>Components\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Components.h">
+      <Filter>Components\Core</Filter>
     </ClInclude>
     <ClInclude Include="EnemyComponent.h">
-      <Filter>Components</Filter>
+      <Filter>Components\Pawn</Filter>
+    </ClInclude>
+    <ClInclude Include="PeterPepperComponent.h">
+      <Filter>Components\Pawn</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerComponent.h">
+      <Filter>Components\LevelComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelComponent.h">
+      <Filter>Components\LevelComponents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -159,9 +177,6 @@
     <ClCompile Include="HealthComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="PeterPepperComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="DeadSignComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -172,11 +187,23 @@
     <ClCompile Include="PointsDisplayComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="BurgerComponent.cpp">
-      <Filter>Components</Filter>
+    <ClCompile Include="PlatformComponent.cpp">
+      <Filter>Components\LevelComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="CrossComponent.cpp">
+      <Filter>Components\LevelComponents</Filter>
     </ClCompile>
     <ClCompile Include="EnemyComponent.cpp">
-      <Filter>Components</Filter>
+      <Filter>Components\Pawn</Filter>
+    </ClCompile>
+    <ClCompile Include="PeterPepperComponent.cpp">
+      <Filter>Components\Pawn</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerComponent.cpp">
+      <Filter>Components\LevelComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelComponent.cpp">
+      <Filter>Components\LevelComponents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

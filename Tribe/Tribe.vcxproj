@@ -184,6 +184,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BurgerComponent.cpp" />
+    <ClCompile Include="CrossComponent.cpp" />
     <ClCompile Include="DeadSignComponent.cpp" />
     <ClCompile Include="EnemyComponent.cpp" />
     <ClCompile Include="EventManager.cpp" />
@@ -192,8 +193,10 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="LevelComponent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PeterPepperComponent.cpp" />
+    <ClCompile Include="PlatformComponent.cpp" />
     <ClCompile Include="PointsDisplayComponent.cpp" />
     <ClCompile Include="PrinterComponent.cpp" />
     <ClCompile Include="RemainingLivesComponent.cpp" />
@@ -219,6 +222,7 @@
     <ClInclude Include="BurgerComponent.h" />
     <ClInclude Include="Commands.h" />
     <ClInclude Include="Components.h" />
+    <ClInclude Include="CrossComponent.h" />
     <ClInclude Include="DeadSignComponent.h" />
     <ClInclude Include="EnemyComponent.h" />
     <ClInclude Include="EventManager.h" />
@@ -227,7 +231,9 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="LevelComponent.h" />
     <ClInclude Include="PeterPepperComponent.h" />
+    <ClInclude Include="PlatformComponent.h" />
     <ClInclude Include="PointsDisplayComponent.h" />
     <ClInclude Include="PrinterComponent.h" />
     <ClInclude Include="RemainingLivesComponent.h" />
