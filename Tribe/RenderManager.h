@@ -22,7 +22,7 @@ public:
 	static SDL_Rect GetWindowRect() { return { 0, 0, GetInstance().m_Width, GetInstance().m_Height }; }
 	static SDL_Color GetBackgroundColor() { return GetInstance().m_ClearColor; }
 	static void SetBackgroundColor(const SDL_Color& color) { GetInstance().m_ClearColor = color; }
-	static void ToggleImGui() { GetInstance().RenderImGui = !GetInstance().RenderImGui; }
+	static void ToggleImGui() { GetInstance().m_RenderImGui = !GetInstance().m_RenderImGui; }
 
 private:
 	friend class Singleton<RenderManager>;
@@ -33,7 +33,7 @@ private:
 	SDL_Renderer* m_Renderer{};
 	SDL_Window* m_Window{};
 	SDL_Color m_ClearColor{};
-	bool RenderImGui = true;
+	bool m_RenderImGui = true;
 
 	void InitImpl();
 	void RenderImpl() const;

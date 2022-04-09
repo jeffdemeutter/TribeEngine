@@ -100,7 +100,7 @@ void RenderManager::UpdateWindow(int width, int height)
 
 void RenderManager::RenderUI() const
 {
-	if (!RenderImGui)
+	if (!m_RenderImGui)
 		return;
 
 	// render imgui
