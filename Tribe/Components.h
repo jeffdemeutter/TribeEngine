@@ -12,3 +12,6 @@
 #include "EnemyComponent.h"
 #include "PointsDisplayComponent.h"
 #include "BurgerComponent.h"
+#include "PlatformComponent.h"
+#include "CrossComponent.h"
+#include "LevelComponent.h"
