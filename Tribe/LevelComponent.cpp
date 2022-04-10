@@ -1,10 +1,13 @@
 #include "TribePCH.h"
 #include "LevelComponent.h"
 #include "RenderManager.h"
+#include "ResourceManager.h"
 
-LevelComponent::LevelComponent(GameObject* go, int maxHeight)
+LevelComponent::LevelComponent(GameObject* go, int maxHeight, const std::string& tileSprite, const glm::ivec2& tileSize)
 	: Component(go)
 	, m_Height(maxHeight)
+	, m_TileSize(tileSize)
+	, m_pTexture(ResourceManager::LoadTexture(tileSprite))
 {
 
 }
@@ -19,7 +22,7 @@ void LevelComponent::Render() const
 	
 }
 
-bool LevelComponent::GetPositionForCrossSection(const glm::ivec2& location, glm::vec3& position)
+bool LevelComponent::GetPositionForTile(const glm::ivec2& location, glm::vec3& position)
 {
 	if (location.x < 0 || location.x >= m_Width)
 		throw "Invalid Crossection horizontal location";

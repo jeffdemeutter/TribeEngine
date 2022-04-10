@@ -21,7 +21,7 @@ void Tribe::LoadGame() const
 {
 	// scene
 	Scene* scene = SceneManager::CreateScene("Demo");
-	//Font* pFont = ResourceManager::LoadFont("Lingua.otf", 36);
+	Font* pFont = ResourceManager::LoadFont("Lingua.otf", 36);
 
 	// background
 	auto go = new GameObject("Background");
@@ -31,15 +31,15 @@ void Tribe::LoadGame() const
 	}
 	scene->Add(go);
 
-	//// fps object
-	//go = new GameObject("Fps object");
-	//{
-	//	const auto pTransform = go->AddComponent(new TransformComponent(go));
-	//	const auto pRender = go->AddComponent(new RenderComponent(go, pTransform));
-	//	const auto pText = go->AddComponent(new TextComponent(go, pRender, " ", pFont, { 255,255,0,255 }));
-	//	go->AddComponent(new FpsComponent(go, pText));
-	//}
-	//scene->Add(go);
+	// fps object
+	go = new GameObject("Fps object");
+	{
+		const auto pTransform = go->AddComponent(new TransformComponent(go));
+		const auto pRender = go->AddComponent(new RenderComponent(go, pTransform));
+		const auto pText = go->AddComponent(new TextComponent(go, pRender, " ", pFont, { 255,255,0,255 }));
+		go->AddComponent(new FpsComponent(go, pText));
+	}
+	scene->Add(go);
 
 	//auto* pPeterPepper = new GameObject("PeterPepper");
 	//{
@@ -119,19 +119,20 @@ void Tribe::LoadGame() const
 	//}
 	//scene->Add(pEnemyObject);
 
-	go = new GameObject("Level");
-	LevelComponent* pLevel;
+	const auto pLevel = new GameObject("Level");
+	LevelComponent* pLevelComp;
 	{
-		pLevel = go->AddComponent(new LevelComponent(go, 6));
+		pLevelComp = pLevel->AddComponent(new LevelComponent(pLevel, 6, "tilesprites.png", {24, 16}));
 	}
-	scene->Add(go);
+	scene->Add(pLevel);
 
-	go = new GameObject("");
+	go = new GameObject("0 - 0");
 	{
 		auto pTrans = go->AddComponent(new TransformComponent(go));
-		go->AddComponent(new CrossComponent(go, pLevel, pTrans, {0,0}));
+		auto pRender = go->AddComponent(new RenderComponent(go, pTrans));
+		go->AddComponent(new TileComponent(go, pLevelComp, pTrans, {0,0}, pRender, TileType::platform | TileType::top));
 	}
-	scene->Add(go);
+	pLevel->AddChild(go);
 
 
 	// ====================================================================================
