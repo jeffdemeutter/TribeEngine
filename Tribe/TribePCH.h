@@ -19,6 +19,7 @@
 #include <imgui.h>
 #include <imgui_internal.h>
 
+constexpr int g_PixelScale = 5;
 
 template<class T>
 inline void SafeDelete(T& pObjectToDelete)

@@ -36,7 +36,7 @@ void RenderComponent::Render() const
 
 	if (m_SrcRect.has_value())
 	{
-		m_pTexture->Draw(m_pTransformComponent->GetPosition(), m_SrcRect.value(), 5.f);
+		m_pTexture->Draw(m_pTransformComponent->GetPosition(), m_SrcRect.value(), g_PixelScale);
 		return;
 	}
 

@@ -36,13 +36,13 @@ bool LevelComponent::GetPositionForTile(const glm::ivec2& location, glm::vec3& p
 	// formula to calculate where the crossection should be rendered
 
 	// remove the margin from both sides from window
-	position.x = float(windowSize.w - m_HorizontalMargin * 2);
-	position.y = float(windowSize.h - m_TopMargin - m_BottomMargin);
+	position.x = float(windowSize.w - m_HorizontalMargin);
+	position.y = float(windowSize.h - m_TopMargin);
 	// divide by levelWidth/Height and multiply with the location.x/y to find the position
 	position.x /= m_Width;
-	position.x *= location.x;
+	position.x += location.x * (m_TileSize.x * g_PixelScale);
 	position.y /= m_Height;
-	position.y *= location.y;
+	position.y += location.y * (m_TileSize.y * g_PixelScale);
 	// add the margins back
 	position.x += m_HorizontalMargin;
 	position.y += m_TopMargin;

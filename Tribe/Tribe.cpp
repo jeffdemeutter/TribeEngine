@@ -119,6 +119,10 @@ void Tribe::LoadGame() const
 	//}
 	//scene->Add(pEnemyObject);
 
+	//===========================================================================================
+	// Level stuff
+	//===========================================================================================
+
 	const auto pLevel = new GameObject("Level");
 	LevelComponent* pLevelComp;
 	{
@@ -130,22 +134,37 @@ void Tribe::LoadGame() const
 	{
 		auto pTrans = go->AddComponent(new TransformComponent(go));
 		auto pRender = go->AddComponent(new RenderComponent(go, pTrans));
-		go->AddComponent(new TileComponent(go, pLevelComp, pTrans, {0,0}, pRender, TileType::platform | TileType::top));
+		go->AddComponent(new TileComponent(go, pLevelComp, pTrans, {0,0}, pRender, TileType::bottom | TileType::top | TileType::right));
 	}
 	pLevel->AddChild(go);
 
+	go = new GameObject("1 - 0");
+	{
+		auto pTrans = go->AddComponent(new TransformComponent(go));
+		auto pRender = go->AddComponent(new RenderComponent(go, pTrans));
+		go->AddComponent(new TileComponent(go, pLevelComp, pTrans, { 1,0 }, pRender, TileType::platform | TileType::right));
+	}
+	pLevel->AddChild(go);
+
+	go = new GameObject("2 - 0");
+	{
+		auto pTrans = go->AddComponent(new TransformComponent(go));
+		auto pRender = go->AddComponent(new RenderComponent(go, pTrans));
+		go->AddComponent(new TileComponent(go, pLevelComp, pTrans, { 2,0 }, pRender, TileType::left | TileType::right | TileType::bottom));
+	}
+	pLevel->AddChild(go);
 
 	// ====================================================================================
 	// Burger objects
 	// ====================================================================================
 
-	//go = new GameObject("Bun Top");
-	//{
-	//	auto pTransform = go->AddComponent(new TransformComponent(go, 50, 50));
-	//	auto pRender = go->AddComponent(new RenderComponent(go, pTransform, "spritesheet.png"));
-	//	go->AddComponent(new BurgerComponent(go, pRender, BurgerComponent::bunTop));
-	//}
-	//scene->Add(go);
+	go = new GameObject("Bun Top");
+	{
+		auto pTransform = go->AddComponent(new TransformComponent(go, 50, 50));
+		auto pRender = go->AddComponent(new RenderComponent(go, pTransform, "spritesheet.png"));
+		go->AddComponent(new BurgerComponent(go, pRender, BurgerComponent::bunTop));
+	}
+	scene->Add(go);
 
 	//go = new GameObject("Bun Bottom");
 	//{
