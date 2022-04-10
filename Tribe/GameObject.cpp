@@ -4,10 +4,10 @@
 
 GameObject::~GameObject()
 {
-	for (GameObject* pObject : m_pChildren)
-		SafeDelete(pObject);
+	for (GameObject* pChild : m_pChildren)
+		SafeDelete(pChild);
 
-	for (auto& component : m_pComponents)
+	for (auto& component : this->m_pComponents)
 		SafeDelete(component.second);
 	m_pComponents.clear();
 }
@@ -26,6 +26,9 @@ void GameObject::Render() const
 	const RenderComponent* const comp = GetComponent<RenderComponent>();
 	if (comp)
 		comp->Render();
+
+	for (GameObject* pChild : m_pChildren)
+		pChild->Render();
 }
 
 void GameObject::RenderUI()
@@ -34,18 +37,21 @@ void GameObject::RenderUI()
 	if(ImGui::TreeNode(this, m_ObjectName.c_str()))
 	{
 		for (GameObject* pChild : m_pChildren)
-		{
-			ImGui::TreeNode(pChild, pChild->GetName().c_str());
-
-			ImGui::TreePop();
-		}
+			pChild->RenderUI();
 
 		ImGui::TreePop();
 	}
 }
 
-void GameObject::SetParent(const GameObject*)
+void GameObject::AddChild(GameObject* go)
 {
-	
+	if (!go)
+		return;
 
+	if (go == m_pParent)
+		return;
+
+	m_pChildren.push_back(go);
+	go->SetParent(this);
 }
+

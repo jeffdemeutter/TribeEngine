@@ -90,17 +90,13 @@
     <ClInclude Include="DeadSignComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="EventManager.h" />
     <ClInclude Include="RemainingLivesComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="PointsDisplayComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="PlatformComponent.h">
-      <Filter>Components\LevelComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="CrossComponent.h">
+    <ClInclude Include="TileComponent.h">
       <Filter>Components\LevelComponents</Filter>
     </ClInclude>
     <ClInclude Include="BaseComponent.h">
@@ -120,6 +116,9 @@
     </ClInclude>
     <ClInclude Include="LevelComponent.h">
       <Filter>Components\LevelComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>Managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -180,17 +179,13 @@
     <ClCompile Include="DeadSignComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="RemainingLivesComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="PointsDisplayComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="PlatformComponent.cpp">
-      <Filter>Components\LevelComponents</Filter>
-    </ClCompile>
-    <ClCompile Include="CrossComponent.cpp">
+    <ClCompile Include="TileComponent.cpp">
       <Filter>Components\LevelComponents</Filter>
     </ClCompile>
     <ClCompile Include="EnemyComponent.cpp">
@@ -204,6 +199,9 @@
     </ClCompile>
     <ClCompile Include="LevelComponent.cpp">
       <Filter>Components\LevelComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>Managers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
