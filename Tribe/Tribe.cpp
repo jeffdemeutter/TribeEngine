@@ -138,11 +138,12 @@ void Tribe::LoadGame() const
 	}
 	pLevel->AddChild(go);
 
+	TileComponent* pTileComp;
 	go = new GameObject("1 - 0");
 	{
 		auto pTrans = go->AddComponent(new TransformComponent(go));
 		auto pRender = go->AddComponent(new RenderComponent(go, pTrans));
-		go->AddComponent(new TileComponent(go, pLevelComp, pTrans, { 1,0 }, pRender, TileType::platform | TileType::right));
+		pTileComp = go->AddComponent(new TileComponent(go, pLevelComp, pTrans, { 1,0 }, pRender, TileType::platform | TileType::right));
 	}
 	pLevel->AddChild(go);
 
@@ -160,9 +161,9 @@ void Tribe::LoadGame() const
 
 	go = new GameObject("Bun Top");
 	{
-		auto pTransform = go->AddComponent(new TransformComponent(go, 50, 50));
+		auto pTransform = go->AddComponent(new TransformComponent(go));
 		auto pRender = go->AddComponent(new RenderComponent(go, pTransform, "spritesheet.png"));
-		go->AddComponent(new BurgerComponent(go, pRender, BurgerComponent::bunTop));
+		go->AddComponent(new BurgerComponent(go, pRender, BurgerComponent::bunTop, pTileComp->GetBurgerPosition()));
 	}
 	scene->Add(go);
 

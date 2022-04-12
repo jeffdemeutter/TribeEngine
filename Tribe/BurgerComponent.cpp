@@ -4,10 +4,12 @@
 
 #include "EventManager.h"
 
-BurgerComponent::BurgerComponent(GameObject* go, RenderComponent* pRender, BurgerType type)
+BurgerComponent::BurgerComponent(GameObject* go, RenderComponent* pRender, BurgerType type, const glm::vec3& position)
 	: Component(go)
 {
 	InitBurgerType(pRender, type);
+
+	// set the position with center
 }
 
 void BurgerComponent::Update()

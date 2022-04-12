@@ -38,10 +38,12 @@ public:
 	virtual void Update() override;
 	virtual void Render() const override;
 
+	glm::vec3 GetBurgerPosition() const;
 
 private:
 	glm::ivec2 m_Location = { 0,0 };
-
+	TransformComponent* m_pTransform = nullptr;
+	LevelComponent* m_pLevel = nullptr;
 
 	static SDL_Rect GetCorrespondingSrcRect(TileType tile, LevelComponent* pLevel);
 };

@@ -16,7 +16,7 @@ public:
 		cheese
 	};
 
-	BurgerComponent(GameObject* go, RenderComponent* pRender, BurgerType type);
+	BurgerComponent(GameObject* go, RenderComponent* pRender, BurgerType type, const glm::vec3& position);
 	~BurgerComponent() override = default;
 	BurgerComponent(const BurgerComponent&) = delete;
 	BurgerComponent(BurgerComponent&&) noexcept = delete;

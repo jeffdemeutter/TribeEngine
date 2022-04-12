@@ -7,6 +7,8 @@
 
 TileComponent::TileComponent(GameObject* go, LevelComponent* pLevel, TransformComponent* pTransform, const glm::ivec2& location, RenderComponent* pRender, TileType tile)
 	: Component(go)
+	, m_pTransform(pTransform)
+	, m_pLevel(pLevel)
 {
 	glm::vec3 pos;
 	if (pLevel->GetPositionForTile(location, pos))
@@ -24,6 +26,15 @@ void TileComponent::Update()
 void TileComponent::Render() const
 {
 	
+}
+
+glm::vec3 TileComponent::GetBurgerPosition() const
+{
+	auto pos = m_pTransform->GetPosition();
+	auto size = m_pLevel->GetTileSize();
+	size *= g_PixelScale;
+
+	return { pos.x + size.x / 2,pos.y + size.y / 2, 1 };
 }
 
 // turned of this warning to use the enum as a bitflag
