@@ -11,12 +11,12 @@ InputManager::~InputManager()
 	
 }
 
-bool InputManager::ProcessInputImpl()
+bool InputManager::ProcessInput()
 {
-	if (!HandleController())
+	if (!Get().HandleController())
 		return false;
 
-	return HandleKeyboard();
+	return Get().HandleKeyboard();
 }
 
 bool InputManager::CheckControllerInput(int controllerID, const InputAction& input)

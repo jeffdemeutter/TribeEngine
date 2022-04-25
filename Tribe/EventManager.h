@@ -17,12 +17,7 @@ class GameObject;
 class EventManager : public Singleton<EventManager>
 {
 public:
-	virtual ~EventManager() override;
-	EventManager(const EventManager&) = delete;
-	EventManager(EventManager&&) noexcept = delete;
-	EventManager& operator=(const EventManager&) = delete;
-	EventManager& operator=(EventManager&&) noexcept = delete;
-
+	~EventManager() override;
 
 	struct EventHandler
 	{
@@ -32,7 +27,7 @@ public:
 
 	static void Notify(GameObject* go, EventType type);
 
-	static void AddEventHandle(EventType type, const std::function<void(GameObject*, EventType type)>& handle);
+	static void AddEventHandle(EventType type, const std::function<void(GameObject*, EventType)>& handle);
 
 private:
 	friend class Singleton<EventManager>;

@@ -1,24 +1,24 @@
 #include "TribePCH.h"
 #include "Timer.h"
 
-void Timer::StartImpl()
+void Timer::Start()
 {
-	m_Start = high_resolution_clock::now();
-	m_Last = m_Start;
+	Get().m_Start = high_resolution_clock::now();
+	Get().m_Last = Get().m_Start;
 }
 
-void Timer::UpdateImpl()
+void Timer::Update()
 {
 	// get current frame
-	m_Current = high_resolution_clock::now();
+	Get().m_Current = high_resolution_clock::now();
 
-	m_DeltaTime = duration<float>(m_Current - m_Last).count();
-	m_TotalTime = duration<float>(m_Current - m_Start).count();
+	Get().m_DeltaTime = duration<float>(Get().m_Current - Get().m_Last).count();
+	Get().m_TotalTime = duration<float>(Get().m_Current - Get().m_Start).count();
 
 	// calculate the fps
-	m_Fps = int(1.f / m_DeltaTime);
+	Get().m_Fps = int(1.f / Get().m_DeltaTime);
 
 	// update the last frames time
-	m_Last = m_Current;
+	Get().m_Last = Get().m_Current;
 }
 

@@ -5,17 +5,16 @@ class Singleton
 {
 public:
 	virtual ~Singleton() = default;
-	Singleton(const Singleton& other) = delete;
-	Singleton(Singleton&& other) = delete;
-	Singleton& operator=(const Singleton& other) = delete;
-	Singleton& operator=(Singleton&& other) = delete;
 
-	static T& GetInstance()
+protected:
+	static T& Get()
 	{
 		static T instance{};
 		return instance;
 	}
-protected:
-
 	Singleton() = default;
+	Singleton(const Singleton& other) = delete;
+	Singleton(Singleton&& other) = delete;
+	Singleton& operator=(const Singleton& other) = delete;
+	Singleton& operator=(Singleton&& other) = delete;
 };

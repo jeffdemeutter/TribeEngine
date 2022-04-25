@@ -14,29 +14,29 @@ SceneManager::~SceneManager()
 		SafeDelete(pScene);	
 }
 
-void SceneManager::UpdateImpl()
+void SceneManager::Update()
 {
-	for(auto& scene : m_Scenes)
+	for(auto& scene : Get().m_Scenes)
 		scene->Update();
 }
 
-void SceneManager::RenderImpl() const
+void SceneManager::Render()
 {
-	for (const auto& scene : m_Scenes)
+	for (const auto& scene : Get().m_Scenes)
 		scene->Render();
 }
 
-void SceneManager::RenderUIImpl()
+void SceneManager::RenderUI()
 {
 	ImGui::Begin("Scenes");
-	for (const auto& scene : m_Scenes)
+	for (const auto& scene : Get().m_Scenes)
 		scene->RenderUI();
 	ImGui::End();
 }
 
-Scene* SceneManager::CreateSceneImpl(const std::string& name)
+Scene* SceneManager::CreateScene(const std::string& name)
 {
 	Scene* scene = new Scene(name);
-	m_Scenes.push_back(scene);
+	Get().m_Scenes.push_back(scene);
 	return scene;
 }

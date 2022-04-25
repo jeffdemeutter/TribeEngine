@@ -9,19 +9,14 @@ class Timer final : public Singleton<Timer>
 {
 public:
 	~Timer() override = default;
-	Timer(const Timer& other) = delete;
-	Timer(Timer&& other) = delete;
-	Timer& operator=(const Timer& other) = delete;
-	Timer& operator=(Timer&& other) = delete;
-
 		
-	static float GetDeltaTime() { return GetInstance().m_DeltaTime; }
-	static float GetTotalTime() { return GetInstance().m_TotalTime; }
-	static int GetFps() { return GetInstance().m_Fps; }
+	static float GetDeltaTime() { return Get().m_DeltaTime; }
+	static float GetTotalTime() { return Get().m_TotalTime; }
+	static int GetFps() { return Get().m_Fps; }
 
 private:
-	Timer() = default;
 	friend class Singleton<Timer>;
+	Timer() = default;
 
 	high_resolution_clock::time_point m_Start{};
 	high_resolution_clock::time_point m_Last{};
@@ -35,17 +30,13 @@ private:
 
 	// funtions for the minigin class
 	friend class Tribe;
-	static void Start() { GetInstance().StartImpl(); }
-	static void Update() { GetInstance().UpdateImpl(); }
+	static void Start();
+	static void Update();
 	// this is the return type which is needed for the this_thread::sleep_for
 	static duration<long long, std::ratio<1,1000000000>> GetSleepTime()
 	{
-		return GetInstance().m_Current + milliseconds(m_MsPerFrame) - high_resolution_clock::now();
+		return Get().m_Current + milliseconds(m_MsPerFrame) - high_resolution_clock::now();
 	}
-
-	// Functions
-	void StartImpl();
-	void UpdateImpl();
 };
 
 

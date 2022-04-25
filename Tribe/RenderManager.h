@@ -15,14 +15,14 @@ public:
 	RenderManager& operator=(RenderManager&&) noexcept = delete;
 
 
-	static void Init() { GetInstance().InitImpl(); }
-	static void Render() { GetInstance().RenderImpl(); }
+	static void Init();
+	static void Render();
 
-	static SDL_Renderer* GetSDLRenderer() { return GetInstance().m_Renderer; }
-	static SDL_Rect GetWindowRect() { return { 0, 0, GetInstance().m_Width, GetInstance().m_Height }; }
-	static SDL_Color GetBackgroundColor() { return GetInstance().m_ClearColor; }
-	static void SetBackgroundColor(const SDL_Color& color) { GetInstance().m_ClearColor = color; }
-	static void ToggleImGui() { GetInstance().m_RenderImGui = !GetInstance().m_RenderImGui; }
+	static SDL_Renderer* GetSDLRenderer() { return Get().m_Renderer; }
+	static SDL_Rect GetWindowRect() { return { 0, 0, Get().m_Width, Get().m_Height }; }
+	static SDL_Color GetBackgroundColor() { return Get().m_ClearColor; }
+	static void SetBackgroundColor(const SDL_Color& color) { Get().m_ClearColor = color; }
+	static void ToggleImGui() { Get().m_RenderImGui = !Get().m_RenderImGui; }
 
 private:
 	friend class Singleton<RenderManager>;
@@ -34,9 +34,6 @@ private:
 	SDL_Window* m_Window{};
 	SDL_Color m_ClearColor{};
 	bool m_RenderImGui = true;
-
-	void InitImpl();
-	void RenderImpl() const;
 
 	friend class InputManager;
 	static void UpdateWindow(int width, int height);

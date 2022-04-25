@@ -38,9 +38,9 @@ public:
 	};
 
 
-	static bool ProcessInput() { return GetInstance().ProcessInputImpl(); }
+	static bool ProcessInput();
 	static void AddInputMethod(const InputAction& input) {
-		GetInstance().m_Commands.push_back(input);
+		Get().m_Commands.push_back(input);
 	}
 private:
 	friend class Singleton<InputManager>;
@@ -50,9 +50,7 @@ private:
 	XINPUT_KEYSTROKE m_ControllerKeyStroke{};
 	
 	std::vector<InputAction> m_Commands;
-	
-	
-	bool ProcessInputImpl();
+
 	bool CheckControllerInput(int controllerID, const InputAction& input);
 	bool HandleKeyboard();
 	bool HandleController();
