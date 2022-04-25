@@ -2,6 +2,7 @@
 #include "BaseComponent.h"
 
 
+class TransformComponent;
 class RenderComponent;
 class BurgerComponent : public Component
 {
@@ -16,7 +17,7 @@ public:
 		cheese
 	};
 
-	BurgerComponent(GameObject* go, RenderComponent* pRender, BurgerType type, const glm::vec3& position);
+	BurgerComponent(GameObject* go, RenderComponent* pRender, TransformComponent* pTrans, BurgerType type, glm::vec3 position);
 	~BurgerComponent() override = default;
 	BurgerComponent(const BurgerComponent&) = delete;
 	BurgerComponent(BurgerComponent&&) noexcept = delete;
@@ -30,6 +31,6 @@ public:
 	void DropBurger() const;
 
 private:
-	void InitBurgerType(RenderComponent* pRender, BurgerType type);
+	const SDL_Rect& InitBurgerType(BurgerType type);
 };
 

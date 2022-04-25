@@ -163,7 +163,7 @@ void Tribe::LoadGame() const
 	{
 		auto pTransform = go->AddComponent(new TransformComponent(go));
 		auto pRender = go->AddComponent(new RenderComponent(go, pTransform, "spritesheet.png"));
-		go->AddComponent(new BurgerComponent(go, pRender, BurgerComponent::bunTop, pTileComp->GetBurgerPosition()));
+		go->AddComponent(new BurgerComponent(go, pRender, pTransform, BurgerComponent::salad, pTileComp->GetBurgerPosition()));
 	}
 	scene->Add(go);
 
