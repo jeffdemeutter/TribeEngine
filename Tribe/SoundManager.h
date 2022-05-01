@@ -18,7 +18,8 @@ public:
 	
 	static void LoadEffect(SoundEvent sound, const std::string& path);
 	static void QueueEffect(SoundEvent sound);
-	static void ChangeVolume(int volume);
+	static void SetVolume(int volume);
+	static void ChangeVolume(int delta);
 
 private:
 	friend class Singleton<SoundManager>;

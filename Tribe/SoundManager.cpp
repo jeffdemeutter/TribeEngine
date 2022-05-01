@@ -13,15 +13,18 @@ public:
 
 	void Run();
 	void LoadEffect(SoundEvent sound, const std::string& path);
-	void ChangeVolume(int volume);
+	void SetVolume(int volume);
+	void ChangeVolume(int delta);
 
 private:
 	std::unordered_map<SoundEvent, Mix_Chunk*> m_Effects;
+
+	int m_Volume = 100;
 };
 
 SoundManager::SoundManagerSDLMixer::SoundManagerSDLMixer()
 {
-	Mix_Init(MIX_INIT_FLAC | MIX_INIT_MOD | MIX_INIT_MP3 |	MIX_INIT_OGG);
+	Mix_Init( MIX_INIT_MOD );
 
 	// use of 22050 frequency, documentation of sdl_mixer suggests this for games, it will use less cpu power like this
 	if(Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 4, 1024) == -1)
@@ -63,9 +66,16 @@ void SoundManager::SoundManagerSDLMixer::LoadEffect(SoundEvent sound, const std:
 		throw "Effect " + path + " failed to load";
 }
 
-void SoundManager::SoundManagerSDLMixer::ChangeVolume(int volume)
+void SoundManager::SoundManagerSDLMixer::SetVolume(int volume)
 {
-	Mix_Volume(-1, volume);
+	m_Volume = volume;
+	Mix_Volume(-1, m_Volume);
+}
+
+void SoundManager::SoundManagerSDLMixer::ChangeVolume(int delta)
+{
+	m_Volume += delta;
+	Mix_Volume(-1, m_Volume);
 }
 
 
@@ -95,7 +105,12 @@ void SoundManager::QueueEffect(SoundEvent sound)
 	Instance().m_Mutex.unlock();
 }
 
-void SoundManager::ChangeVolume(int volume)
+void SoundManager::SetVolume(int volume)
 {
-	Instance().m_pImpl->ChangeVolume(volume);
+	Instance().m_pImpl->SetVolume(volume);
+}
+
+void SoundManager::ChangeVolume(int delta)
+{
+	Instance().m_pImpl->ChangeVolume(delta);
 }
