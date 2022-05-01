@@ -4,6 +4,7 @@
 
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl2.h"
+#include "SoundManager.h"
 
 int GetOpenGLDriverIndex()
 {
@@ -115,10 +116,16 @@ void RenderManager::RenderUI() const
 	{
 		ImGui::Text("Enable/Disable ImGui with 'TAB'");
 		ImGui::Text("Inputs:");
-		ImGui::Text("keyboard - D | Controller - X | Damages the player");
-		ImGui::Text("keyboard - G | Controller - A | Kills an enemy (10 points)");
-		ImGui::Text("keyboard - H | Controller - B | Drops a Burger (20 points)");
-		
+		ImGui::Text("keyboard - D | Controller - X | plays sound effect");
+
+		ImGui::Separator();
+		ImGui::Text("Volume ");
+		ImGui::SameLine();
+		if (ImGui::Button("+"))
+			SoundManager::ChangeVolume(10);
+		ImGui::SameLine();
+		if (ImGui::Button("-"))
+			SoundManager::ChangeVolume(-10);
 
 		ImGui::End();
 	}
