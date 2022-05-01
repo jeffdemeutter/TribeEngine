@@ -184,6 +184,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BurgerComponent.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="TileComponent.cpp" />
     <ClCompile Include="DeadSignComponent.cpp" />
     <ClCompile Include="EnemyComponent.cpp" />
@@ -221,6 +222,7 @@
     <ClInclude Include="BurgerComponent.h" />
     <ClInclude Include="Commands.h" />
     <ClInclude Include="Components.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="TileComponent.h" />
     <ClInclude Include="DeadSignComponent.h" />
     <ClInclude Include="EnemyComponent.h" />

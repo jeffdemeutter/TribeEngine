@@ -10,9 +10,9 @@ class Timer final : public Singleton<Timer>
 public:
 	~Timer() override = default;
 		
-	static float GetDeltaTime() { return Get().m_DeltaTime; }
-	static float GetTotalTime() { return Get().m_TotalTime; }
-	static int GetFps() { return Get().m_Fps; }
+	static float GetDeltaTime() { return Instance().m_DeltaTime; }
+	static float GetTotalTime() { return Instance().m_TotalTime; }
+	static int GetFps() { return Instance().m_Fps; }
 
 private:
 	friend class Singleton<Timer>;
@@ -35,7 +35,7 @@ private:
 	// this is the return type which is needed for the this_thread::sleep_for
 	static duration<long long, std::ratio<1,1000000000>> GetSleepTime()
 	{
-		return Get().m_Current + milliseconds(m_MsPerFrame) - high_resolution_clock::now();
+		return Instance().m_Current + milliseconds(m_MsPerFrame) - high_resolution_clock::now();
 	}
 };
 

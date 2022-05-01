@@ -16,20 +16,20 @@ SceneManager::~SceneManager()
 
 void SceneManager::Update()
 {
-	for(auto& scene : Get().m_Scenes)
+	for(auto& scene : Instance().m_Scenes)
 		scene->Update();
 }
 
 void SceneManager::Render()
 {
-	for (const auto& scene : Get().m_Scenes)
+	for (const auto& scene : Instance().m_Scenes)
 		scene->Render();
 }
 
 void SceneManager::RenderUI()
 {
 	ImGui::Begin("Scenes");
-	for (const auto& scene : Get().m_Scenes)
+	for (const auto& scene : Instance().m_Scenes)
 		scene->RenderUI();
 	ImGui::End();
 }
@@ -37,6 +37,6 @@ void SceneManager::RenderUI()
 Scene* SceneManager::CreateScene(const std::string& name)
 {
 	Scene* scene = new Scene(name);
-	Get().m_Scenes.push_back(scene);
+	Instance().m_Scenes.push_back(scene);
 	return scene;
 }

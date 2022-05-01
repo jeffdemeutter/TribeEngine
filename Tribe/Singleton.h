@@ -7,7 +7,7 @@ public:
 	virtual ~Singleton() = default;
 
 protected:
-	static T& Get()
+	static T& Instance()
 	{
 		static T instance{};
 		return instance;

@@ -18,11 +18,11 @@ public:
 	static void Init();
 	static void Render();
 
-	static SDL_Renderer* GetSDLRenderer() { return Get().m_Renderer; }
-	static SDL_Rect GetWindowRect() { return { 0, 0, Get().m_Width, Get().m_Height }; }
-	static SDL_Color GetBackgroundColor() { return Get().m_ClearColor; }
-	static void SetBackgroundColor(const SDL_Color& color) { Get().m_ClearColor = color; }
-	static void ToggleImGui() { Get().m_RenderImGui = !Get().m_RenderImGui; }
+	static SDL_Renderer* GetSDLRenderer() { return Instance().m_Renderer; }
+	static SDL_Rect GetWindowRect() { return { 0, 0, Instance().m_Width, Instance().m_Height }; }
+	static SDL_Color GetBackgroundColor() { return Instance().m_ClearColor; }
+	static void SetBackgroundColor(const SDL_Color& color) { Instance().m_ClearColor = color; }
+	static void ToggleImGui() { Instance().m_RenderImGui = !Instance().m_RenderImGui; }
 
 private:
 	friend class Singleton<RenderManager>;

@@ -41,30 +41,30 @@ void RenderManager::Init()
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 
 	// create the window
-	Get().m_Window = SDL_CreateWindow(
+	Instance().m_Window = SDL_CreateWindow(
 		"Programming 4 assignment",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		Get().m_Width,
-		Get().m_Height,
+		Instance().m_Width,
+		Instance().m_Height,
 		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE // | SDL_WINDOW_ALWAYS_ON_TOP
 	);
-	if (Get().m_Window == nullptr)
+	if (Instance().m_Window == nullptr)
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 
 	// create the renderer
-	Get().m_Renderer = SDL_CreateRenderer(
-		Get().m_Window,
+	Instance().m_Renderer = SDL_CreateRenderer(
+		Instance().m_Window,
 		GetOpenGLDriverIndex(), 
 		SDL_RENDERER_ACCELERATED //| SDL_RENDERER_TARGETTEXTURE
 	);
-	if (Get().m_Renderer == nullptr)
+	if (Instance().m_Renderer == nullptr)
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 
 	// initialize imgui
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
-	ImGui_ImplSDL2_InitForOpenGL(Get().m_Window, SDL_GL_GetCurrentContext());
+	ImGui_ImplSDL2_InitForOpenGL(Instance().m_Window, SDL_GL_GetCurrentContext());
 	ImGui_ImplOpenGL2_Init();
 
 	ImGuiIO& io = ImGui::GetIO();
@@ -77,21 +77,21 @@ void RenderManager::Render()
 {
 	// clear renderer
 	const auto& color = GetBackgroundColor();
-	SDL_SetRenderDrawColor(Get().m_Renderer, color.r, color.g, color.b, color.a);
-	SDL_RenderClear(Get().m_Renderer);
+	SDL_SetRenderDrawColor(Instance().m_Renderer, color.r, color.g, color.b, color.a);
+	SDL_RenderClear(Instance().m_Renderer);
 	
 
 	// render scenes
 	SceneManager::Render();
 	
-	Get().RenderUI();
+	Instance().RenderUI();
 
-	SDL_RenderPresent(Get().m_Renderer);
+	SDL_RenderPresent(Instance().m_Renderer);
 }
 
 void RenderManager::UpdateWindow(int width, int height)
 {
-	auto& inst = Get();
+	auto& inst = Instance();
 	inst.m_Width = width;
 	inst.m_Height = height;
 

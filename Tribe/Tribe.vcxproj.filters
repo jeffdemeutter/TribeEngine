@@ -120,6 +120,7 @@
     <ClInclude Include="EventManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
+    <ClInclude Include="SoundManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -203,6 +204,7 @@
     <ClCompile Include="EventManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
+    <ClCompile Include="SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

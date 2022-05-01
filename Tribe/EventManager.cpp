@@ -8,7 +8,7 @@ EventManager::~EventManager()
 
 void EventManager::Notify(GameObject* go, EventType type)
 {
-	auto& inst = Get();
+	auto& inst = Instance();
 
 	for (EventHandler& eh : inst.m_Events)
 		if (eh.type == type)
@@ -17,5 +17,5 @@ void EventManager::Notify(GameObject* go, EventType type)
 
 void EventManager::AddEventHandle(EventType type, const std::function<void(GameObject*, EventType)>& handle)
 {
-	Get().m_Events.push_back({type, handle});
+	Instance().m_Events.push_back({type, handle});
 }

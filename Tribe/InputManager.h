@@ -40,7 +40,7 @@ public:
 
 	static bool ProcessInput();
 	static void AddInputMethod(const InputAction& input) {
-		Get().m_Commands.push_back(input);
+		Instance().m_Commands.push_back(input);
 	}
 private:
 	friend class Singleton<InputManager>;

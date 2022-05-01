@@ -20,7 +20,7 @@ ResourceManager::~ResourceManager()
 
 void ResourceManager::Init(const std::string& dataPath)
 {
-	Get().m_DataPath = dataPath;
+	Instance().m_DataPath = dataPath;
 
 	// load support for png and jpg, this takes a while!
 
@@ -40,25 +40,25 @@ void ResourceManager::Init(const std::string& dataPath)
 Texture2D* ResourceManager::LoadTexture(const std::string& file)
 {
 	// check if a texture is already loaded in
-	if (Get().m_pTextures.find(file) != Get().m_pTextures.cend())
-		return Get().m_pTextures.at(file);
+	if (Instance().m_pTextures.find(file) != Instance().m_pTextures.cend())
+		return Instance().m_pTextures.at(file);
 
 	// create new texture and store it
-	const auto fullPath = Get().m_DataPath + file;
+	const auto fullPath = Instance().m_DataPath + file;
 	auto pTexture = IMG_LoadTexture(RenderManager::GetSDLRenderer(), fullPath.c_str());
 	if (!pTexture) 
 		throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
 	
-	return Get().m_pTextures[file] = new Texture2D(pTexture);
+	return Instance().m_pTextures[file] = new Texture2D(pTexture);
 }
 
 Font* ResourceManager::LoadFont(const std::string& file, unsigned int size)
 {
 	const std::string key = file + std::to_string(size);
 	// check if a font is already loaded in
-	if (Get().m_pFonts.find(file) != Get().m_pFonts.cend())
-		return Get().m_pFonts.at(file);
+	if (Instance().m_pFonts.find(file) != Instance().m_pFonts.cend())
+		return Instance().m_pFonts.at(file);
 
 	// create new font and store it
-	return Get().m_pFonts[key] = new Font(Get().m_DataPath + file, size);
+	return Instance().m_pFonts[key] = new Font(Instance().m_DataPath + file, size);
 }
