@@ -2,6 +2,7 @@
 #include "PeterPepperComponent.h"
 
 #include "EventManager.h"
+#include "SoundManager.h"
 
 PeterPepperComponent::PeterPepperComponent(GameObject* go)
 	: Component(go)
@@ -21,5 +22,7 @@ void PeterPepperComponent::DoDamage()
 
 	if (m_Health <= 0)
 		EventManager::Notify(m_pParent, PlayerDied);
+
+	SoundManager::PlayEffect(playerHit);
 }
 

@@ -6,6 +6,7 @@
 #include "SceneManager.h"
 #include "RenderManager.h"
 #include "ResourceManager.h"
+#include "SoundManager.h"
 #include "GameObject.h"
 #include "Scene.h"
 #include "Timer.h"
@@ -19,6 +20,9 @@ using namespace std;
  */
 void Tribe::LoadGame() const
 {
+	// sounds
+	SoundManager::LoadEffect(playerHit, "../Data/Sound/LostLife.wav");
+
 	// scene
 	Scene* scene = SceneManager::CreateScene("Demo");
 	Font* pFont = ResourceManager::LoadFont("Lingua.otf", 36);
@@ -41,18 +45,18 @@ void Tribe::LoadGame() const
 	}
 	scene->Add(go);
 
-	//auto* pPeterPepper = new GameObject("PeterPepper");
-	//{
-	//	auto pPeter = pPeterPepper->AddComponent(new PeterPepperComponent(pPeterPepper));
+	auto* pPeterPepper = new GameObject("PeterPepper");
+	{
+		auto pPeter = pPeterPepper->AddComponent(new PeterPepperComponent(pPeterPepper));
 
-	//	InputManager::InputAction input;
-	//		input.keyboardKey = SDL_SCANCODE_D;
-	//		input.pCommand = new Command([pPeter] { pPeter->DoDamage(); });
-	//		input.ControllerButton = VK_PAD_X;
-	//		input.ControllerStroke = XINPUT_KEYSTROKE_KEYUP;
-	//	InputManager::AddInputMethod(input);
-	//}
-	//scene->Add(pPeterPepper);
+		InputManager::InputAction input;
+			input.keyboardKey = SDL_SCANCODE_D;
+			input.pCommand = new Command([pPeter] { pPeter->DoDamage(); });
+			input.ControllerButton = VK_PAD_X;
+			input.ControllerStroke = XINPUT_KEYSTROKE_KEYUP;
+		InputManager::AddInputMethod(input);
+	}
+	scene->Add(pPeterPepper);
 
 	//auto* pPeterPepper2 = new GameObject("PeterPepper2");
 	//{
@@ -235,6 +239,8 @@ void Tribe::Run()
 {
 	// intitializes the window
 	RenderManager::Init();
+
+	
 
 	// tell the resource manager where he can find the game data
 	ResourceManager::Init("../Data/");

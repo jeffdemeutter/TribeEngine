@@ -40,12 +40,12 @@ void ResourceManager::Init(const std::string& dataPath)
 Texture2D* ResourceManager::LoadTexture(const std::string& file)
 {
 	// check if a texture is already loaded in
-	if (Instance().m_pTextures.find(file) != Instance().m_pTextures.cend())
+	if (Instance().m_pTextures.contains(file))
 		return Instance().m_pTextures.at(file);
 
 	// create new texture and store it
 	const auto fullPath = Instance().m_DataPath + file;
-	auto pTexture = IMG_LoadTexture(RenderManager::GetSDLRenderer(), fullPath.c_str());
+	const auto pTexture = IMG_LoadTexture(RenderManager::GetSDLRenderer(), fullPath.c_str());
 	if (!pTexture) 
 		throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
 	

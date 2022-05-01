@@ -22,7 +22,7 @@
 constexpr static int g_PixelScale = 5;
 
 template<class T>
-inline void SafeDelete(T& pObjectToDelete)
+inline void SafeDelete(T* pObjectToDelete)
 {
 	if (pObjectToDelete != nullptr)
 	{
