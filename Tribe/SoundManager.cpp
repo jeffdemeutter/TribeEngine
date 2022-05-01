@@ -71,8 +71,8 @@ void SoundManager::SoundManagerSDLMixer::ChangeVolume(int volume)
 
 SoundManager::SoundManager()
 	: m_pImpl{ new SoundManagerSDLMixer() }
+	, m_Initialized(true)
 {
-	m_Initialized = true;
 	m_Thr = std::thread{ [&] { m_pImpl->Run(); } };
 }
 
