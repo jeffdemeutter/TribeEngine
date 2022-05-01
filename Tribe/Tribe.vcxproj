@@ -222,6 +222,7 @@
     <ClInclude Include="BurgerComponent.h" />
     <ClInclude Include="Commands.h" />
     <ClInclude Include="Components.h" />
+    <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="TileComponent.h" />
     <ClInclude Include="DeadSignComponent.h" />
