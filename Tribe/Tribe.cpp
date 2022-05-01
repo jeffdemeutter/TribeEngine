@@ -240,8 +240,6 @@ void Tribe::Run()
 	// intitializes the window
 	RenderManager::Init();
 
-	
-
 	// tell the resource manager where he can find the game data
 	ResourceManager::Init("../Data/");
 

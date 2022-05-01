@@ -23,6 +23,6 @@ void PeterPepperComponent::DoDamage()
 	if (m_Health <= 0)
 		EventManager::Notify(m_pParent, PlayerDied);
 
-	SoundManager::PlayEffect(playerHit);
+	SoundManager::QueueEffect(playerHit);
 }
 
