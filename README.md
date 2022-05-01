@@ -18,6 +18,7 @@ Packages:
 - SDL2
 - SDL2-ttf
 - SDL2-image
+- SDL2-mixer
 - opengl
 - glm
 - ImGui
@@ -30,7 +31,7 @@ Navigate to the directory where you installed VCPKG. In my [Basic-VCPKG-guide](h
 
 We need to run this with our cmd. Open a cmd and change the directory to the vcpkg directory (`cd C:\vcpkg\`). Once we are in this directory, we run the command below which will install all mandatory packages. The installation of these packages can take a while, enough time to treat yourself to a good cup of coffee.
 
-`vcpkg install glm glm:x64-windows imgui imgui:x64-windows imgui[opengl2-binding] imgui[opengl2-binding]:x64-windows imgui[sdl2-binding] imgui[sdl2-binding]:x64-windows opengl opengl:x64-windows SDL2 SDL2:x64-windows SDL2-ttf SDL2-ttf:x64-windows SDL2-image SDL2-image:x64-windows sdl2-image[libjpeg-turbo] sdl2-image[libjpeg-turbo]:x64-windows imgui[docking-experimental] imgui[docking-experimental]:x64-windows --recurse`
+`vcpkg install glm glm:x64-windows imgui imgui:x64-windows imgui[opengl2-binding] imgui[opengl2-binding]:x64-windows imgui[sdl2-binding] imgui[sdl2-binding]:x64-windows opengl opengl:x64-windows SDL2 SDL2:x64-windows SDL2-ttf SDL2-ttf:x64-windows SDL2-image SDL2-image:x64-windows sdl2-image[libjpeg-turbo] sdl2-image[libjpeg-turbo]:x64-windows sdl2-mixer sdl2-mixer:x64-windows imgui[docking-experimental] imgui[docking-experimental]:x64-windows --recurse`
 
 This command will install all necessary packages in x86 and x64. You might also have noticed the --recurse flag which makes sure all bindings are properly installed. Once the installation is complete, you should be able to compile the project with MSBuild/Visual Studio. 
 
