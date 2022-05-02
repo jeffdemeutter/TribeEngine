@@ -1,8 +1,4 @@
 #pragma once
-#include <thread>
-#include <stack>
-#include <mutex>
-#include "Singleton.h"
 
 enum SoundEvent
 {
@@ -11,26 +7,23 @@ enum SoundEvent
 	pointsChanged
 };
 
-class SoundManager final : public Singleton<SoundManager>
+class SoundManager final
 {
 public:
-	virtual ~SoundManager() override;
+	SoundManager();
+	~SoundManager();
+	SoundManager(const SoundManager&) = delete;
+	SoundManager(SoundManager&&) noexcept = delete;
+	SoundManager& operator=(const SoundManager&) = delete;
+	SoundManager& operator=(SoundManager&&) noexcept = delete;
 	
-	static void LoadEffect(SoundEvent sound, const std::string& path);
-	static void QueueEffect(SoundEvent sound);
-	static void SetVolume(int volume);
-	static void ChangeVolume(int delta);
+	void LoadEffect(SoundEvent sound, const std::string& path) const;
+	void QueueEffect(SoundEvent sound) const;
+	void SetVolume(int volume) const;
+	void ChangeVolume(int delta) const;
 
 private:
-	friend class Singleton<SoundManager>;
-	SoundManager();
-
 	class SoundManagerSDLMixer;
 	SoundManagerSDLMixer* m_pImpl = nullptr;
-
-	std::thread m_Thr;
-	std::stack<SoundEvent> m_Queue;
-	std::mutex m_Mutex;
-	bool m_Initialized = false;
 };
 

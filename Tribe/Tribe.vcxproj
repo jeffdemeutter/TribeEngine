@@ -184,6 +184,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BurgerComponent.cpp" />
+    <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="TileComponent.cpp" />
     <ClCompile Include="DeadSignComponent.cpp" />

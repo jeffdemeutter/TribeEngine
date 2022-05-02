@@ -4,6 +4,7 @@
 
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl2.h"
+#include "ServiceLocator.h"
 #include "SoundManager.h"
 
 int GetOpenGLDriverIndex()
@@ -121,11 +122,13 @@ void RenderManager::RenderUI() const
 		ImGui::Separator();
 		ImGui::Text("Volume ");
 		ImGui::SameLine();
+
+		auto* pSoundManager = ServiceLocator::GetInstance();
 		if (ImGui::Button("+"))
-			SoundManager::ChangeVolume(10);
+			pSoundManager->ChangeVolume(10);
 		ImGui::SameLine();
 		if (ImGui::Button("-"))
-			SoundManager::ChangeVolume(-10);
+			pSoundManager->ChangeVolume(-10);
 
 		ImGui::End();
 	}

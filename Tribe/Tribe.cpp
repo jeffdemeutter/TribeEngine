@@ -12,6 +12,7 @@
 #include "Timer.h"
 
 #include "Components.h"
+#include "ServiceLocator.h"
 
 using namespace std;
 
@@ -21,7 +22,7 @@ using namespace std;
 void Tribe::LoadGame() const
 {
 	// sounds
-	SoundManager::LoadEffect(playerHit, "../Data/Sound/LostLife.wav");
+	ServiceLocator::GetInstance()->LoadEffect(playerHit, "../Data/Sound/LostLife.wav");
 
 	// scene
 	Scene* scene = SceneManager::CreateScene("Demo");
@@ -237,6 +238,8 @@ void Tribe::LoadGame() const
 
 void Tribe::Run()
 {
+	ServiceLocator::SetInstance(new SoundManager());
+
 	// intitializes the window
 	RenderManager::Init();
 
@@ -263,4 +266,6 @@ void Tribe::Run()
 			this_thread::sleep_for(Timer::GetSleepTime());
 		}
 	}
+
+	SafeDelete(ServiceLocator::GetInstance());
 }

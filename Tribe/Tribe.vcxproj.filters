@@ -208,6 +208,9 @@
       <Filter>Managers</Filter>
     </ClCompile>
     <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="ServiceLocator.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

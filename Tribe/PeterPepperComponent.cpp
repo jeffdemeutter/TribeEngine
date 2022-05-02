@@ -2,6 +2,7 @@
 #include "PeterPepperComponent.h"
 
 #include "EventManager.h"
+#include "ServiceLocator.h"
 #include "SoundManager.h"
 
 PeterPepperComponent::PeterPepperComponent(GameObject* go)
@@ -23,6 +24,7 @@ void PeterPepperComponent::DoDamage()
 	if (m_Health <= 0)
 		EventManager::Notify(m_pParent, PlayerDied);
 
-	SoundManager::QueueEffect(playerHit);
+
+	ServiceLocator::GetInstance()->QueueEffect(playerHit);
 }
 
