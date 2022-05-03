@@ -10,7 +10,7 @@ RemainingLivesComponent::RemainingLivesComponent(GameObject* go, TextComponent* 
 {
 
 
-	EventManager::AddEventHandle(TookDamage, [this](GameObject* go, EventType type) { UpdateLives(go, type); });
+	ServiceLocator::GetEventManager()->AddEventHandle(TookDamage, [this](GameObject* go, EventType type) { UpdateLives(go, type); });
 
 	m_pTextComponent->SetText(m_Prefix + std::to_string(PeterPepperComponent::GetMaxHealth()));
 }

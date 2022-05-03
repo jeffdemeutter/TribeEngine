@@ -31,6 +31,7 @@ private:
 	bool m_Initialized = false;
 };
 
+#pragma region SoundManagerImplementation
 SoundManager::SoundManagerSDLMixer::SoundManagerSDLMixer()
 {
 	Mix_Init( MIX_INIT_MOD );
@@ -99,8 +100,9 @@ void SoundManager::SoundManagerSDLMixer::ChangeVolume(int delta)
 	m_Volume += delta;
 	Mix_Volume(-1, m_Volume);
 }
+#pragma endregion
 
-
+#pragma region SoundManager
 SoundManager::SoundManager()
 	: m_pImpl{ new SoundManagerSDLMixer() }
 {
@@ -130,3 +132,4 @@ void SoundManager::ChangeVolume(int delta) const
 {
 	m_pImpl->ChangeVolume(delta);
 }
+#pragma endregion 

@@ -15,9 +15,11 @@
 #include <SDL2/SDL.h>
 #pragma warning (pop)
 
-
 #include <imgui.h>
 #include <imgui_internal.h>
+
+// this class should be available everywhere and doesn't change (a lot)
+#include "ServiceLocator.h"
 
 constexpr static int g_PixelScale = 5;
 

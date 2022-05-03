@@ -22,7 +22,7 @@ using namespace std;
 void Tribe::LoadGame() const
 {
 	// sounds
-	ServiceLocator::GetInstance()->LoadEffect(playerHit, "../Data/Sound/LostLife.wav");
+	ServiceLocator::GetSoundManager()->LoadEffect(playerHit, "../Data/Sound/LostLife.wav");
 
 	// scene
 	Scene* scene = SceneManager::CreateScene("Demo");
@@ -238,7 +238,8 @@ void Tribe::LoadGame() const
 
 void Tribe::Run()
 {
-	ServiceLocator::SetInstance(new SoundManager());
+	ServiceLocator::SetSoundManager(new SoundManager());
+	ServiceLocator::SetEventManager(new EventManager());
 
 	// intitializes the window
 	RenderManager::Init();
@@ -267,5 +268,6 @@ void Tribe::Run()
 		}
 	}
 
-	SafeDelete(ServiceLocator::GetInstance());
+	SafeDelete(ServiceLocator::GetSoundManager());
+	SafeDelete(ServiceLocator::GetEventManager());
 }

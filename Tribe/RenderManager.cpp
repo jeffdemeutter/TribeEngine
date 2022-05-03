@@ -123,7 +123,7 @@ void RenderManager::RenderUI() const
 		ImGui::Text("Volume ");
 		ImGui::SameLine();
 
-		auto* pSoundManager = ServiceLocator::GetInstance();
+		auto* pSoundManager = ServiceLocator::GetSoundManager();
 		if (ImGui::Button("+"))
 			pSoundManager->ChangeVolume(10);
 		ImGui::SameLine();

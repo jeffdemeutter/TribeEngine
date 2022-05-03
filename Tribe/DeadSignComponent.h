@@ -16,7 +16,7 @@ public:
 	virtual void Update() override {};
 	virtual void Render() const override {};
 
-	void NotifyDead(GameObject* go, EventType type);
+	void NotifyDead(GameObject* go, EventType type) const;
 
 private:
 	TextComponent* m_pTextComponent = nullptr;

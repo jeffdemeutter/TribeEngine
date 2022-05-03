@@ -20,5 +20,5 @@ void EnemyComponent::Render() const
 
 void EnemyComponent::KillEnemy() const
 {
-	EventManager::Notify(m_pParent, EnemyDied);
+	ServiceLocator::GetEventManager()->Notify(m_pParent, EnemyDied);
 }

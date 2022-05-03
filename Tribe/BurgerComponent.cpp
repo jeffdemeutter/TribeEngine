@@ -35,7 +35,7 @@ void BurgerComponent::Render() const
 
 void BurgerComponent::DropBurger() const
 {
-	EventManager::Notify(m_pParent, BurgerDrop);
+	ServiceLocator::GetEventManager()->Notify(m_pParent, BurgerDrop);
 }
 
 const SDL_Rect& BurgerComponent::InitBurgerType(BurgerType type)

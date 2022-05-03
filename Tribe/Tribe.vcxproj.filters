@@ -120,8 +120,10 @@
     <ClInclude Include="EventManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
-    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="ServiceLocator.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -207,8 +209,10 @@
     <ClCompile Include="EventManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
-    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="ServiceLocator.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
   </ItemGroup>

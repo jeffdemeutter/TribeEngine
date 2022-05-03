@@ -8,8 +8,8 @@ PointsDisplayComponent::PointsDisplayComponent(GameObject* go, TextComponent* pT
 	, m_pTextComponent(pText)
 {
 
-	EventManager::AddEventHandle(EnemyDied, [this](GameObject* go, EventType type) { UpdateScore(go, type); });
-	EventManager::AddEventHandle(BurgerDrop, [this](GameObject* go, EventType type) { UpdateScore(go, type); });
+	ServiceLocator::GetEventManager()->AddEventHandle(EnemyDied, [this](GameObject* go, EventType type) { UpdateScore(go, type); });
+	ServiceLocator::GetEventManager()->AddEventHandle(BurgerDrop, [this](GameObject* go, EventType type) { UpdateScore(go, type); });
 
 
 	m_pTextComponent->SetText(m_Prefix + std::to_string(m_Score));

@@ -19,12 +19,12 @@ void PeterPepperComponent::Update()
 void PeterPepperComponent::DoDamage()
 {
 	m_Health -= 1;
-	EventManager::Notify(m_pParent, TookDamage);
+	ServiceLocator::GetEventManager()->Notify(m_pParent, TookDamage);
 
 	if (m_Health <= 0)
-		EventManager::Notify(m_pParent, PlayerDied);
+		ServiceLocator::GetEventManager()->Notify(m_pParent, PlayerDied);
 
 
-	ServiceLocator::GetInstance()->QueueEffect(playerHit);
+	ServiceLocator::GetSoundManager()->QueueEffect(playerHit);
 }
 
