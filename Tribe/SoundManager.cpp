@@ -51,8 +51,9 @@ SoundManager::SoundManagerSDLMixer::~SoundManagerSDLMixer()
 
 	for (const auto& effect : m_Effects)
 		SafeDelete(effect.second);
-
 	m_Effects.clear();
+
+	m_Thr.join();
 
 	Mix_CloseAudio();
 	Mix_Quit();
