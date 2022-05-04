@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseComponent.h"
+#include "BurgerComponent.h"
 
 class RenderComponent;
 class LevelComponent;
@@ -16,6 +17,7 @@ enum class TileType
 	ladder	= 0b100000
 };
 
+// overwritten thse operators so the enumerator behaves like flags
 constexpr TileType operator|(TileType a, TileType b)
 {
 	return static_cast<TileType>(static_cast<int>(a) | static_cast<int>(b));
@@ -28,7 +30,7 @@ constexpr bool operator==(TileType a, TileType b)
 class TileComponent : public Component
 {
 public:
-	TileComponent(GameObject* go, const glm::ivec2& location, LevelComponent* pLevel, TransformComponent* pTransform, RenderComponent* pRender, TileType tile);
+	TileComponent(GameObject* go, int x, int y, LevelComponent* pLevel, TransformComponent* pTransform, RenderComponent* pRender, TileType tile);
 	~TileComponent() override = default;
 	TileComponent(const TileComponent&) = delete;
 	TileComponent(TileComponent&&) noexcept = delete;
@@ -37,6 +39,8 @@ public:
 
 	virtual void Update() override;
 	virtual void Render() const override;
+
+	void AddBurgerObject(BurgerComponent::BurgerType type) const;
 
 	glm::vec3 GetBurgerPosition() const;
 

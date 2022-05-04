@@ -126,6 +126,7 @@
     <ClInclude Include="SoundManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
+    <ClInclude Include="PlateauComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -215,6 +216,7 @@
     <ClCompile Include="SoundManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
+    <ClCompile Include="PlateauComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

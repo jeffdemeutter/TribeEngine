@@ -20,25 +20,25 @@ public:
 	virtual void Update() override;
 	virtual void Render() const override;
 
-	void AddTile(const glm::ivec2& pos, TileType tile);
+	TileComponent* AddTile(int x, int y, TileType tile);
 
 private:
 	friend class TileComponent;
-	bool GetPositionForTile(const glm::ivec2& location, glm::vec3& position);
+	bool GetPositionForTile(int x, int y, glm::vec3& position) const;
 	Texture2D* GetTexture() const { return m_pTexture; }
 	glm::ivec2 GetTileSize() const { return m_TileSize; }
 
-
+	SDL_Rect m_WindowSize{};
 
 	static constexpr int m_Width = 9; // this is always 9 (at least in all the levels i played)
 	const int m_Height = 6;
 	const glm::ivec2 m_TileSize = {24, 16};
 
 
-	const int m_HorizontalMargin = 20;
+	//const int m_HorizontalMargin = 20;
 	// update these margin variables to be set by other components (e.g. UIElements)
-	const int m_TopMargin = 60;
-	const int m_BottomMargin = 120;
+	//const int m_TopMargin = 60;
+	//const int m_BottomMargin = 120;
 
 	Texture2D* m_pTexture = nullptr;
 };

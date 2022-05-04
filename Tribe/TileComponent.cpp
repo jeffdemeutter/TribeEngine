@@ -1,17 +1,18 @@
 #include "TribePCH.h"
 #include "TileComponent.h"
 
+#include "GameObject.h"
 #include "LevelComponent.h"
 #include "RenderComponent.h"
 #include "TransformComponent.h"
 
-TileComponent::TileComponent(GameObject* go, const glm::ivec2& location, LevelComponent* pLevel, TransformComponent* pTransform, RenderComponent* pRender, TileType tile)
+TileComponent::TileComponent(GameObject* go, int x, int y, LevelComponent* pLevel, TransformComponent* pTransform, RenderComponent* pRender, TileType tile)
 	: Component(go)
 	, m_pTransform(pTransform)
 	, m_pLevel(pLevel)
 {
 	glm::vec3 pos;
-	if (pLevel->GetPositionForTile(location, pos))
+	if (pLevel->GetPositionForTile(x, y, pos))
 		pTransform->SetPosition(pos);
 
 	pRender->SetTexture(pLevel->GetTexture());
@@ -35,6 +36,17 @@ glm::vec3 TileComponent::GetBurgerPosition() const
 	size *= g_PixelScale;
 
 	return { pos.x + size.x / 2,pos.y + size.y / 2, 1 };
+}
+
+void TileComponent::AddBurgerObject(BurgerComponent::BurgerType type) const
+{
+	auto* go = new GameObject("Bun Top 1");
+	{
+		auto pTransform = go->AddComponent(new TransformComponent(go));
+		auto pRender = go->AddComponent(new RenderComponent(go, pTransform, "spritesheet.png"));
+		go->AddComponent(new BurgerComponent(go, pRender, pTransform, type, GetBurgerPosition()));
+	}
+	GetParent()->AddChild(go);
 }
 
 // turned of this warning to use the enum as a bitflag

@@ -33,7 +33,7 @@ private:
 	SDL_Renderer* m_Renderer{};
 	SDL_Window* m_Window{};
 	SDL_Color m_ClearColor{};
-	bool m_RenderImGui = true;
+	bool m_RenderImGui = false;
 
 	friend class InputManager;
 	static void UpdateWindow(int width, int height);
