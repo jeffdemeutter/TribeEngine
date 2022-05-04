@@ -1,7 +1,10 @@
 #pragma once
 #include "BaseComponent.h"
+#include "TileComponent.h"
 
 
+class RenderComponent;
+class TransformComponent;
 class Texture2D;
 
 class LevelComponent : public Component
@@ -17,6 +20,7 @@ public:
 	virtual void Update() override;
 	virtual void Render() const override;
 
+	void AddTile(const glm::ivec2& pos, TileType tile);
 
 private:
 	friend class TileComponent;

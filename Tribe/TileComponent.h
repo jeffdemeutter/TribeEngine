@@ -16,11 +16,11 @@ enum class TileType
 	ladder	= 0b100000
 };
 
-constexpr  TileType operator|(TileType a, TileType b)
+constexpr TileType operator|(TileType a, TileType b)
 {
 	return static_cast<TileType>(static_cast<int>(a) | static_cast<int>(b));
 }
-constexpr  bool operator==(TileType a, TileType b)
+constexpr bool operator==(TileType a, TileType b)
 {
 	return static_cast<bool>(static_cast<int>(a) & static_cast<int>(b));
 }
@@ -28,7 +28,7 @@ constexpr  bool operator==(TileType a, TileType b)
 class TileComponent : public Component
 {
 public:
-	TileComponent(GameObject* go, LevelComponent* pLevel, TransformComponent* pTransform, const glm::ivec2& location, RenderComponent* pRender, TileType tile);
+	TileComponent(GameObject* go, const glm::ivec2& location, LevelComponent* pLevel, TransformComponent* pTransform, RenderComponent* pRender, TileType tile);
 	~TileComponent() override = default;
 	TileComponent(const TileComponent&) = delete;
 	TileComponent(TileComponent&&) noexcept = delete;

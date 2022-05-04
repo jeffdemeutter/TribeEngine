@@ -5,7 +5,7 @@
 #include "RenderComponent.h"
 #include "TransformComponent.h"
 
-TileComponent::TileComponent(GameObject* go, LevelComponent* pLevel, TransformComponent* pTransform, const glm::ivec2& location, RenderComponent* pRender, TileType tile)
+TileComponent::TileComponent(GameObject* go, const glm::ivec2& location, LevelComponent* pLevel, TransformComponent* pTransform, RenderComponent* pRender, TileType tile)
 	: Component(go)
 	, m_pTransform(pTransform)
 	, m_pLevel(pLevel)

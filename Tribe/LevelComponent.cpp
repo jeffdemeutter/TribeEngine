@@ -3,6 +3,9 @@
 #include "RenderManager.h"
 #include "ResourceManager.h"
 
+#include "GameObject.h"
+#include "Components.h"
+
 LevelComponent::LevelComponent(GameObject* go, int maxHeight, const std::string& tileSprite, const glm::ivec2& tileSize)
 	: Component(go)
 	, m_Height(maxHeight)
@@ -20,6 +23,18 @@ void LevelComponent::Update()
 void LevelComponent::Render() const
 {
 	
+}
+
+void LevelComponent::AddTile(const glm::ivec2& pos,
+	TileType tile)
+{
+	const auto go = new GameObject("0 - 0");
+	{
+		const auto pTrans = go->AddComponent(new TransformComponent(go));
+		const auto pRender = go->AddComponent(new RenderComponent(go, pTrans));
+		go->AddComponent(new TileComponent(go, pos, this, pTrans, pRender, tile));
+	}
+	GetParent()->AddChild(go);
 }
 
 bool LevelComponent::GetPositionForTile(const glm::ivec2& location, glm::vec3& position)

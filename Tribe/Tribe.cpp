@@ -128,49 +128,52 @@ void Tribe::LoadGame() const
 	// Level stuff
 	//===========================================================================================
 
+#pragma region Level
 	const auto pLevel = new GameObject("Level");
-	LevelComponent* pLevelComp;
 	{
-		pLevelComp = pLevel->AddComponent(new LevelComponent(pLevel, 6, "tilesprites.png", {24, 16}));
+		LevelComponent* pLevelComp = pLevel->AddComponent(new LevelComponent(pLevel, 6, "tilesprites.png", {24, 16}));
+
+		pLevelComp->AddTile({ 0,0 }, TileType::bottom	| TileType::top		| TileType::right);
+		pLevelComp->AddTile({ 1,0 }, TileType::platform | TileType::right);
+		pLevelComp->AddTile({ 2,0 }, TileType::left		| TileType::right	| TileType::bottom);
+		pLevelComp->AddTile({ 3,0 }, TileType::left		| TileType::right	| TileType::bottom);
+		pLevelComp->AddTile({ 4,0 }, TileType::left		| TileType::right	| TileType::bottom);
+		pLevelComp->AddTile({ 5,0 }, TileType::left		| TileType::right	| TileType::bottom);
+		pLevelComp->AddTile({ 6,0 }, TileType::left		| TileType::right	| TileType::bottom);
+		pLevelComp->AddTile({ 7,0 }, TileType::left		| TileType::right	| TileType::bottom);
+		pLevelComp->AddTile({ 8,0 }, TileType::left		| TileType::right	| TileType::bottom);
+
+		pLevelComp->AddTile({ 0,1 }, TileType::bottom	| TileType::top		| TileType::right);
+		pLevelComp->AddTile({ 1,1 }, TileType::platform | TileType::right);
+		pLevelComp->AddTile({ 2,1 }, TileType::left		| TileType::right	| TileType::bottom);
+		pLevelComp->AddTile({ 3,1 }, TileType::left		| TileType::right	| TileType::bottom);
+		pLevelComp->AddTile({ 4,1 }, TileType::left		| TileType::right	| TileType::bottom);
+		pLevelComp->AddTile({ 5,1 }, TileType::left		| TileType::right	| TileType::bottom);
+		pLevelComp->AddTile({ 6,1 }, TileType::left		| TileType::right	| TileType::bottom);
+		pLevelComp->AddTile({ 7,1 }, TileType::left		| TileType::right	| TileType::bottom);
+		pLevelComp->AddTile({ 8,1 }, TileType::left		| TileType::right	| TileType::bottom);
+
+		pLevelComp->AddTile({ 0,2 }, TileType::bottom	| TileType::top		| TileType::right);
+		pLevelComp->AddTile({ 1,2 }, TileType::platform | TileType::right);
+		pLevelComp->AddTile({ 2,2 }, TileType::left		| TileType::right	| TileType::bottom);
+		pLevelComp->AddTile({ 3,2 }, TileType::left		| TileType::right	| TileType::bottom);
+		pLevelComp->AddTile({ 4,2 }, TileType::left		| TileType::right	| TileType::bottom);
+		pLevelComp->AddTile({ 5,2 }, TileType::left		| TileType::right	| TileType::bottom);
+		pLevelComp->AddTile({ 6,2 }, TileType::left		| TileType::right	| TileType::bottom);
+		pLevelComp->AddTile({ 7,2 }, TileType::left		| TileType::right	| TileType::bottom);
+		pLevelComp->AddTile({ 8,2 }, TileType::left		| TileType::right	| TileType::bottom);
+
+
+
+		
 	}
 	scene->Add(pLevel);
-
-	go = new GameObject("0 - 0");
-	{
-		auto pTrans = go->AddComponent(new TransformComponent(go));
-		auto pRender = go->AddComponent(new RenderComponent(go, pTrans));
-		go->AddComponent(new TileComponent(go, pLevelComp, pTrans, {0,0}, pRender, TileType::bottom | TileType::top | TileType::right));
-	}
-	pLevel->AddChild(go);
-
-	TileComponent* pTileComp;
-	go = new GameObject("1 - 0");
-	{
-		auto pTrans = go->AddComponent(new TransformComponent(go));
-		auto pRender = go->AddComponent(new RenderComponent(go, pTrans));
-		pTileComp = go->AddComponent(new TileComponent(go, pLevelComp, pTrans, { 1,0 }, pRender, TileType::platform | TileType::right));
-	}
-	pLevel->AddChild(go);
-
-	go = new GameObject("2 - 0");
-	{
-		auto pTrans = go->AddComponent(new TransformComponent(go));
-		auto pRender = go->AddComponent(new RenderComponent(go, pTrans));
-		go->AddComponent(new TileComponent(go, pLevelComp, pTrans, { 2,0 }, pRender, TileType::left | TileType::right | TileType::bottom));
-	}
-	pLevel->AddChild(go);
+#pragma endregion
 
 	// ====================================================================================
 	// Burger objects
 	// ====================================================================================
 
-	go = new GameObject("Bun Top");
-	{
-		auto pTransform = go->AddComponent(new TransformComponent(go));
-		auto pRender = go->AddComponent(new RenderComponent(go, pTransform, "spritesheet.png"));
-		go->AddComponent(new BurgerComponent(go, pRender, pTransform, BurgerComponent::salad, pTileComp->GetBurgerPosition()));
-	}
-	scene->Add(go);
 
 	//go = new GameObject("Bun Bottom");
 	//{
@@ -268,6 +271,6 @@ void Tribe::Run()
 		}
 	}
 
-	SafeDelete(ServiceLocator::GetSoundManager());
 	SafeDelete(ServiceLocator::GetEventManager());
+	SafeDelete(ServiceLocator::GetSoundManager());
 }
