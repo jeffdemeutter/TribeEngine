@@ -10,6 +10,9 @@ PeterPepperComponent::PeterPepperComponent(GameObject* go, RenderComponent* pRen
 	: Component(go)
 {
 	pRender->SetSrcRect({ 16, 0, 16, 16 });
+
+
+
 }
 
 void PeterPepperComponent::Update()

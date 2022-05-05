@@ -33,9 +33,9 @@ void Tribe::LoadGame() const
 	// Level stuff
 	//===========================================================================================
 	const auto pLevel = new GameObject("Level");
-	TileComponent* startLoc;
+	TileComponent* pStrtTile;
 	{
-		LevelComponent* pLevelComp = pLevel->AddComponent(new LevelComponent(pLevel, 9, "tilesprites.png", { 24, 16 }));
+		LevelComponent* pLevelComp = pLevel->AddComponent(new LevelComponent(pLevel, 10, "tilesprites.png", { 24, 16 }));
 
 					pLevelComp->AddTile(0, 0, TileType::bottom | TileType::right);
 					pLevelComp->AddTile(1, 0, TileType::platform);
@@ -128,7 +128,7 @@ void Tribe::LoadGame() const
 		auto bot0 = pLevelComp->AddTile(1, 9, TileType::platform);
 					pLevelComp->AddTile(2, 9, TileType::top | TileType::right | TileType::left);
 		auto bot1 = pLevelComp->AddTile(3, 9, TileType::platform);
-		 startLoc = pLevelComp->AddTile(4, 9, TileType::top | TileType::right | TileType::left);
+		pStrtTile = pLevelComp->AddTile(4, 9, TileType::top | TileType::right | TileType::left);
 		auto bot2 = pLevelComp->AddTile(5, 9, TileType::platform);
 					pLevelComp->AddTile(6, 9, TileType::left | TileType::top | TileType::right);
 					pLevelComp->AddTile(7, 9, TileType::platform | TileType::top);
@@ -161,7 +161,7 @@ void Tribe::LoadGame() const
 
 	auto* pPeterPepper = new GameObject("PeterPepper");
 	{
-		const auto pTrans = pPeterPepper->AddComponent(new TransformComponent(pPeterPepper));
+		const auto pTrans = pPeterPepper->AddComponent(new TransformComponent(pPeterPepper, pStrtTile->GetPosition()));
 		const auto pRender = pPeterPepper->AddComponent(new RenderComponent(pPeterPepper, pTrans, "spritesheet.png"));
 
 		auto pPeter = pPeterPepper->AddComponent(new PeterPepperComponent(pPeterPepper, pRender));
@@ -175,8 +175,6 @@ void Tribe::LoadGame() const
 	}
 	scene->Add(pPeterPepper);
 
-
-	startLoc->SetStartPosition(pPeterPepper);
 
 
 	// fps object

@@ -187,6 +187,7 @@
     <ClCompile Include="PlateauComponent.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="SpriteAnimationComponent.cpp" />
     <ClCompile Include="TileComponent.cpp" />
     <ClCompile Include="DeadSignComponent.cpp" />
     <ClCompile Include="EnemyComponent.cpp" />
@@ -227,6 +228,7 @@
     <ClInclude Include="PlateauComponent.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="SpriteAnimationComponent.h" />
     <ClInclude Include="TileComponent.h" />
     <ClInclude Include="DeadSignComponent.h" />
     <ClInclude Include="EnemyComponent.h" />

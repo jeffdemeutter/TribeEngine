@@ -44,14 +44,20 @@ void TileComponent::AddBurgerObject(BurgerComponent::BurgerType type) const
 	{
 		auto pTransform = go->AddComponent(new TransformComponent(go));
 		auto pRender = go->AddComponent(new RenderComponent(go, pTransform, "spritesheet.png"));
+
 		go->AddComponent(new BurgerComponent(go, pRender, pTransform, type, GetBurgerPosition()));
 	}
 	GetParent()->AddChild(go);
 }
 
-void TileComponent::SetStartPosition(GameObject* )
+glm::vec3 TileComponent::GetPosition() const
 {
-	
+	auto pos = m_pTransform->GetPosition();
+	pos.x += m_pPawnOffsets.x * g_PixelScale;
+	pos.y += m_pPawnOffsets.y * g_PixelScale;
+	pos.z = 1;
+
+	return pos;
 }
 
 // turned of this warning to use the enum as a bitflag
