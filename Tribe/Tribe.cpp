@@ -33,6 +33,7 @@ void Tribe::LoadGame() const
 	// Level stuff
 	//===========================================================================================
 	const auto pLevel = new GameObject("Level");
+	TileComponent* startLoc;
 	{
 		LevelComponent* pLevelComp = pLevel->AddComponent(new LevelComponent(pLevel, 9, "tilesprites.png", { 24, 16 }));
 
@@ -127,49 +128,43 @@ void Tribe::LoadGame() const
 		auto bot0 = pLevelComp->AddTile(1, 9, TileType::platform);
 					pLevelComp->AddTile(2, 9, TileType::top | TileType::right | TileType::left);
 		auto bot1 = pLevelComp->AddTile(3, 9, TileType::platform);
-					pLevelComp->AddTile(4, 9, TileType::top | TileType::right | TileType::left);
+		 startLoc = pLevelComp->AddTile(4, 9, TileType::top | TileType::right | TileType::left);
 		auto bot2 = pLevelComp->AddTile(5, 9, TileType::platform);
 					pLevelComp->AddTile(6, 9, TileType::left | TileType::top | TileType::right);
 					pLevelComp->AddTile(7, 9, TileType::platform | TileType::top);
 					pLevelComp->AddTile(8, 9, TileType::left | TileType::top);
 
 		// adding the burger gameobjects
-		bun0->AddBurgerObject(BurgerComponent::bunTop);
-		bun1->AddBurgerObject(BurgerComponent::bunTop);
-		bun2->AddBurgerObject(BurgerComponent::bunTop);
-		bun3->AddBurgerObject(BurgerComponent::bunTop);
-		sld0->AddBurgerObject(BurgerComponent::salad);
-		sld1->AddBurgerObject(BurgerComponent::salad);
-		sld2->AddBurgerObject(BurgerComponent::salad);
-		sld3->AddBurgerObject(BurgerComponent::salad);
-		brg0->AddBurgerObject(BurgerComponent::burger);
-		brg1->AddBurgerObject(BurgerComponent::burger);
-		brg2->AddBurgerObject(BurgerComponent::burger);
-		brg3->AddBurgerObject(BurgerComponent::burger);
+		bun0->AddBurgerObject(BurgerComponent::bunTop	);
+		bun1->AddBurgerObject(BurgerComponent::bunTop	);
+		bun2->AddBurgerObject(BurgerComponent::bunTop	);
+		bun3->AddBurgerObject(BurgerComponent::bunTop	);
+		sld0->AddBurgerObject(BurgerComponent::salad	);
+		sld1->AddBurgerObject(BurgerComponent::salad	);
+		sld2->AddBurgerObject(BurgerComponent::salad	);
+		sld3->AddBurgerObject(BurgerComponent::salad	);
+		brg0->AddBurgerObject(BurgerComponent::burger	);
+		brg1->AddBurgerObject(BurgerComponent::burger	);
+		brg2->AddBurgerObject(BurgerComponent::burger	);
+		brg3->AddBurgerObject(BurgerComponent::burger	);
 		bot0->AddBurgerObject(BurgerComponent::bunBottom);
 		bot1->AddBurgerObject(BurgerComponent::bunBottom);
 		bot2->AddBurgerObject(BurgerComponent::bunBottom);
 		bot3->AddBurgerObject(BurgerComponent::bunBottom);
 
 		// plateaus
+
+		// add playerobjects to level
 	}
 	scene->Add(pLevel);
 #pragma endregion
 
-	// fps object
-	auto go = new GameObject("Fps object");
-	{
-		const auto pTransform = go->AddComponent(new TransformComponent(go));
-		const auto pRender = go->AddComponent(new RenderComponent(go, pTransform));
-		const auto pText = go->AddComponent(new TextComponent(go, pRender, " ", pFont, { 255,255,0,255 }));
-		go->AddComponent(new FpsComponent(go, pText));
-	}
-	scene->Add(go);
-
-
 	auto* pPeterPepper = new GameObject("PeterPepper");
 	{
-		auto pPeter = pPeterPepper->AddComponent(new PeterPepperComponent(pPeterPepper));
+		const auto pTrans = pPeterPepper->AddComponent(new TransformComponent(pPeterPepper));
+		const auto pRender = pPeterPepper->AddComponent(new RenderComponent(pPeterPepper, pTrans, "spritesheet.png"));
+
+		auto pPeter = pPeterPepper->AddComponent(new PeterPepperComponent(pPeterPepper, pRender));
 
 		InputManager::InputAction input;
 			input.keyboardKey = SDL_SCANCODE_D;
@@ -181,8 +176,18 @@ void Tribe::LoadGame() const
 	scene->Add(pPeterPepper);
 
 
+	startLoc->SetStartPosition(pPeterPepper);
 
 
+	// fps object
+	auto go = new GameObject("Fps object");
+	{
+		const auto pTransform = go->AddComponent(new TransformComponent(go));
+		const auto pRender = go->AddComponent(new RenderComponent(go, pTransform));
+		const auto pText = go->AddComponent(new TextComponent(go, pRender, " ", pFont, { 255,255,0,255 }));
+		go->AddComponent(new FpsComponent(go, pText));
+	}
+	scene->Add(go);
 	
 
 	// =======================================================================================

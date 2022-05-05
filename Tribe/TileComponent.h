@@ -41,8 +41,7 @@ public:
 	virtual void Render() const override;
 
 	void AddBurgerObject(BurgerComponent::BurgerType type) const;
-
-	glm::vec3 GetBurgerPosition() const;
+	void SetStartPosition(GameObject* go);
 
 private:
 	glm::ivec2 m_Location = { 0,0 };
@@ -50,5 +49,6 @@ private:
 	LevelComponent* m_pLevel = nullptr;
 
 	static SDL_Rect GetCorrespondingSrcRect(TileType tile, LevelComponent* pLevel);
+	glm::vec3 GetBurgerPosition() const;
 };
 

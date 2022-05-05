@@ -1,10 +1,11 @@
 ﻿#pragma once
 #include "BaseComponent.h"
 
+class RenderComponent;
 class PeterPepperComponent : public Component
 {
 public:
-	PeterPepperComponent(GameObject* go);
+	PeterPepperComponent(GameObject* go, RenderComponent* pRender);
 	~PeterPepperComponent() override = default;
 	PeterPepperComponent(const PeterPepperComponent&) = default;
 	PeterPepperComponent(PeterPepperComponent&&) noexcept = default;

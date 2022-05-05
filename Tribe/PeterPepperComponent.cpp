@@ -1,14 +1,15 @@
 ﻿#include "TribePCH.h"
 #include "PeterPepperComponent.h"
 
+#include "RenderComponent.h"
 #include "EventManager.h"
 #include "ServiceLocator.h"
 #include "SoundManager.h"
 
-PeterPepperComponent::PeterPepperComponent(GameObject* go)
+PeterPepperComponent::PeterPepperComponent(GameObject* go, RenderComponent* pRender)
 	: Component(go)
 {
-	
+	pRender->SetSrcRect({ 16, 0, 16, 16 });
 }
 
 void PeterPepperComponent::Update()

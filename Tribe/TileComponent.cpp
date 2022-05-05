@@ -49,6 +49,11 @@ void TileComponent::AddBurgerObject(BurgerComponent::BurgerType type) const
 	GetParent()->AddChild(go);
 }
 
+void TileComponent::SetStartPosition(GameObject* )
+{
+	
+}
+
 // turned of this warning to use the enum as a bitflag
 #pragma warning( disable : 4063 )
 
