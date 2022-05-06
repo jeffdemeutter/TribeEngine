@@ -27,6 +27,7 @@ private:
 
 	std::thread m_Thr;
 	std::queue<SoundEvent> m_Queue;
+	std::condition_variable m_CV;
 	std::mutex m_Mutex;
 	bool m_Initialized = false;
 };
@@ -63,15 +64,18 @@ void SoundManager::SoundManagerSDLMixer::Run()
 {
 	while (m_Initialized)
 	{
+		std::unique_lock lock{ m_Mutex };
 		if (m_Queue.empty())
 			continue;
 
-		m_Mutex.lock();
-
-		Mix_PlayChannel(-1, m_Effects.at(m_Queue.front()), 0);
+		auto effect = m_Queue.front();
 		m_Queue.pop();
+		lock.unlock();
 
-		m_Mutex.unlock();
+		if (m_Effects.contains(effect))
+			Mix_PlayChannel(-1, m_Effects.at(effect), 0);
+
+		m_CV.wait(lock);
 	}
 }
 
@@ -88,6 +92,7 @@ void SoundManager::SoundManagerSDLMixer::QueueEffect(SoundEvent sound)
 	m_Mutex.lock();
 	m_Queue.push(sound);
 	m_Mutex.unlock();
+	m_CV.notify_one();
 }
 
 void SoundManager::SoundManagerSDLMixer::SetVolume(int volume)
