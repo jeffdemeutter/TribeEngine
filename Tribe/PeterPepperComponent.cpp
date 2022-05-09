@@ -1,18 +1,37 @@
 ﻿#include "TribePCH.h"
 #include "PeterPepperComponent.h"
 
-#include "RenderComponent.h"
+#include "SpriteAnimationComponent.h"
 #include "EventManager.h"
 #include "ServiceLocator.h"
 #include "SoundManager.h"
 
-PeterPepperComponent::PeterPepperComponent(GameObject* go, RenderComponent* pRender)
-	: Component(go)
+enum SpriteActions
 {
-	pRender->SetSrcRect({ 16, 0, 16, 16 });
+	idle,
+	walkLeft,
+	walkRight,
+	climbUp,
+	climbDown
+};
 
+PeterPepperComponent::PeterPepperComponent(GameObject* go, SpriteAnimationComponent* pAnim)
+	: Component(go)
+	, m_pAnimComponent(pAnim)
+{
+	m_pAnimComponent->AddAnimation(idle		, { 16 , 0, 16, 16 }, 16, 1);
+	m_pAnimComponent->AddAnimation(walkLeft , { 48 , 0, 48, 16 }, 16, 3);
+	m_pAnimComponent->AddAnimation(walkRight, { 144, 0, 48, 16 }, 16, 3);
+	m_pAnimComponent->AddAnimation(climbUp	, { 96 , 0, 48, 16 }, 16, 3);
+	m_pAnimComponent->AddAnimation(climbDown, { 0  , 0, 48, 16 }, 16, 3);
+	
 
+	m_pAnimComponent->SetActiveAnimation(idle);
+}
 
+PeterPepperComponent::~PeterPepperComponent()
+{
+	m_pAnimComponent = nullptr;
 }
 
 void PeterPepperComponent::Update()

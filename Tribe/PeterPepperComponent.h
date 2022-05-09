@@ -1,12 +1,12 @@
 ﻿#pragma once
 #include "BaseComponent.h"
 
-class RenderComponent;
+class SpriteAnimationComponent;
 class PeterPepperComponent : public Component
 {
 public:
-	PeterPepperComponent(GameObject* go, RenderComponent* pRender);
-	~PeterPepperComponent() override = default;
+	PeterPepperComponent(GameObject* go, SpriteAnimationComponent* pAnim);
+	~PeterPepperComponent() override;
 	PeterPepperComponent(const PeterPepperComponent&) = default;
 	PeterPepperComponent(PeterPepperComponent&&) noexcept = default;
 	PeterPepperComponent& operator=(const PeterPepperComponent&) = default;
@@ -23,6 +23,6 @@ public:
 
 private:
 	int m_Health = 3;
-
+	SpriteAnimationComponent* m_pAnimComponent = nullptr;
 	static constexpr int m_MaxHealth = 3;
 };

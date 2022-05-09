@@ -163,8 +163,9 @@ void Tribe::LoadGame() const
 	{
 		const auto pTrans = pPeterPepper->AddComponent(new TransformComponent(pPeterPepper, pStrtTile->GetPosition()));
 		const auto pRender = pPeterPepper->AddComponent(new RenderComponent(pPeterPepper, pTrans, "spritesheet.png"));
+		const auto pAnimator = pPeterPepper->AddComponent(new SpriteAnimationComponent(pPeterPepper, pRender, 12));
 
-		auto pPeter = pPeterPepper->AddComponent(new PeterPepperComponent(pPeterPepper, pRender));
+		auto pPeter = pPeterPepper->AddComponent(new PeterPepperComponent(pPeterPepper, pAnimator));
 
 		InputManager::InputAction input;
 			input.keyboardKey = SDL_SCANCODE_D;

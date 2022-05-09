@@ -14,3 +14,4 @@
 #include "BurgerComponent.h"
 #include "TileComponent.h"
 #include "LevelComponent.h"
+#include "SpriteAnimationComponent.h"

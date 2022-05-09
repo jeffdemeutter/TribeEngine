@@ -127,6 +127,9 @@
       <Filter>Managers</Filter>
     </ClInclude>
     <ClInclude Include="PlateauComponent.h" />
+    <ClInclude Include="SpriteAnimationComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -217,6 +220,9 @@
       <Filter>Managers</Filter>
     </ClCompile>
     <ClCompile Include="PlateauComponent.cpp" />
+    <ClCompile Include="SpriteAnimationComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
