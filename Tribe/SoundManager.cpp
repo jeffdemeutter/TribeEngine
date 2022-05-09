@@ -65,17 +65,19 @@ void SoundManager::SoundManagerSDLMixer::Run()
 	while (m_Initialized)
 	{
 		std::unique_lock lock{ m_Mutex };
-		if (m_Queue.empty())
-			continue;
+		if (!m_Queue.empty())
+		{
+			auto effect = m_Queue.front();
+			m_Queue.pop();
+			lock.unlock();
 
-		auto effect = m_Queue.front();
-		m_Queue.pop();
-		lock.unlock();
-
-		if (m_Effects.contains(effect))
-			Mix_PlayChannel(-1, m_Effects.at(effect), 0);
-
-		m_CV.wait(lock);
+			if (m_Effects.contains(effect))
+				Mix_PlayChannel(-1, m_Effects.at(effect), 0);
+			else
+				throw std::exception("Audio clip not loaded yet");
+		}
+		else
+			m_CV.wait(lock);
 	}
 }
 
@@ -89,9 +91,10 @@ void SoundManager::SoundManagerSDLMixer::LoadEffect(SoundEvent sound, const std:
 
 void SoundManager::SoundManagerSDLMixer::QueueEffect(SoundEvent sound)
 {
-	m_Mutex.lock();
+	std::unique_lock lock{ m_Mutex };
 	m_Queue.push(sound);
-	m_Mutex.unlock();
+	lock.unlock();
+
 	m_CV.notify_one();
 }
 
