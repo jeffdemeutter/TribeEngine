@@ -165,12 +165,31 @@ void Tribe::LoadGame() const
 		const auto pRender = pPeterPepper->AddComponent(new RenderComponent(pPeterPepper, pTrans, "spritesheet.png"));
 		const auto pAnimator = pPeterPepper->AddComponent(new SpriteAnimationComponent(pPeterPepper, pRender, 12));
 
-		auto pPeter = pPeterPepper->AddComponent(new PeterPepperComponent(pPeterPepper, pAnimator));
+		auto pPeter = pPeterPepper->AddComponent(new PeterPepperComponent(pPeterPepper, pTrans, pAnimator));
 
 		InputManager::InputAction input;
 			input.keyboardKey = SDL_SCANCODE_D;
-			input.pCommand = new Command([pPeter] { pPeter->DoDamage(); });
-			input.ControllerButton = VK_PAD_X;
+			input.pCommand = new Command([pPeter] { pPeter->ChangeMovement(PeterPepperComponent::walkRight); });
+			input.ControllerButton = VK_PAD_DPAD_RIGHT;
+			input.ControllerStroke = XINPUT_KEYSTROKE_KEYUP;
+		InputManager::AddInputMethod(input);
+
+
+			input.keyboardKey = SDL_SCANCODE_A;
+			input.pCommand = new Command([pPeter] { pPeter->ChangeMovement(PeterPepperComponent::walkLeft); });
+			input.ControllerButton = VK_PAD_DPAD_LEFT;
+			input.ControllerStroke = XINPUT_KEYSTROKE_KEYUP;
+		InputManager::AddInputMethod(input);
+
+			input.keyboardKey = SDL_SCANCODE_W;
+			input.pCommand = new Command([pPeter] { pPeter->ChangeMovement(PeterPepperComponent::climbUp); });
+			input.ControllerButton = VK_PAD_DPAD_UP;
+			input.ControllerStroke = XINPUT_KEYSTROKE_KEYUP;
+		InputManager::AddInputMethod(input);
+
+			input.keyboardKey = SDL_SCANCODE_S;
+			input.pCommand = new Command([pPeter] { pPeter->ChangeMovement(PeterPepperComponent::climbDown); });
+			input.ControllerButton = VK_PAD_DPAD_DOWN;
 			input.ControllerStroke = XINPUT_KEYSTROKE_KEYUP;
 		InputManager::AddInputMethod(input);
 	}

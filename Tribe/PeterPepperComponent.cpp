@@ -1,23 +1,18 @@
 ﻿#include "TribePCH.h"
 #include "PeterPepperComponent.h"
 
+#include "TransformComponent.h"
 #include "SpriteAnimationComponent.h"
 #include "EventManager.h"
 #include "ServiceLocator.h"
 #include "SoundManager.h"
+#include "Timer.h"
 
-enum SpriteActions
-{
-	idle,
-	walkLeft,
-	walkRight,
-	climbUp,
-	climbDown
-};
 
-PeterPepperComponent::PeterPepperComponent(GameObject* go, SpriteAnimationComponent* pAnim)
+PeterPepperComponent::PeterPepperComponent(GameObject* go, TransformComponent* pTrans, SpriteAnimationComponent* pAnim)
 	: Component(go)
 	, m_pAnimComponent(pAnim)
+	, m_pTransformComponent(pTrans)
 {
 	m_pAnimComponent->AddAnimation(idle		, { 16 , 0, 16, 16 }, 16, 1);
 	m_pAnimComponent->AddAnimation(walkLeft , { 48 , 0, 48, 16 }, 16, 3);
@@ -36,10 +31,10 @@ PeterPepperComponent::~PeterPepperComponent()
 
 void PeterPepperComponent::Update()
 {
-
+	DoMovement();
 }
 
-void PeterPepperComponent::DoDamage()
+void PeterPepperComponent::TakeDamage()
 {
 	m_Health -= 1;
 	ServiceLocator::GetEventManager()->Notify(m_pParent, TookDamage);
@@ -51,3 +46,29 @@ void PeterPepperComponent::DoDamage()
 	ServiceLocator::GetSoundManager()->QueueEffect(playerHit);
 }
 
+void PeterPepperComponent::DoMovement() const
+{
+	if (m_ActiveMovement == idle)
+		return;
+
+	const float dTime = Timer::GetDeltaTime();
+	auto pos = m_pTransformComponent->GetPosition(); // intentional copy
+
+	switch (m_ActiveMovement)
+	{
+	case walkLeft:
+		pos.x -= m_MovementSpeed * dTime;
+		break;
+	case walkRight:
+		pos.x += m_MovementSpeed * dTime;
+		break;
+	case climbUp:
+		pos.y -= m_MovementSpeed * dTime;
+		break;
+	case climbDown:
+		pos.y += m_MovementSpeed * dTime;
+		break;
+	}
+	m_pAnimComponent->SetActiveAnimation(m_ActiveMovement);
+	m_pTransformComponent->SetPosition(pos);
+}
