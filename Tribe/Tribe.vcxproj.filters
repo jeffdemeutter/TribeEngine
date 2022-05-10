@@ -126,9 +126,11 @@
     <ClInclude Include="SoundManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
-    <ClInclude Include="PlateauComponent.h" />
     <ClInclude Include="SpriteAnimationComponent.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PlateauComponent.h">
+      <Filter>Components\LevelComponents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -219,9 +221,11 @@
     <ClCompile Include="SoundManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
-    <ClCompile Include="PlateauComponent.cpp" />
     <ClCompile Include="SpriteAnimationComponent.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="PlateauComponent.cpp">
+      <Filter>Components\LevelComponents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
