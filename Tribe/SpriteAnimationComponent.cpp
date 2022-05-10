@@ -63,10 +63,6 @@ void SpriteAnimationComponent::SetActiveAnimation(int animationID)
 
 	const auto& activeAnim = m_Animations[m_ActiveAnimationID];
 
-	auto rect = activeAnim.animationSource;
-	rect.w /= activeAnim.spriteCount;
-	rect.x += activeAnim.spriteSize * m_CurrentFrame;
-	m_pRenderComponent->SetSrcRect(rect);
-
-	m_CurrentFrame = 0;
+	if (activeAnim.spriteCount <= m_CurrentFrame)
+		m_CurrentFrame = 0;
 }

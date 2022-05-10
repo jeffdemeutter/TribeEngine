@@ -37,7 +37,7 @@ private:
 	int m_Health = 3;
 	static constexpr int m_MaxHealth = 3;
 
-	float m_MovementSpeed = 20.f;
+	float m_MovementSpeed = 50.f;
 	SpriteMovements m_ActiveMovement = idle;
 	//SpriteMovements m_nextMovement = idle;
 
