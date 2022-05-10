@@ -49,6 +49,8 @@ SoundManager::SoundManagerSDLMixer::SoundManagerSDLMixer()
 SoundManager::SoundManagerSDLMixer::~SoundManagerSDLMixer()
 {
 	m_Initialized = false;
+	// call CV to make sure the loop doesnt keep waiting
+	m_CV.notify_all();
 
 	for (const auto& effect : m_Effects)
 		SafeDelete(effect.second);
