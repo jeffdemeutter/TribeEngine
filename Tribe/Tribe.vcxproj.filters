@@ -19,15 +19,6 @@
     <Filter Include="Command">
       <UniqueIdentifier>{b1ad8fba-4b33-41d2-a7ca-b41f2ea59802}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\LevelComponents">
-      <UniqueIdentifier>{1969f6df-ec04-4c45-8607-e39e9d37e305}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\Core">
-      <UniqueIdentifier>{4c23225b-ca97-481c-ae22-028a3cda2efb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\Pawn">
-      <UniqueIdentifier>{dc52378b-fcdf-4ebe-9843-12641cd1ecdf}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SceneManager.h">
@@ -84,39 +75,6 @@
     <ClInclude Include="PrinterComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="HealthComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="DeadSignComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="RemainingLivesComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PointsDisplayComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="TileComponent.h">
-      <Filter>Components\LevelComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseComponent.h">
-      <Filter>Components\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Components.h">
-      <Filter>Components\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyComponent.h">
-      <Filter>Components\Pawn</Filter>
-    </ClInclude>
-    <ClInclude Include="PeterPepperComponent.h">
-      <Filter>Components\Pawn</Filter>
-    </ClInclude>
-    <ClInclude Include="BurgerComponent.h">
-      <Filter>Components\LevelComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelComponent.h">
-      <Filter>Components\LevelComponents</Filter>
-    </ClInclude>
     <ClInclude Include="EventManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
@@ -129,8 +87,8 @@
     <ClInclude Include="SpriteAnimationComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="PlateauComponent.h">
-      <Filter>Components\LevelComponents</Filter>
+    <ClInclude Include="BaseComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -158,9 +116,6 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Scene and Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="TransformComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -185,33 +140,6 @@
     <ClCompile Include="PrinterComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="HealthComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="DeadSignComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="RemainingLivesComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="PointsDisplayComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="TileComponent.cpp">
-      <Filter>Components\LevelComponents</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyComponent.cpp">
-      <Filter>Components\Pawn</Filter>
-    </ClCompile>
-    <ClCompile Include="PeterPepperComponent.cpp">
-      <Filter>Components\Pawn</Filter>
-    </ClCompile>
-    <ClCompile Include="BurgerComponent.cpp">
-      <Filter>Components\LevelComponents</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelComponent.cpp">
-      <Filter>Components\LevelComponents</Filter>
-    </ClCompile>
     <ClCompile Include="EventManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
@@ -223,9 +151,6 @@
     </ClCompile>
     <ClCompile Include="SpriteAnimationComponent.cpp">
       <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="PlateauComponent.cpp">
-      <Filter>Components\LevelComponents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

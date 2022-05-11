@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Components">
+      <UniqueIdentifier>{99769c7e-427b-41cc-b21c-56aa36ba2d53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Pawn">
+      <UniqueIdentifier>{3a67cc1b-4cba-4c70-8c6e-9ddc5a89047b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BurgerTime.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="PeterPepperComponent.cpp">
+      <Filter>Components\Pawn</Filter>
+    </ClCompile>
+    <ClCompile Include="RemainingLivesComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyComponent.cpp">
+      <Filter>Components\Pawn</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="PlateauComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="TileComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DeadSignComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="PointsDisplayComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BurgerTime.h" />
+    <ClInclude Include="PeterPepperComponent.h">
+      <Filter>Components\Pawn</Filter>
+    </ClInclude>
+    <ClInclude Include="RemainingLivesComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyComponent.h">
+      <Filter>Components\Pawn</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PlateauComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TileComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DeadSignComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PointsDisplayComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

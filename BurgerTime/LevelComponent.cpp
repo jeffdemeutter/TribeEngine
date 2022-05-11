@@ -4,7 +4,7 @@
 #include "ResourceManager.h"
 
 #include "GameObject.h"
-#include "Components.h"
+#include "RenderComponent.h"
 
 LevelComponent::LevelComponent(GameObject* go, int maxHeight, const std::string& tileSprite, const glm::ivec2& tileSize)
 	: Component(go)

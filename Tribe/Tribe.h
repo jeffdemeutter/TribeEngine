@@ -1,11 +1,11 @@
 #pragma once
 
 struct SDL_Window;
-class Tribe final
+class Tribe
 {
 public:
 	Tribe() = default;
-	~Tribe() = default;
+	virtual ~Tribe() = default;
 	Tribe(const Tribe&) = delete;
 	Tribe(Tribe&&) noexcept = delete;
 	Tribe& operator=(const Tribe&) = delete;
@@ -13,6 +13,6 @@ public:
 
 	void Run();
 
-private:
-	void LoadGame() const;
+protected:
+	virtual void LoadGame() const = 0;
 };

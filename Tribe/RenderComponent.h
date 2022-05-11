@@ -2,7 +2,7 @@
 #include <optional>
 
 #include "BaseComponent.h"
-
+#include <SDL2/SDL.h>
 
 class Texture2D;
 class TransformComponent;

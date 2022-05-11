@@ -2,9 +2,10 @@
 #include "TileComponent.h"
 
 #include "GameObject.h"
-#include "LevelComponent.h"
 #include "RenderComponent.h"
 #include "TransformComponent.h"
+#include "LevelComponent.h"
+#include "BurgerComponent.h"
 
 TileComponent::TileComponent(GameObject* go, int x, int y, LevelComponent* pLevel, TransformComponent* pTransform, RenderComponent* pRender, TileType tile)
 	: Component(go)

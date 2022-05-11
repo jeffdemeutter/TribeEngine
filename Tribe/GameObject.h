@@ -1,6 +1,7 @@
 #pragma once
 #include "TransformComponent.h"
 #include <unordered_map>
+#include <typeinfo>
 
 class Component;
 class GameObject final
