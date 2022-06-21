@@ -1,53 +1,20 @@
-#include "TribePCH.h"
-#include "Tribe.h"
-#include <thread>
+// Tribe.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
 
-#include "InputManager.h"
-#include "SceneManager.h"
-#include "RenderManager.h"
-#include "ResourceManager.h"
-#include "SoundManager.h"
-#include "EventManager.h"
-#include "GameObject.h"
-#include "Timer.h"
+#include <iostream>
 
-#include "ServiceLocator.h"
-
-using namespace std;
-
-
-void Tribe::Run()
+int main()
 {
-	ServiceLocator::SetSoundManager(new SoundManager());
-	ServiceLocator::SetEventManager(new EventManager());
-
-	// intitializes the window
-	RenderManager::Init();
-
-	// tell the resource manager where he can find the game data
-	ResourceManager::Init("../Data/");
-
-	LoadGame();
-	{			
-		Timer::Start();
-		for (bool running = true; running;)
-		{
-			// update all time related info
-			Timer::Update();
-
-			// process an input
-			running = InputManager::ProcessInput();
-
-
-			SceneManager::Update();
-
-			RenderManager::Render();
-			
-			
-			this_thread::sleep_for(Timer::GetSleepTime());
-		}
-	}
-
-	SafeDelete(ServiceLocator::GetEventManager());
-	SafeDelete(ServiceLocator::GetSoundManager());
+    std::cout << "Hello World!\n";
 }
+
+// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
+// Debug program: F5 or Debug > Start Debugging menu
+
+// Tips for Getting Started: 
+//   1. Use the Solution Explorer window to add/manage files
+//   2. Use the Team Explorer window to connect to source control
+//   3. Use the Output window to see build output and other messages
+//   4. Use the Error List window to view errors
+//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
+//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file

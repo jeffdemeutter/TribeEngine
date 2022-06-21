@@ -1,159 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Managers">
-      <UniqueIdentifier>{451b4471-3214-498d-9762-022aae553310}</UniqueIdentifier>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Scene and Objects">
-      <UniqueIdentifier>{4cbe62db-58c1-4ae8-bd32-16b55c1fd24d}</UniqueIdentifier>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Content">
-      <UniqueIdentifier>{74456c29-1745-4c9a-a689-19b11970f281}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core">
-      <UniqueIdentifier>{b2aa3a5f-68f2-4550-adcd-44670fb3bd89}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components">
-      <UniqueIdentifier>{5397b39b-5ef2-4d7d-b803-f9da97a70472}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Command">
-      <UniqueIdentifier>{b1ad8fba-4b33-41d2-a7ca-b41f2ea59802}</UniqueIdentifier>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SceneManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="InputManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="Singleton.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Scene and Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Font.h">
-      <Filter>Content</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Scene and Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture2D.h">
-      <Filter>Content</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="TransformComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="TextComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="FpsComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Tribe.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="TribePCH.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Commands.h">
-      <Filter>Command</Filter>
-    </ClInclude>
-    <ClInclude Include="PrinterComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="EventManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="ServiceLocator.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteAnimationComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="ResourceManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="InputManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="Font.cpp">
-      <Filter>Content</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture2D.cpp">
-      <Filter>Content</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Scene and Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Scene and Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="TransformComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="TextComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="FpsComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="Tribe.cpp">
-      <Filter>Core</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TribePCH.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="PrinterComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="EventManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="ServiceLocator.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="SpriteAnimationComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="imgui.ini" />
   </ItemGroup>
 </Project>
