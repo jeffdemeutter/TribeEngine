@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Structs.h"
 
 class Tribe
 {
@@ -15,5 +15,7 @@ public:
 
 protected:
 	virtual void LoadGame() const = 0;
+
+	GameContext m_GameContext{};
 };
 

@@ -1,11 +1,17 @@
 #include "TribePCH.h"
 #include "Tribe.h"
 
-//#include <thread>
+#include <thread>
+#include "GameTime.h"
+#include "InputManager.h"
+#include "RenderManager.h"
 
 
 void Tribe::Run()
 {
+	m_GameContext.pTime		= new GameTime();
+	m_GameContext.pInput	= new InputManager();
+	m_GameContext.pRenderer = new RenderManager();
 	//ServiceLocator::SetSoundManager(new SoundManager());
 	//ServiceLocator::SetEventManager(new EventManager());
 
@@ -17,26 +23,29 @@ void Tribe::Run()
 
 	LoadGame();
 	{
-		//Timer::Start();
+		m_GameContext.pTime->Start();
 		for (bool running = true; running;)
 		{
 			// update all time related info
-			//Timer::Update();
+			m_GameContext.pTime->Update();
 
-			/////// process an input
-			//running = InputManager::ProcessInput();
+			// process an input
+			running = m_GameContext.pInput->ProcessInput(m_GameContext);
 
 
 			//SceneManager::Update();
 
-			//RenderManager::Render();
+			// update renders and window
+			m_GameContext.pRenderer->Render();
 
-
-			//std::this_thread::sleep_for(Timer::GetSleepTime());
-			
+			// let the main thread sleep 
+			std::this_thread::sleep_for(m_GameContext.pTime->GetSleepTime());
 		}
 	}
 
 	//SafeDelete(ServiceLocator::GetEventManager());
 	//SafeDelete(ServiceLocator::GetSoundManager());
+	SafeDelete(m_GameContext.pTime);
+	SafeDelete(m_GameContext.pInput);
+	SafeDelete(m_GameContext.pRenderer);
 }
