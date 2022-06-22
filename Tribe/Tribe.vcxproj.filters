@@ -1,11 +1,57 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="Tribe.h" />
-    <ClInclude Include="TribePCH.h" />
+    <ClInclude Include="TribePCH.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Tribe.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTime.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Structs.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Tribe.cpp" />
-    <ClCompile Include="TribePCH.cpp" />
+    <ClCompile Include="Tribe.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="TribePCH.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTime.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{95bd4179-f71e-4218-a31a-225374749cb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers">
+      <UniqueIdentifier>{20d65125-9f89-478d-8f62-8d45c8ba6726}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helpers">
+      <UniqueIdentifier>{c1f41c4d-acd4-428c-9cea-40f24b02eb03}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

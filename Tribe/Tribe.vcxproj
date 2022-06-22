@@ -19,10 +19,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Command.h" />
+    <ClInclude Include="GameTime.h" />
+    <ClInclude Include="InputManager.h" />
+    <ClInclude Include="RenderManager.h" />
+    <ClInclude Include="Singleton.h" />
+    <ClInclude Include="Structs.h" />
     <ClInclude Include="Tribe.h" />
     <ClInclude Include="TribePCH.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameTime.cpp" />
+    <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="Tribe.cpp" />
     <ClCompile Include="TribePCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

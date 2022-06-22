@@ -14,9 +14,7 @@ void Tribe::Run()
 	m_GameContext.pRenderer = new RenderManager();
 	//ServiceLocator::SetSoundManager(new SoundManager());
 	//ServiceLocator::SetEventManager(new EventManager());
-
-	/////// intitializes the window
-	//RenderManager::Init();
+	
 
 	/////// tell the resource manager where he can find the game data
 	//ResourceManager::Init("../Data/");

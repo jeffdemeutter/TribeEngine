@@ -1,13 +1,16 @@
 #include "TribePCH.h"
 #include "InputManager.h"
 
+#include "Structs.h"
+#include "RenderManager.h"
+
 InputManager::~InputManager()
 {
 	for (auto input : m_Commands)
 		SafeDelete(input.pCommand);
 }
 
-bool InputManager::ProcessInput(GameContext& )
+bool InputManager::ProcessInput(GameContext& gameContext)
 {
 	SDL_Event e;
 	while (SDL_PollEvent(&e))
@@ -17,12 +20,12 @@ bool InputManager::ProcessInput(GameContext& )
 		case SDL_QUIT:
 			return false;
 
-		//case SDL_WINDOWEVENT:
-		//	if (e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
-		//	{
-		//		RenderManager::UpdateWindow(e.window.data1, e.window.data2);
-		//		return true;
-		//	}
+		case SDL_WINDOWEVENT:
+			if (e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
+			{
+				gameContext.pRenderer->UpdateWindow(e.window.data1, e.window.data2);
+				return true;
+			}
 
 		case SDL_KEYDOWN:
 			for (InputAction& input : m_Commands)
