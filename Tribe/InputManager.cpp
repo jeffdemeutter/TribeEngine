@@ -12,7 +12,7 @@ bool InputAction::CheckController(const SDL_ControllerButtonEvent& cButton, Stro
 		return false;
 
 	// if not the same key
-	if (cButton.button != ControllerKey)
+	if (cButton.button != ControllerButton)
 		return false;
 
 	if (strokeCheck == Stroke::pressed)
@@ -102,6 +102,20 @@ InputManager::~InputManager()
 		SafeDelete(input.pCommand);
 }
 
+bool InputManager::IsKeyboardKeyDown(SDL_Scancode scancode)
+{
+	// check continuous input
+	const Uint8* keyState = SDL_GetKeyboardState(nullptr);
+
+	return keyState[scancode];
+}
+
+bool InputManager::IsControllerButtonDown(int controllerID, SDL_GameControllerButton controllerButton)
+{
+
+	return SDL_GameControllerGetButton(m_pControllers[controllerID], controllerButton);
+}
+
 bool InputManager::ProcessInput(GameContext& gameContext)
 {
 	SDL_Event e;
@@ -161,7 +175,7 @@ bool InputManager::ProcessInput(GameContext& gameContext)
 			continue;
 		if (!keyState[input.keyboardKey])
 			continue;
-		if (!SDL_GameControllerGetButton(m_pControllers[input.ControllerID], input.ControllerKey))
+		if (!SDL_GameControllerGetButton(m_pControllers[input.ControllerID], input.ControllerButton))
 			continue;
 
 		input.Execute();

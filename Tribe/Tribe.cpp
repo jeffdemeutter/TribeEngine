@@ -30,12 +30,11 @@ void Tribe::Run()
 			// process an input
 			running = m_GameContext.pInput->ProcessInput(m_GameContext);
 
-
 			//SceneManager::Update();
 
 			// update renders and window
 			m_GameContext.pRenderer->Render();
-
+			
 			// let the main thread sleep 
 			std::this_thread::sleep_for(m_GameContext.pTime->GetSleepTime());
 		}

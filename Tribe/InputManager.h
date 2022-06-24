@@ -18,7 +18,7 @@ struct InputAction
 
 	// this only applies for controllers
 	int ControllerID = 0;
-	SDL_GameControllerButton ControllerKey = SDL_CONTROLLER_BUTTON_INVALID;
+	SDL_GameControllerButton ControllerButton = SDL_CONTROLLER_BUTTON_INVALID;
 
 	SDL_Scancode keyboardKey = SDL_SCANCODE_UNKNOWN;
 	Stroke stroke = Stroke::pressed;
@@ -45,15 +45,21 @@ public:
 	~InputManager();
 
 
-	bool ProcessInput(GameContext& gameContext);
+	bool IsKeyboardKeyDown(SDL_Scancode scancode);
+	bool IsControllerButtonDown(int controllerID, SDL_GameControllerButton controllerButton);
 
 	void AddInputAction(const InputAction& input);
+
 private:
 	static constexpr int m_MaxControllerCount = 4;
 
 	std::vector<InputAction> m_Commands;
 
 	std::vector<SDL_GameController*> m_pControllers;
+
+
+	friend class Tribe;
+	bool ProcessInput(GameContext& gameContext);
 };
 
 

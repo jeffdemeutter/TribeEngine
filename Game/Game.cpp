@@ -13,7 +13,7 @@ void Game::LoadGame() const
 		new Command([] { PrintStuff("yay"); })
 	};
 		inputAction.ControllerID = 0;
-		inputAction.ControllerKey = SDL_CONTROLLER_BUTTON_A;
+		inputAction.ControllerButton = SDL_CONTROLLER_BUTTON_A;
 		inputAction.keyboardKey = SDL_SCANCODE_W;
 		inputAction.stroke = Stroke::released;
 	m_GameContext.pInput->AddInputAction(inputAction);
@@ -23,7 +23,7 @@ void Game::LoadGame() const
 		new Command([] { PrintStuff("noh"); })
 	};
 		ia.ControllerID = 0;
-		ia.ControllerKey = SDL_CONTROLLER_BUTTON_B;
+		ia.ControllerButton = SDL_CONTROLLER_BUTTON_B;
 		ia.keyboardKey = SDL_SCANCODE_A;
 		ia.stroke = Stroke::pressed;
 	m_GameContext.pInput->AddInputAction(ia);
@@ -32,7 +32,7 @@ void Game::LoadGame() const
 	new Command([] { PrintStuff("wow"); })
 	};
 	ias.ControllerID = 0;
-	ias.ControllerKey = SDL_CONTROLLER_BUTTON_X;
+	ias.ControllerButton = SDL_CONTROLLER_BUTTON_X;
 	ias.keyboardKey = SDL_SCANCODE_S;
 	ias.stroke = Stroke::held;
 	m_GameContext.pInput->AddInputAction(ias);
