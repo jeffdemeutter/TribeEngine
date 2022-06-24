@@ -9,9 +9,9 @@
 
 void Tribe::Run()
 {
-	m_GameContext.pTime		= new GameTime();
-	m_GameContext.pInput	= new InputManager();
 	m_GameContext.pRenderer = new RenderManager();
+	m_GameContext.pInput	= new InputManager();
+	m_GameContext.pTime		= new GameTime();
 	//ServiceLocator::SetSoundManager(new SoundManager());
 	//ServiceLocator::SetEventManager(new EventManager());
 	

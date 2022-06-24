@@ -9,11 +9,31 @@ void PrintStuff(const std::string& s)
 
 void Game::LoadGame() const
 {
-	InputManager::InputAction inputAction;
-	inputAction.ControllerID = 0;
-	inputAction.keyboardKey = SDL_SCANCODE_W;
-	inputAction.keyboardStroke = InputManager::Stroke::released;
-	inputAction.pCommand = new Command([] { PrintStuff("yay"); });
+	InputAction inputAction {
+		new Command([] { PrintStuff("yay"); })
+	};
+		inputAction.ControllerID = 0;
+		inputAction.ControllerKey = SDL_CONTROLLER_BUTTON_A;
+		inputAction.keyboardKey = SDL_SCANCODE_W;
+		inputAction.stroke = Stroke::released;
+	m_GameContext.pInput->AddInputAction(inputAction);
 
-	m_GameContext.pInput->AddInputMethod(inputAction);
+
+	InputAction ia{
+		new Command([] { PrintStuff("noh"); })
+	};
+		ia.ControllerID = 0;
+		ia.ControllerKey = SDL_CONTROLLER_BUTTON_B;
+		ia.keyboardKey = SDL_SCANCODE_A;
+		ia.stroke = Stroke::pressed;
+	m_GameContext.pInput->AddInputAction(ia);
+
+	InputAction ias{
+	new Command([] { PrintStuff("wow"); })
+	};
+	ias.ControllerID = 0;
+	ias.ControllerKey = SDL_CONTROLLER_BUTTON_X;
+	ias.keyboardKey = SDL_SCANCODE_S;
+	ias.stroke = Stroke::held;
+	m_GameContext.pInput->AddInputAction(ias);
 }

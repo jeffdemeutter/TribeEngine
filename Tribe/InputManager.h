@@ -5,58 +5,55 @@
 
 struct GameContext;
 
+enum class Stroke
+{
+	held,
+	pressed,
+	released
+};
+
+struct InputAction
+{
+	InputAction(Command* pCom) : pCommand(pCom) {}
+
+	// this only applies for controllers
+	int ControllerID = 0;
+	SDL_GameControllerButton ControllerKey = SDL_CONTROLLER_BUTTON_INVALID;
+
+	SDL_Scancode keyboardKey = SDL_SCANCODE_UNKNOWN;
+	Stroke stroke = Stroke::pressed;
+
+
+private:
+	Command* pCommand = nullptr;
+
+	friend class InputManager;
+	// need a bool to check for key input down
+	bool keyDown = false;
+	bool CheckController(const SDL_ControllerButtonEvent& cButton, Stroke strokeCheck);
+	bool CheckKeyboard(const SDL_Scancode& scancode, Stroke strokeCheck);
+
+	void Execute() const {
+		pCommand->Execute();
+	}
+};
+
 class InputManager final
 {
 public:
-	InputManager() = default;
+	InputManager();
 	~InputManager();
-
-	enum class Stroke
-	{
-		held,
-		pressed,
-		released
-	};
-	struct InputAction
-	{
-		// this only applies for controllers
-		int ControllerID = 0;
-
-		// use VK_PAD_
-		//WORD ControllerButton;
-		// use XINPUT_KEYSTROKE_
-		//WORD ControllerStroke;
-
-		SDL_Scancode keyboardKey;
-		Stroke keyboardStroke = Stroke::pressed;
-		// need a bool to check for key input down
-
-		Command* pCommand = nullptr;
-
-	private:
-		friend class InputManager;
-		bool keyboardKeyDown = false;
-		void Execute() const {
-			pCommand->Execute();
-		}
-	};
 
 
 	bool ProcessInput(GameContext& gameContext);
 
-	void AddInputMethod(const InputAction& input) {
-		m_Commands.push_back(input);
-	}
+	void AddInputAction(const InputAction& input);
 private:
-
-	//XINPUT_STATE m_ControllerState{};
-	//XINPUT_KEYSTROKE m_ControllerKeyStroke{};
+	static constexpr int m_MaxControllerCount = 4;
 
 	std::vector<InputAction> m_Commands;
 
-	//bool CheckControllerInput(int controllerID, const InputAction& input);
-	//bool HandleKeyboard();
-	//bool HandleController();
+	std::vector<SDL_GameController*> m_pControllers;
 };
 
 
