@@ -13,9 +13,6 @@
     <ClInclude Include="Singleton.h">
       <Filter>Managers</Filter>
     </ClInclude>
-    <ClInclude Include="InputManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
     <ClInclude Include="Command.h">
       <Filter>Helpers</Filter>
     </ClInclude>
@@ -24,6 +21,9 @@
     </ClInclude>
     <ClInclude Include="RenderManager.h">
       <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Managers\InputManagers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -36,11 +36,11 @@
     <ClCompile Include="GameTime.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
-    <ClCompile Include="InputManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
     <ClCompile Include="RenderManager.cpp">
       <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Managers\InputManagers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +52,9 @@
     </Filter>
     <Filter Include="Helpers">
       <UniqueIdentifier>{c1f41c4d-acd4-428c-9cea-40f24b02eb03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers\InputManagers">
+      <UniqueIdentifier>{6b8f749d-ec4a-48b9-99e4-b429120ec88c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

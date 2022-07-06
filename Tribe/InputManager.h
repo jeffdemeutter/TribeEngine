@@ -1,6 +1,5 @@
 #pragma once
 #include "Command.h"
-
 #include "SDL2/SDL.h"
 
 struct GameContext;
@@ -30,12 +29,6 @@ private:
 	friend class InputManager;
 	// need a bool to check for key input down
 	bool keyDown = false;
-	bool CheckController(const SDL_ControllerButtonEvent& cButton, Stroke strokeCheck);
-	bool CheckKeyboard(const SDL_Scancode& scancode, Stroke strokeCheck);
-
-	void Execute() const {
-		pCommand->Execute();
-	}
 };
 
 class InputManager final
@@ -44,22 +37,33 @@ public:
 	InputManager();
 	~InputManager();
 
+	static bool IsKeyboardKeyDown(SDL_Scancode scancode)
+	{
+		// check continuous input
+		const Uint8* keyState = SDL_GetKeyboardState(nullptr);
 
-	bool IsKeyboardKeyDown(SDL_Scancode scancode);
-	bool IsControllerButtonDown(int controllerID, SDL_GameControllerButton controllerButton);
+		return keyState[scancode];
+	}
+	bool IsControllerButtonDown(int controllerID, SDL_GameControllerButton controllerButton) const
+	{
+		return SDL_GameControllerGetButton(m_pControllers[controllerID], controllerButton);
+	}
 
 	void AddInputAction(const InputAction& input);
 
 private:
 	static constexpr int m_MaxControllerCount = 4;
+	int m_ControllerCount = 0;
+	std::vector<SDL_GameController*> m_pControllers;
 
 	std::vector<InputAction> m_Commands;
 
-	std::vector<SDL_GameController*> m_pControllers;
-
-
 	friend class Tribe;
 	bool ProcessInput(GameContext& gameContext);
+
+
+	bool CheckController(InputAction& input, const SDL_ControllerButtonEvent& cButton, Stroke strokeCheck);
+	bool CheckKeyboard(InputAction& input, const SDL_Scancode& scancode, Stroke strokeCheck);
 };
 
 

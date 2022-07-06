@@ -31,9 +31,9 @@ void Game::LoadGame() const
 	InputAction ias{
 	new Command([] { PrintStuff("wow"); })
 	};
-	ias.ControllerID = 0;
-	ias.ControllerButton = SDL_CONTROLLER_BUTTON_X;
-	ias.keyboardKey = SDL_SCANCODE_S;
-	ias.stroke = Stroke::held;
+		ias.ControllerID = 0;
+		ias.ControllerButton = SDL_CONTROLLER_BUTTON_X;
+		ias.keyboardKey = SDL_SCANCODE_S;
+		ias.stroke = Stroke::held;
 	m_GameContext.pInput->AddInputAction(ias);
 }
