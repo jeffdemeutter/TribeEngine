@@ -30,6 +30,19 @@ InputManager::~InputManager()
 		SafeDelete(input.pCommand);
 }
 
+float InputManager::GetJoystickAxis(int controllerID, SDL_GameControllerAxis axis)
+{
+	if (controllerID > m_ControllerCount)
+		return 0;
+
+	float normVal = float(SDL_GameControllerGetAxis(m_pControllers[controllerID], axis)) / SDL_MAX_SINT16;
+
+	if (normVal < m_DeadZone && normVal > -m_DeadZone)
+		normVal = 0;
+
+	return normVal;
+}
+
 void InputManager::AddInputAction(const InputAction& input)
 {
 	if (input.ControllerID > m_MaxControllerCount)

@@ -9,6 +9,7 @@
 
 void Tribe::Run()
 {
+
 	m_GameContext.pRenderer = new RenderManager();
 	m_GameContext.pInput	= new InputManager();
 	m_GameContext.pTime		= new GameTime();

@@ -44,6 +44,7 @@ public:
 
 		return keyState[scancode];
 	}
+	float GetJoystickAxis(int controllerID, SDL_GameControllerAxis axis);
 	bool IsControllerButtonDown(int controllerID, SDL_GameControllerButton controllerButton) const
 	{
 		return SDL_GameControllerGetButton(m_pControllers[controllerID], controllerButton);
@@ -54,6 +55,7 @@ public:
 private:
 	static constexpr int m_MaxControllerCount = 4;
 	int m_ControllerCount = 0;
+	float m_DeadZone = 0.30f;
 	std::vector<SDL_GameController*> m_pControllers;
 
 	std::vector<InputAction> m_Commands;
