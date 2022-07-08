@@ -19,10 +19,10 @@
     <ClInclude Include="Structs.h">
       <Filter>Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="RenderManager.h">
+    <ClInclude Include="InputManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
-    <ClInclude Include="InputManager.h">
+    <ClInclude Include="RenderManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -36,10 +36,10 @@
     <ClCompile Include="GameTime.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
-    <ClCompile Include="RenderManager.cpp">
+    <ClCompile Include="InputManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
-    <ClCompile Include="InputManager.cpp">
+    <ClCompile Include="RenderManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
   </ItemGroup>
@@ -52,6 +52,9 @@
     </Filter>
     <Filter Include="Helpers">
       <UniqueIdentifier>{c1f41c4d-acd4-428c-9cea-40f24b02eb03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers\Renderer">
+      <UniqueIdentifier>{b659e1a2-68e5-4ae6-a77e-8efbfe7375bc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
