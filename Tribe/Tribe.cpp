@@ -1,18 +1,19 @@
 #include "TribePCH.h"
 #include "Tribe.h"
 
-#include <thread>
 #include "GameTime.h"
 #include "InputManager.h"
 #include "RenderManager.h"
+#include "SceneManager.h"
 
 
 void Tribe::Run()
 {
 	RenderManager::Init();
 
-	m_GameContext.pInput	= new InputManager();
-	m_GameContext.pTime		= new GameTime();
+	m_GameContext.pInput		= new InputManager();
+	m_GameContext.pTime			= new GameTime();
+	m_GameContext.pSceneManager = new SceneManager();
 	//ServiceLocator::SetSoundManager(new SoundManager());
 	//ServiceLocator::SetEventManager(new EventManager());
 	
@@ -31,10 +32,11 @@ void Tribe::Run()
 			// process an input
 			running = m_GameContext.pInput->ProcessInput();
 
-			//SceneManager::Update();
+			// update scenes
+			m_GameContext.pSceneManager->Update();
 
-			// update renders and window
-			RenderManager::Render();
+			// render scene to window
+			m_GameContext.pSceneManager->Render();
 			
 			// let the main thread sleep 
 			std::this_thread::sleep_for(m_GameContext.pTime->GetSleepTime());
@@ -43,6 +45,7 @@ void Tribe::Run()
 
 	//SafeDelete(ServiceLocator::GetEventManager());
 	//SafeDelete(ServiceLocator::GetSoundManager());
+	SafeDelete(m_GameContext.pSceneManager);
 	SafeDelete(m_GameContext.pTime);
 	SafeDelete(m_GameContext.pInput);
 

@@ -1,6 +1,8 @@
 #pragma once
 #include "Singleton.h"
 
+class Scene;
+
 class RenderManager final : public Singleton<RenderManager>
 {
 public:
@@ -11,7 +13,7 @@ public:
 	RenderManager& operator=(RenderManager&&) noexcept = delete;
 
 	static void Init();
-	static void Render();
+	static void Render(std::shared_ptr<Scene> pScene);
 	static void Destroy();
 
 	static SDL_Renderer* GetSDLRenderer();

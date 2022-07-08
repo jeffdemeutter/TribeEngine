@@ -25,6 +25,12 @@
     <ClInclude Include="RenderManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Content</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tribe.cpp">
@@ -42,6 +48,12 @@
     <ClCompile Include="RenderManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -53,8 +65,8 @@
     <Filter Include="Helpers">
       <UniqueIdentifier>{c1f41c4d-acd4-428c-9cea-40f24b02eb03}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Managers\Renderer">
-      <UniqueIdentifier>{b659e1a2-68e5-4ae6-a77e-8efbfe7375bc}</UniqueIdentifier>
+    <Filter Include="Content">
+      <UniqueIdentifier>{1d762767-d7d6-43ab-9b55-605a8a96f67a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

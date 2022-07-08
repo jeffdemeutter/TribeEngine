@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <chrono>
+#include <thread>
 
 #pragma warning(push, 0)
 #include <glm/glm.hpp>

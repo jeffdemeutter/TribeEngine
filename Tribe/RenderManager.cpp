@@ -1,7 +1,7 @@
 #include "TribePCH.h"
 #include "RenderManager.h"
 
-//#include "SDLRendererImpl.inl"
+#include "Scene.h"
 
 class RenderManager::SDLRendererImpl
 {
@@ -13,7 +13,7 @@ public:
 	SDLRendererImpl& operator=(const SDLRendererImpl&) = delete;
 	SDLRendererImpl& operator=(SDLRendererImpl&&) noexcept = delete;
 	
-	void Render() const;
+	void Render(std::shared_ptr<Scene> pScene) const;
 
 	SDL_Renderer* GetSDLRenderer() const {
 		return m_pRenderer;
@@ -105,15 +105,14 @@ RenderManager::SDLRendererImpl::~SDLRendererImpl()
 	SDL_Quit();
 }
 
-void RenderManager::SDLRendererImpl::Render() const
+void RenderManager::SDLRendererImpl::Render(std::shared_ptr<Scene> pScene) const
 {
 	// clear renderer
 	SDL_SetRenderDrawColor(m_pRenderer, m_ClearColor.r, m_ClearColor.g, m_ClearColor.b, m_ClearColor.a);
 	SDL_RenderClear(m_pRenderer);
 
-
 	// render scenes
-	//SceneManager::Render();
+	pScene->Render();
 
 	SDL_RenderPresent(m_pRenderer);
 }
@@ -131,9 +130,9 @@ void RenderManager::Init()
 	Instance().m_pImpl = std::make_unique<SDLRendererImpl>();
 }
 
-void RenderManager::Render()
+void RenderManager::Render(std::shared_ptr<Scene> pScene)
 {
-	Instance().m_pImpl->Render();
+	Instance().m_pImpl->Render(pScene);
 }
 
 void RenderManager::Destroy()

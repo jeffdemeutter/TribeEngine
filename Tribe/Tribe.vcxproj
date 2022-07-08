@@ -23,6 +23,8 @@
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="RenderManager.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Structs.h" />
     <ClInclude Include="Tribe.h" />
@@ -32,6 +34,8 @@
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="RenderManager.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Tribe.cpp" />
     <ClCompile Include="TribePCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
