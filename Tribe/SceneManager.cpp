@@ -5,11 +5,15 @@
 #include "Scene.h"
 
 
-int SceneManager::AddScene(std::shared_ptr<Scene> pScene)
+std::shared_ptr<Scene> SceneManager::AddScene(std::shared_ptr<Scene> pScene)
 {
-	m_pScenes.emplace_back(std::move(pScene));
+	return m_pScenes.emplace_back(std::move(pScene));
+}
 
-	return static_cast<int>(m_pScenes.size()) - 1;
+std::shared_ptr<Scene> SceneManager::GetScene(const std::string& name)
+{
+	return *std::ranges::find_if(m_pScenes, 
+		[&name](std::shared_ptr<Scene> pscene) { return name == pscene->GetName(); });	
 }
 
 void SceneManager::ActivateScene(int sceneIndex)

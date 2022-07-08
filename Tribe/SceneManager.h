@@ -12,7 +12,8 @@ public:
 	SceneManager& operator=(const SceneManager&) = delete;
 	SceneManager& operator=(SceneManager&&) noexcept = delete;
 
-	int AddScene(std::shared_ptr<Scene> pScene);
+	std::shared_ptr<Scene> AddScene(std::shared_ptr<Scene> pScene);
+	std::shared_ptr<Scene> GetScene(const std::string& name);
 	void ActivateScene(int sceneIndex);
 	std::shared_ptr<Scene> GetScene(int sceneIndex) const;
 

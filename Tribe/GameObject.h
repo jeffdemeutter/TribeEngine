@@ -14,7 +14,8 @@ public:
 
 protected:
 	friend class Scene;
-	void Render();
+	void Render() const;
+	void Update();
 private:
 
 };

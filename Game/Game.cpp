@@ -9,5 +9,5 @@ void PrintStuff(const std::string& s)
 
 void Game::LoadGame() const
 {
-
+	
 }
