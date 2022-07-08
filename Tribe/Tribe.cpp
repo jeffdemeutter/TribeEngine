@@ -29,7 +29,7 @@ void Tribe::Run()
 			// update all time related info
 			m_GameContext.pTime->Update();
 
-			// process an input
+			// process inputs
 			running = m_GameContext.pInput->ProcessInput();
 
 			// update scenes
