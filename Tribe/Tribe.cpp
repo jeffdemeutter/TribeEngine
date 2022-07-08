@@ -9,8 +9,8 @@
 
 void Tribe::Run()
 {
+	RenderManager::Init();
 
-	m_GameContext.pRenderer = new RenderManager();
 	m_GameContext.pInput	= new InputManager();
 	m_GameContext.pTime		= new GameTime();
 	//ServiceLocator::SetSoundManager(new SoundManager());
@@ -29,12 +29,12 @@ void Tribe::Run()
 			m_GameContext.pTime->Update();
 
 			// process an input
-			running = m_GameContext.pInput->ProcessInput(m_GameContext);
+			running = m_GameContext.pInput->ProcessInput();
 
 			//SceneManager::Update();
 
 			// update renders and window
-			m_GameContext.pRenderer->Render();
+			RenderManager::Render();
 			
 			// let the main thread sleep 
 			std::this_thread::sleep_for(m_GameContext.pTime->GetSleepTime());
@@ -45,5 +45,6 @@ void Tribe::Run()
 	//SafeDelete(ServiceLocator::GetSoundManager());
 	SafeDelete(m_GameContext.pTime);
 	SafeDelete(m_GameContext.pInput);
-	SafeDelete(m_GameContext.pRenderer);
+
+	RenderManager::Destroy();
 }

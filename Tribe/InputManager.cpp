@@ -51,7 +51,7 @@ void InputManager::AddInputAction(const InputAction& input)
 	m_Commands.push_back(input);
 }
 
-bool InputManager::ProcessInput(GameContext& gameContext)
+bool InputManager::ProcessInput()
 {
 	SDL_Event e;
 	while (SDL_PollEvent(&e))
@@ -64,7 +64,7 @@ bool InputManager::ProcessInput(GameContext& gameContext)
 		case SDL_WINDOWEVENT:
 			if (e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
 			{
-				gameContext.pRenderer->UpdateWindow(e.window.data1, e.window.data2);
+				RenderManager::UpdateWindow(e.window.data1, e.window.data2);
 				return true;
 			}
 

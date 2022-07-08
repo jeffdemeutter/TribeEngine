@@ -1,36 +1,38 @@
 #pragma once
+#include "Singleton.h"
 
 
-
-class RenderManager final
+class RenderManager final : public Singleton<RenderManager>
 {
 public:
-	RenderManager();
-	~RenderManager();
+	~RenderManager() override = default;
 	RenderManager(const RenderManager&) = delete;
 	RenderManager(RenderManager&&) noexcept = delete;
 	RenderManager& operator=(const RenderManager&) = delete;
 	RenderManager& operator=(RenderManager&&) noexcept = delete;
 
-	
-	void Render();
+	static void Init();
+	static void Render();
+	static void Destroy();
 
-	SDL_Renderer* GetSDLRenderer() const { return m_Renderer; }
-	SDL_Rect GetWindowRect() const {
-		return { 0, 0, m_Width, m_Height };
+	static SDL_Renderer* GetSDLRenderer() { return Instance().m_pRenderer; }
+	static SDL_Rect GetWindowRect() {
+		return { 0, 0, Instance().m_Width, Instance().m_Height };
 	}
-	SDL_Color GetBackgroundColor() const { return m_ClearColor; }
-	void SetBackgroundColor(const SDL_Color& color) { m_ClearColor = color; }
+	static void SetBackgroundColor(const SDL_Color& color) { Instance().m_ClearColor = color; }
 
 private:
+	friend class Singleton<RenderManager>;
+	RenderManager() = default;
+
 	int m_Width = 900;
 	int m_Height = 600;
-	SDL_Renderer* m_Renderer{};
-	SDL_Window* m_Window{};
+	SDL_Renderer* m_pRenderer{};
+	SDL_Window* m_pWindow{};
 	SDL_Color m_ClearColor{};
 	bool m_RenderImGui = false;
 
 	friend class InputManager;
-	void UpdateWindow(int width, int height);
+	static void UpdateWindow(int width, int height);
 };
 

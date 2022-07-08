@@ -61,7 +61,7 @@ private:
 	std::vector<InputAction> m_Commands;
 
 	friend class Tribe;
-	bool ProcessInput(GameContext& gameContext);
+	bool ProcessInput();
 
 
 	bool CheckController(InputAction& input, const SDL_ControllerButtonEvent& cButton, Stroke strokeCheck);

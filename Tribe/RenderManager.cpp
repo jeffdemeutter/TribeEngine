@@ -28,9 +28,10 @@ void PrintSDLVersion()
 		linked.major, linked.minor, linked.patch);
 }
 
-
-RenderManager::RenderManager()
+void RenderManager::Init()
 {
+	auto& inst = Instance();
+
 	PrintSDLVersion();
 
 	// init sdl for video usage
@@ -38,58 +39,63 @@ RenderManager::RenderManager()
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 
 	// create the window
-	m_Window = SDL_CreateWindow(
+	inst.m_pWindow = SDL_CreateWindow(
 		"something",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		m_Width,
-		m_Height,
+		inst.m_Width,
+		inst.m_Height,
 		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE // | SDL_WINDOW_ALWAYS_ON_TOP
 	);
-	if (m_Window == nullptr)
+	if (!inst.m_pWindow)
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 
 	// create the renderer
-	m_Renderer = SDL_CreateRenderer(
-		m_Window,
+	inst.m_pRenderer = SDL_CreateRenderer(
+		inst.m_pWindow,
 		GetOpenGLDriverIndex(),
 		SDL_RENDERER_ACCELERATED //| SDL_RENDERER_TARGETTEXTURE
 	);
-	if (m_Renderer == nullptr)
+	if (!inst.m_pRenderer)
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
-}
-
-RenderManager::~RenderManager()
-{
-	// cleanup all sdl stuff
-	if (m_Renderer != nullptr)
-	{
-		SDL_DestroyRenderer(m_Renderer);
-		m_Renderer = nullptr;
-	}
-	SDL_DestroyWindow(m_Window);
-	m_Window = nullptr;
-	SDL_Quit();
 }
 
 void RenderManager::Render()
 {
+	auto& inst = Instance();
+
 	// clear renderer
-	const auto& color = GetBackgroundColor();
-	SDL_SetRenderDrawColor(m_Renderer, color.r, color.g, color.b, color.a);
-	SDL_RenderClear(m_Renderer);
+	SDL_SetRenderDrawColor(inst.m_pRenderer, inst.m_ClearColor.r, inst.m_ClearColor.g, inst.m_ClearColor.b, inst.m_ClearColor.a);
+	SDL_RenderClear(inst.m_pRenderer);
 
 
 	// render scenes
 	//SceneManager::Render();
 
-	SDL_RenderPresent(m_Renderer);
+	SDL_RenderPresent(inst.m_pRenderer);
+}
+
+void RenderManager::Destroy()
+{
+	auto& inst = Instance();
+
+	// cleanup all sdl stuff
+	if (!inst.m_pRenderer)
+	{
+		SDL_DestroyRenderer(inst.m_pRenderer);
+		inst.m_pRenderer = nullptr;
+	}
+	SDL_DestroyWindow(inst.m_pWindow);
+	inst.m_pWindow = nullptr;
+	SDL_Quit();
 }
 
 void RenderManager::UpdateWindow(int width, int height)
 {
-	m_Width = width;
-	m_Height = height;
+	auto& inst = Instance();
 
-	SDL_SetWindowSize(m_Window, width, height);
+	inst.m_Width = width;
+	inst.m_Height = height;
+
+	SDL_SetWindowSize(inst.m_pWindow, width, height);
 }
