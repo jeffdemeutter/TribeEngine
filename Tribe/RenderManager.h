@@ -13,7 +13,6 @@ public:
 	RenderManager& operator=(RenderManager&&) noexcept = delete;
 
 	static void Init();
-	static void Render(std::shared_ptr<Scene> pScene);
 	static void Destroy();
 
 	static SDL_Renderer* GetSDLRenderer();
@@ -29,5 +28,8 @@ private:
 	
 	friend class InputManager;
 	static void UpdateWindow(int width, int height);
+
+	friend class SceneManager;
+	static void Render(std::shared_ptr<Scene> pScene);
 };
 

@@ -1,6 +1,8 @@
 #include "TribePCH.h"
 #include "RenderComponent.h"
 
+#include "RenderManager.h"
+
 RenderComponent::RenderComponent(GameObject* go, TransformComponent* pTransform)
 	: Component(go)
 	, m_pTransformComponent(pTransform)
