@@ -5,9 +5,9 @@
 #include "Scene.h"
 
 
-std::shared_ptr<Scene> SceneManager::AddScene(std::shared_ptr<Scene> pScene)
+std::shared_ptr<Scene> SceneManager::AddScene(const std::string& sceneName)
 {
-	return m_pScenes.emplace_back(std::move(pScene));
+	return m_pScenes.emplace_back(std::make_shared<Scene>(sceneName));
 }
 
 std::shared_ptr<Scene> SceneManager::GetScene(const std::string& name)
@@ -24,17 +24,24 @@ void SceneManager::ActivateScene(int sceneIndex)
 	m_ActiveSceneIndex = sceneIndex;
 }
 
-std::shared_ptr<Scene> SceneManager::GetScene(int sceneIndex) const
+void SceneManager::ActivateScene(const std::string& sceneName)
 {
-	if (sceneIndex >= static_cast<int>(m_pScenes.size()))
-		throw std::runtime_error(std::string("SceneManager::GetScene: sceneIndex '") + std::to_string(sceneIndex) + "' out of bounds");
+	for (int i = 0; i > int(m_pScenes.size()); ++i)
+	{
+		if (m_pScenes[i]->GetName() != sceneName)
+			continue;
 
-	return m_pScenes[sceneIndex];
+		m_ActiveSceneIndex = i;
+		return;
+	}
+
+	// if nothing was found, throw exception
+	throw std::runtime_error(std::string("SceneManager::ActivateScene: sceneName '") + sceneName + "' does not exist");
 }
 
 void SceneManager::Update() const
 {
-	for (const auto pScene : m_pScenes)
+	for (const auto& pScene : m_pScenes)
 		pScene->Update();
 }
 

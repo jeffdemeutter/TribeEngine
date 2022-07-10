@@ -10,9 +10,11 @@
 
 void Game::LoadGame() const
 {
-	auto pScene = m_GameContext.pSceneManager->AddScene(std::make_shared<Scene>("MainScene"));
+	const auto pScene = m_GameContext.pSceneManager->AddScene("MainScene");
 
-	auto pGo = pScene->AddGameObject("TestObject");
+	const auto pGo = pScene->AddGameObject("TestObject");
 	pGo->AddComponent(new TransformComponent(pGo));
 
+	const auto pChild = pGo->AddGameObject("ChildObject");
+	pChild->AddComponent(new TransformComponent(pChild));
 }
