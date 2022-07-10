@@ -12,11 +12,11 @@ public:
 	Scene& operator=(const Scene&) = delete;
 	Scene& operator=(Scene&&) noexcept = delete;
 
-	GameObject* AddGameObject(const std::string& objectName);
+	[[nodiscard]] GameObject* AddGameObject(const std::string& objectName);
 	const std::string& GetName() const { return m_Name; }
 
 private:
-	std::vector<GameObject*> m_pGameObjects;
+	std::vector<GameObject*> m_pChildren;
 	std::string m_Name = "DefaultScene";
 
 
