@@ -1,6 +1,7 @@
 #include "TribePCH.h"
 #include "GameObject.h"
 #include "Component.h"
+#include "RenderComponent.h"
 
 GameObject::~GameObject()
 {
@@ -29,9 +30,9 @@ void GameObject::AddChild(GameObject* go)
 
 void GameObject::Render() const
 {
-	//const RenderComponent* const comp = GetComponent<RenderComponent>();
-	//if (comp)
-		//comp->Render();
+	const RenderComponent* const comp = GetComponent<RenderComponent>();
+	if (comp)
+		comp->Render();
 
 	for (GameObject* pChild : m_pChildren)
 		pChild->Render();

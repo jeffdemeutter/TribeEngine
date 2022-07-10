@@ -37,6 +37,12 @@
     <ClInclude Include="Component.h">
       <Filter>Content\Components</Filter>
     </ClInclude>
+    <ClInclude Include="RenderComponent.h">
+      <Filter>Content\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformComponent.h">
+      <Filter>Content\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tribe.cpp">
@@ -62,6 +68,9 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderComponent.cpp">
+      <Filter>Content\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
