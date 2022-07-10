@@ -6,7 +6,7 @@ class Component;
 class GameObject
 {
 public:
-	GameObject() = default;
+	GameObject(const std::string& objectName) : m_Name(objectName){}
 	~GameObject();
 	GameObject(const GameObject&) = delete;
 	GameObject(GameObject&&) noexcept = delete;
@@ -30,6 +30,8 @@ private:
 	std::unordered_map<const std::type_info*, Component*> m_pComponents{};
 	std::vector<GameObject*> m_pChildren{};
 	GameObject* m_pParent = nullptr;
+
+	const std::string m_Name = "DefaultObject";
 };
 
 template <typename T>

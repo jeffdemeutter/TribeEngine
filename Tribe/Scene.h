@@ -12,7 +12,7 @@ public:
 	Scene& operator=(const Scene&) = delete;
 	Scene& operator=(Scene&&) noexcept = delete;
 
-	void AddGameObject(GameObject* pGo);
+	GameObject* AddGameObject(const std::string& objectName);
 	const std::string& GetName() const { return m_Name; }
 
 private:

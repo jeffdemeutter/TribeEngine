@@ -4,9 +4,9 @@
 #include "GameObject.h"
 
 
-void Scene::AddGameObject(GameObject* pGo)
+GameObject* Scene::AddGameObject(const std::string& objectName)
 {
-	m_pGameObjects.emplace_back(pGo);
+	return m_pGameObjects.emplace_back(new GameObject(objectName));
 }
 
 Scene::~Scene()
