@@ -2,38 +2,39 @@
 #include <unordered_map>
 #include <typeinfo>
 
+#include "ObjectBase.h"
+
 class Component;
 
-class GameObject
+class GameObject final : public ObjectBase
 {
 public:
-	GameObject(const std::string& objectName) : m_Name(objectName){}
-	~GameObject();
+	~GameObject() override;
 	GameObject(const GameObject&) = delete;
 	GameObject(GameObject&&) noexcept = delete;
 	GameObject& operator=(const GameObject&) = delete;
 	GameObject& operator=(GameObject&&) noexcept = delete;
+	
+	GameObject(ObjectBase* pParent, const std::string& objectName = "DefaultObject");
+
 
 	template <typename T> T* AddComponent(T* pComponent);
 	template <typename T> T* GetComponent() const;
 	template <typename T> void RemoveComponent();
 
-	void AddChild(GameObject* go);
+	ObjectBase* GetParent() const { return m_pParent; }
 
 protected:
 	friend class Scene;
-	void Render() const;
-	void Update();
-
-	void SetParent(GameObject* pGo) { m_pParent = pGo; }
-
+	friend class ObjectBase; // this ensures we can call render and update from within the baseclass
+	virtual void Render() const override;
+	virtual void Update() override;
 private:
 	std::unordered_map<const std::type_info*, Component*> m_pComponents{};
-	std::vector<GameObject*> m_pChildren{};
-	GameObject* m_pParent = nullptr;
-
-	const std::string m_Name = "DefaultObject";
+	
+	ObjectBase* m_pParent = nullptr;
 };
+
 
 template <typename T>
 T* GameObject::AddComponent(T* pComponent)

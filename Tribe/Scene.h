@@ -1,28 +1,18 @@
 #pragma once
+#include "ObjectBase.h"
 
-class GameObject;
-
-class Scene
+class Scene final : public ObjectBase
 {
 public:
-	Scene(const std::string& name = "DefaultScene") : m_Name(name) {}
-	~Scene();
+	Scene(const std::string& name = "DefaultScene") : ObjectBase(name) {}
+	~Scene() override = default;
 	Scene(const Scene&) = delete;
 	Scene(Scene&&) noexcept = delete;
 	Scene& operator=(const Scene&) = delete;
 	Scene& operator=(Scene&&) noexcept = delete;
-
-	[[nodiscard]] GameObject* AddGameObject(const std::string& objectName);
-	const std::string& GetName() const { return m_Name; }
-
+	
 private:
-	std::vector<GameObject*> m_pChildren;
-	std::string m_Name = "DefaultScene";
-
-
-	friend class RenderManager;
-	void Render() const;
-	friend class SceneManager;
-	void Update();
+	friend class RenderManager; // lets rendermanager access Render method
+	friend class SceneManager; // lets scenemanager access Update method
 };
 

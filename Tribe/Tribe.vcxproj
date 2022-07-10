@@ -24,6 +24,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="ObjectBase.h" />
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="Scene.h" />
@@ -38,6 +39,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="ObjectBase.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="Scene.cpp" />

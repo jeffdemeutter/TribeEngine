@@ -1,13 +1,18 @@
 #include "Game.h"
+
+#include "GameObject.h"
 #include "InputManager.h"
 #include "iostream"
+#include "Scene.h"
+#include "SceneManager.h"
+#include "TransformComponent.h"
 
-void PrintStuff(const std::string& s)
-{
-	std::cout << s << '\n';
-}
 
 void Game::LoadGame() const
 {
-	
+	auto pScene = m_GameContext.pSceneManager->AddScene(std::make_shared<Scene>("MainScene"));
+
+	auto pGo = pScene->AddGameObject("TestObject");
+	pGo->AddComponent(new TransformComponent(pGo));
+
 }
