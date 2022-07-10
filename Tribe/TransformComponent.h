@@ -12,9 +12,18 @@ public:
 	TransformComponent& operator=(const TransformComponent&) = delete;
 	TransformComponent& operator=(TransformComponent&&) noexcept = delete;
 
-	TransformComponent(GameObject* pGo, float x = 0.f, float y = 0.f, float depth = 0.5f);
-	TransformComponent(GameObject* pGo, const glm::vec2& pos, float depth = 0.5f);
-		
+	TransformComponent(GameObject* pGo, float x = 0.f, float y = 0.f, float depth = 0.5f)
+		: Component(pGo)
+		, m_Position(x,y)
+		, m_Depth(depth)
+	{
+	}
+	TransformComponent(GameObject* pGo, const glm::vec2& pos, float depth = 0.5f)
+		: Component(pGo)
+		, m_Position(pos)
+		, m_Depth(depth)
+	{		
+	}
 
 	virtual void Update() override {}
 	virtual void Render() const override {}
