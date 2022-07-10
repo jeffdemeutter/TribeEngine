@@ -4,9 +4,15 @@
 #include "GameObject.h"
 
 
-void Scene::AddGameObject(std::shared_ptr<GameObject> pGo)
+void Scene::AddGameObject(GameObject* pGo)
 {
 	m_pGameObjects.emplace_back(pGo);
+}
+
+Scene::~Scene()
+{
+	for (const auto pGameObject : m_pGameObjects)
+		SafeDelete(pGameObject);
 }
 
 void Scene::Render() const
@@ -19,4 +25,4 @@ void Scene::Update()
 {
 	for (const auto pGameObject : m_pGameObjects)
 		pGameObject->Update();
-}
+} 

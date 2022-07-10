@@ -31,7 +31,12 @@
     <ClInclude Include="Scene.h">
       <Filter>Content</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameObject.h">
+      <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Content\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tribe.cpp">
@@ -55,7 +60,9 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Content</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -69,6 +76,9 @@
     </Filter>
     <Filter Include="Content">
       <UniqueIdentifier>{1d762767-d7d6-43ab-9b55-605a8a96f67a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Components">
+      <UniqueIdentifier>{cad9e216-f0d4-4065-b6ce-8ea0afbb60d0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
