@@ -31,6 +31,7 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Structs.h" />
+    <ClInclude Include="Texture2D.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="Tribe.h" />
     <ClInclude Include="TribePCH.h" />
@@ -44,6 +45,7 @@
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="Tribe.cpp" />
     <ClCompile Include="TribePCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

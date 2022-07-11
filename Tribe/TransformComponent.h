@@ -33,6 +33,9 @@ public:
 	void SetPosition(const glm::vec2& pos) { m_Position = pos; }
 	void SetDepth(float depth) { m_Depth = depth; }
 
+	const glm::vec2& GetPosition() const { return m_Position; }
+	float GetDepth() const { return m_Depth; }
+
 private:
 	glm::vec2 m_Position;
 	float m_Depth;

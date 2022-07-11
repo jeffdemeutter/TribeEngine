@@ -93,18 +93,6 @@ void RenderManager::Destroy()
 	SDL_Quit();
 }
 
-void RenderManager::Draw(SDL_Texture* pTexture, float x, float y)
-{
-	const auto& inst = Instance();
-
-	SDL_Rect dst{};
-	dst.x = static_cast<int>(x);
-	dst.y = static_cast<int>(y);
-
-	SDL_QueryTexture(pTexture, nullptr, nullptr, &dst.w, &dst.h);
-	SDL_RenderCopy(inst.m_pRenderer, pTexture, nullptr, &dst);
-}
-
 void RenderManager::UpdateWindow(int width, int height)
 {
 	auto& inst = Instance();

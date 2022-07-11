@@ -46,6 +46,7 @@
     <ClInclude Include="ObjectBase.h">
       <Filter>Content</Filter>
     </ClInclude>
+    <ClInclude Include="Texture2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tribe.cpp">
@@ -78,6 +79,7 @@
     <ClCompile Include="ObjectBase.cpp">
       <Filter>Content</Filter>
     </ClCompile>
+    <ClCompile Include="Texture2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

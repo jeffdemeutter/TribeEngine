@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 
+class Texture2D;
 class TransformComponent;
 
 class RenderComponent : public Component
@@ -21,17 +22,17 @@ public:
 	//	m_pTexture = pTexture;
 	//}
 
-	void SetSrcRect(const glm::fvec4& srcRect)
+	void SetSrcRect(const SDL_Rect& srcRect)
 	{
 		m_SrcRect = srcRect;
 	}
 
 private:
-	//Texture2D* m_pTexture = nullptr;
+	Texture2D* m_pTexture = nullptr;
 	TransformComponent* m_pTransformComponent = nullptr;
 
-	//bool m_FillScreen = false;
+	bool m_FillScreen = false;
 
-	std::optional<glm::fvec4> m_SrcRect;
+	std::optional<SDL_Rect> m_SrcRect;
 };
 

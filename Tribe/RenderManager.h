@@ -12,11 +12,7 @@ public:
 	RenderManager& operator=(const RenderManager&) = delete;
 	RenderManager& operator=(RenderManager&&) noexcept = delete;
 
-	static void Init();
-	static void Destroy();
-
-	static void Draw(SDL_Texture* pTexture, float x, float y);
-	
+	static SDL_Renderer* GetSDLRenderer() { return Instance().m_pRenderer; }
 	static SDL_Rect GetWindowRect()
 	{
 		return { 0, 0, Instance().m_Width, Instance().m_Height };
@@ -42,5 +38,9 @@ private:
 
 	friend class SceneManager;
 	static void Render(std::shared_ptr<Scene> pScene);
+
+	friend class Tribe;
+	static void Init();
+	static void Destroy();
 };
 
