@@ -15,16 +15,27 @@ public:
 	static void Init();
 	static void Destroy();
 
-	static SDL_Renderer* GetSDLRenderer();
-	static SDL_Rect GetWindowRect();
-	static void SetBackgroundColor(const SDL_Color& color);
+	static void Draw(SDL_Texture* pTexture, float x, float y);
+	
+	static SDL_Rect GetWindowRect()
+	{
+		return { 0, 0, Instance().m_Width, Instance().m_Height };
+	}
+	static void SetBackgroundColor(const SDL_Color& color)
+	{
+		Instance().m_ClearColor = color;
+	}
 
 private:
 	friend class Singleton<RenderManager>;
 	RenderManager() = default;
 
-	class SDLRendererImpl;
-	std::unique_ptr<SDLRendererImpl> m_pImpl;
+	int m_Width = 900;
+	int m_Height = 600;
+	SDL_Renderer* m_pRenderer{};
+	SDL_Window* m_pWindow{};
+	SDL_Color m_ClearColor{};
+
 	
 	friend class InputManager;
 	static void UpdateWindow(int width, int height);
