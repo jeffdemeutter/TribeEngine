@@ -13,7 +13,7 @@ public:
 	FpsComponent& operator=(FpsComponent&&) noexcept = default;
 
 
-	virtual void Update() override;
+	virtual void Update(GameContext& gc) override;
 	virtual void Render() const override {}
 
 private:

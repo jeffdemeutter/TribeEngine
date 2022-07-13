@@ -8,10 +8,10 @@ ObjectBase::~ObjectBase()
 		SafeDelete(pChild);
 }
 
-void ObjectBase::Update()
+void ObjectBase::Update(GameContext& gc)
 {
 	for (const auto pGameObject : m_pGameObjects)
-		pGameObject->Update();
+		pGameObject->Update(gc);
 }
 
 void ObjectBase::Render() const

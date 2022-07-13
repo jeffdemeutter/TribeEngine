@@ -15,13 +15,13 @@ public:
 	RenderComponent& operator=(const RenderComponent&) = delete;
 	RenderComponent& operator=(RenderComponent&&) noexcept = delete;
 
-	virtual void Update() override {}
+	virtual void Update(GameContext&) override {}
 	virtual void Render() const override;
 
-	//void SetTexture(Texture2D* pTexture)
-	//{
-	//	m_pTexture = pTexture;
-	//}
+	void SetTexture(Texture2D* pTexture)
+	{
+		m_pTexture = pTexture;
+	}
 
 	void SetSrcRect(const SDL_Rect& srcRect)
 	{

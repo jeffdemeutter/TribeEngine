@@ -26,11 +26,11 @@ void GameObject::Render() const
 	ObjectBase::Render();
 }
 
-void GameObject::Update()
+void GameObject::Update(GameContext& gc)
 {
 	for (const auto& pComponent : m_pComponents)
-		pComponent.second->Update();
+		pComponent.second->Update(gc);
 
 	// calls Update on child objects
-	ObjectBase::Update();
+	ObjectBase::Update(gc);
 }

@@ -33,7 +33,7 @@ void Tribe::Run()
 			running = m_GameContext.pInput->ProcessInput();
 
 			// update scenes
-			m_GameContext.pSceneManager->Update();
+			m_GameContext.pSceneManager->Update(m_GameContext);
 
 			// render scene to window
 			m_GameContext.pSceneManager->Render();

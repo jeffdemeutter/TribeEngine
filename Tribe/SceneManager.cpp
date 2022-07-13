@@ -39,10 +39,10 @@ void SceneManager::ActivateScene(const std::string& sceneName)
 	throw std::runtime_error(std::string("SceneManager::ActivateScene: sceneName '") + sceneName + "' does not exist");
 }
 
-void SceneManager::Update() const
+void SceneManager::Update(GameContext& gc) const
 {
 	for (const auto& pScene : m_pScenes)
-		pScene->Update();
+		pScene->Update(gc);
 }
 
 void SceneManager::Render() const

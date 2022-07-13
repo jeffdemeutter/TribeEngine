@@ -13,7 +13,7 @@ public:
 		m_pParent = nullptr; // these objects should be deleted by the scene
 	}
 
-	virtual void Update() = 0;
+	virtual void Update(GameContext&) = 0;
 	virtual void Render() const = 0;
 
 	GameObject* GetParent() const

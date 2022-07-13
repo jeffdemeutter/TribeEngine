@@ -18,7 +18,7 @@ public:
 	void SetVisibility(bool visible);
 
 	// Inherited via Component
-	virtual void Update() override {}
+	virtual void Update(GameContext& ) override {}
 	virtual void Render() const override {}
 
 private:

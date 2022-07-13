@@ -28,7 +28,7 @@ protected:
 	friend class Scene;
 	friend class ObjectBase; // this ensures we can call render and update from within the baseclass
 	virtual void Render() const override;
-	virtual void Update() override;
+	virtual void Update(GameContext& gc) override;
 private:
 	std::unordered_map<const std::type_info*, Component*> m_pComponents{};
 	

@@ -22,7 +22,7 @@ private:
 	int m_ActiveSceneIndex = 0;
 
 	friend class Tribe;
-	void Update() const;
+	void Update(GameContext& gc) const;
 	void Render() const;
 };
 

@@ -26,7 +26,7 @@ public:
 	{		
 	}
 
-	virtual void Update() override {}
+	virtual void Update(GameContext&) override {}
 	virtual void Render() const override {}
 
 	void SetPosition(float x = 0, float y = 0) { m_Position = { x, y }; }

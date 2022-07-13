@@ -12,7 +12,7 @@ public:
 	ObjectBase& operator=(const ObjectBase&) = delete;
 	ObjectBase& operator=(ObjectBase&&) noexcept = delete;
 
-	virtual void Update();
+	virtual void Update(GameContext&);
 	virtual void Render() const;
 
 	[[nodiscard]] GameObject* AddGameObject(const std::string& objectName);
