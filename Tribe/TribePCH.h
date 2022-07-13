@@ -12,7 +12,7 @@
 #include <SDL2/SDL.h>
 #pragma warning (pop)
 
-
+#include "Structs.h"
 
 template<class T>
 inline void SafeDelete(T* pObjectToDelete)
