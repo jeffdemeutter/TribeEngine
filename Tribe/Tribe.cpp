@@ -4,12 +4,14 @@
 #include "GameTime.h"
 #include "InputManager.h"
 #include "RenderManager.h"
+#include "ResourceManager.h"
 #include "SceneManager.h"
 
 
 void Tribe::Run()
 {
 	RenderManager::Init();
+	ResourceManager::Init("../Data/");
 
 	m_GameContext.pInput		= new InputManager();
 	m_GameContext.pTime			= new GameTime();
@@ -50,4 +52,5 @@ void Tribe::Run()
 	SafeDelete(m_GameContext.pInput);
 
 	RenderManager::Destroy();
+	ResourceManager::Destroy();
 }
