@@ -18,10 +18,6 @@ void Tribe::Run()
 	m_GameContext.pSceneManager = new SceneManager();
 	//ServiceLocator::SetSoundManager(new SoundManager());
 	//ServiceLocator::SetEventManager(new EventManager());
-	
-
-	/////// tell the resource manager where he can find the game data
-	//ResourceManager::Init("../Data/");
 
 	LoadGame();
 	{
