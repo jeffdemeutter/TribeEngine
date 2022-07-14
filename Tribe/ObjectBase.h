@@ -28,6 +28,7 @@ protected:
 	std::vector<GameObject*> m_pGameObjects;
 	std::string m_Name = "Default";
 
+private:
 	bool m_IsActivated = true;
 };
 
