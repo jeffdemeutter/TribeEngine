@@ -18,8 +18,7 @@ GameObject::GameObject(ObjectBase* pParent, const std::string& objectName)
 
 void GameObject::Render() const
 {
-	const RenderComponent* const comp = GetComponent<RenderComponent>();
-	if (comp)
+	if (const RenderComponent* const comp = GetComponent<RenderComponent>())
 		comp->Render();
 
 	// calls Render on child objects
