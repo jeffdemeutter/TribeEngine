@@ -22,6 +22,7 @@ public:
 	void Active() { m_IsActivated = true; }
 	void Deactivate() { m_IsActivated = false; }
 	void SetActive(bool active) { m_IsActivated = active; }
+	void ToggleActive() { m_IsActivated = !m_IsActivated; }
 	bool IsActive() const { return m_IsActivated; }
 
 protected:
