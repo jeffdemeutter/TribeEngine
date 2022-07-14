@@ -117,6 +117,9 @@
     <ClCompile Include="PrinterComponent.cpp">
       <Filter>Content\Components</Filter>
     </ClCompile>
+    <ClCompile Include="ServiceLocator.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
