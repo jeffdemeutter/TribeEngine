@@ -1,7 +1,7 @@
 #pragma once
 #include <unordered_map>
 
-#include "BaseComponent.h"
+#include "Component.h"
 
 class Texture2D;
 class RenderComponent;
@@ -22,8 +22,8 @@ public:
 	SpriteAnimationComponent& operator=(const SpriteAnimationComponent&) = delete;
 	SpriteAnimationComponent& operator=(SpriteAnimationComponent&&) noexcept = delete;
 
-	virtual void Update() override;
-	virtual void Render() const override;
+	virtual void Update(GameContext& gc) override;
+	virtual void Render() const override {};
 
 	void AddAnimation(int animationID, const SDL_Rect& src, int spriteSize, int spriteCount);
 	void AddAnimation(int animationID, const Animation& animation);

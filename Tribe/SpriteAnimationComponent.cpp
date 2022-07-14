@@ -1,8 +1,8 @@
 #include "TribePCH.h"
 #include "SpriteAnimationComponent.h"
 
+#include "GameTime.h"
 #include "RenderComponent.h"
-#include "Timer.h"
 
 
 SpriteAnimationComponent::SpriteAnimationComponent(GameObject* go, RenderComponent* pRender, int framesPerSecond)
@@ -18,9 +18,9 @@ SpriteAnimationComponent::~SpriteAnimationComponent()
 	m_pRenderComponent = nullptr;
 }
 
-void SpriteAnimationComponent::Update()
+void SpriteAnimationComponent::Update(GameContext& gc)
 {
-	 m_TimeSinceLastFrame += Timer::GetDeltaTime();
+	 m_TimeSinceLastFrame += gc.pTime->GetDeltaTime();
 	 const auto& activeAnim = m_Animations[m_ActiveAnimationID];
 
 	 if ((1.f / float(m_FramesPerSecond)) > m_TimeSinceLastFrame)
@@ -35,11 +35,6 @@ void SpriteAnimationComponent::Update()
 	++m_CurrentFrame;
 	m_CurrentFrame = m_CurrentFrame % activeAnim.spriteCount;
 	m_TimeSinceLastFrame = 0.f;
-}
-
-void SpriteAnimationComponent::Render() const
-{
-	
 }
 
 void SpriteAnimationComponent::AddAnimation(int action, const SDL_Rect& src, int spriteSize,
