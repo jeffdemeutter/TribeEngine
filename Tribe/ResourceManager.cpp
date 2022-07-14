@@ -7,17 +7,6 @@
 #include "Texture2D.h"
 #include "Font.h"
 
-ResourceManager::~ResourceManager()
-{
-	for (auto& pTexture : m_pTextures)
-		SafeDelete(pTexture.second);
-	m_pTextures.clear();
-
-	for (auto& pFont : m_pFonts)
-		SafeDelete(pFont.second);
-	m_pFonts.clear();
-}
-
 void ResourceManager::Init(const std::string& dataPath)
 {
 	Instance().m_DataPath = dataPath;
@@ -35,6 +24,17 @@ void ResourceManager::Init(const std::string& dataPath)
 	if (TTF_Init() != 0) 
 		throw std::runtime_error(std::string("Failed to load support for fonts: ") + SDL_GetError());
 	
+}
+
+void ResourceManager::Destroy()
+{
+	for (auto& pTexture : Instance().m_pTextures)
+		SafeDelete(pTexture.second);
+	Instance().m_pTextures.clear();
+
+	for (auto& pFont : Instance().m_pFonts)
+		SafeDelete(pFont.second);
+	Instance().m_pFonts.clear();
 }
 
 Texture2D* ResourceManager::LoadTexture(const std::string& file)

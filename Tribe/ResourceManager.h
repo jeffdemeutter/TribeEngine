@@ -7,10 +7,16 @@ class Font;
 class ResourceManager final : public Singleton<ResourceManager>
 {
 public:
-	~ResourceManager() override;
+	~ResourceManager() override = default;
+	ResourceManager(const ResourceManager&) = delete;
+	ResourceManager(ResourceManager&&) noexcept = delete;
+	ResourceManager& operator=(const ResourceManager&) = delete;
+	ResourceManager& operator=(ResourceManager&&) noexcept = delete;
 
 	// calls to implicit function
 	static void Init(const std::string& data);
+	static void Destroy();
+
 	static Texture2D* LoadTexture(const std::string& file);
 	static Font* LoadFont(const std::string& file, unsigned int size);
 
