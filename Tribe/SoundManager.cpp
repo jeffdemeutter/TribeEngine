@@ -25,8 +25,8 @@ private:
 
 	int m_Volume = 100;
 
-	std::thread m_Thr;
 	std::queue<SoundEvent> m_Queue;
+	std::thread m_Thr;
 	std::condition_variable m_CV;
 	std::mutex m_Mutex;
 	bool m_Initialized = false;
@@ -37,7 +37,7 @@ SoundManager::SoundManagerSDLMixer::SoundManagerSDLMixer()
 {
 	Mix_Init( MIX_INIT_MOD );
 
-	// use of 22050 frequency, documentation of sdl_mixer suggests this for games, it will use less cpu power like this
+	// use of 22050 frequency, documentation of sdl_mixer suggests this for games, it uses less cpu power like this
 	if(Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 4, 1024) == -1)
 		throw "Failed to openAudio\n";
 
