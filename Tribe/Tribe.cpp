@@ -2,10 +2,14 @@
 #include "Tribe.h"
 
 #include "GameTime.h"
+
+#include "SoundManager.h"
 #include "InputManager.h"
 #include "RenderManager.h"
 #include "ResourceManager.h"
 #include "SceneManager.h"
+
+#include "ServiceLocator.h"
 
 
 void Tribe::Run()
@@ -16,7 +20,7 @@ void Tribe::Run()
 	m_GameContext.pInput		= new InputManager();
 	m_GameContext.pTime			= new GameTime();
 	m_GameContext.pSceneManager = new SceneManager();
-	//ServiceLocator::SetSoundManager(new SoundManager());
+	ServiceLocator::SetSoundManager(new SoundManager());
 	//ServiceLocator::SetEventManager(new EventManager());
 
 	LoadGame();
@@ -42,7 +46,7 @@ void Tribe::Run()
 	}
 
 	//SafeDelete(ServiceLocator::GetEventManager());
-	//SafeDelete(ServiceLocator::GetSoundManager());
+	SafeDelete(ServiceLocator::GetSoundManager());
 	SafeDelete(m_GameContext.pSceneManager);
 	SafeDelete(m_GameContext.pTime);
 	SafeDelete(m_GameContext.pInput);
