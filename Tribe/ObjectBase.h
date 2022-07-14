@@ -19,8 +19,15 @@ public:
 	[[nodiscard]] GameObject* GetGameObjectByName(const std::string& objectName) const;
 	const std::string& GetName() const { return m_Name; }
 
+	void Active() { m_IsActivated = true; }
+	void Deactivate() { m_IsActivated = false; }
+	void SetActive(bool active) { m_IsActivated = active; }
+	bool IsActive() const { return m_IsActivated; }
+
 protected:
 	std::vector<GameObject*> m_pGameObjects;
 	std::string m_Name = "Default";
+
+	bool m_IsActivated = true;
 };
 

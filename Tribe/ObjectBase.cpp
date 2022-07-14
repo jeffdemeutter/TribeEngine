@@ -11,13 +11,15 @@ ObjectBase::~ObjectBase()
 void ObjectBase::Update(GameContext& gc)
 {
 	for (const auto pGameObject : m_pGameObjects)
-		pGameObject->Update(gc);
+		if (pGameObject->IsActive())
+			pGameObject->Update(gc);
 }
 
 void ObjectBase::Render() const
 {
 	for (const auto pGameObject : m_pGameObjects)
-		pGameObject->Render();
+		if (pGameObject->IsActive())
+			pGameObject->Render();
 }
 
 GameObject* ObjectBase::AddGameObject(const std::string& objectName)
