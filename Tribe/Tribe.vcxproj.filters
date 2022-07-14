@@ -67,6 +67,9 @@
     <ClInclude Include="ServiceLocator.h">
       <Filter>Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tribe.cpp">
@@ -119,6 +122,9 @@
     </ClCompile>
     <ClCompile Include="ServiceLocator.cpp">
       <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Managers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
