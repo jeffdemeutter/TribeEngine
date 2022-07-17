@@ -13,6 +13,10 @@ class SoundManager::SoundManagerSDLMixer
 public:
 	SoundManagerSDLMixer();
 	~SoundManagerSDLMixer();
+	SoundManagerSDLMixer(const SoundManagerSDLMixer&) = delete;
+	SoundManagerSDLMixer(SoundManagerSDLMixer&&) noexcept = delete;
+	SoundManagerSDLMixer& operator=(const SoundManagerSDLMixer&) = delete;
+	SoundManagerSDLMixer& operator=(SoundManagerSDLMixer&&) noexcept = delete;
 
 	void Run();
 	void LoadEffect(SoundEvent sound, const std::string& path);
@@ -106,7 +110,7 @@ void SoundManager::SoundManagerSDLMixer::SetVolume(int volume)
 	Mix_Volume(-1, m_Volume);
 }
 
-void SoundManager::SoundManagerSDLMixer::ChangeVolume(int delta)
+void SoundManager::SoundManagerSDLMixer::ChangeVolume(const int delta)
 {
 	m_Volume += delta;
 	Mix_Volume(-1, m_Volume);
