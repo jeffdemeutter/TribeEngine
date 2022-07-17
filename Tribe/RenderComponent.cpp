@@ -1,11 +1,19 @@
 #include "TribePCH.h"
 #include "RenderComponent.h"
 
+#include "ResourceManager.h"
 #include "Texture2D.h"
 #include "TransformComponent.h"
 
 RenderComponent::RenderComponent(GameObject* go, TransformComponent* pTransform)
 	: Component(go)
+	, m_pTransformComponent(pTransform)
+{
+}
+
+RenderComponent::RenderComponent(GameObject* go, TransformComponent* pTransform, const std::string& texturePath)
+	: Component(go)
+	, m_pTexture(ResourceManager::LoadTexture(texturePath))
 	, m_pTransformComponent(pTransform)
 {
 }
@@ -20,12 +28,6 @@ void RenderComponent::Render() const
 {
 	if (!m_pTexture)
 		return;
-
-	if (m_FillScreen)
-	{
-		m_pTexture->DrawFillScreen();
-		return;
-	}
 
 	if (m_SrcRect.has_value())
 	{

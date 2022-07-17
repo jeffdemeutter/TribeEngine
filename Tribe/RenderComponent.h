@@ -9,6 +9,7 @@ class RenderComponent : public Component
 {
 public:
 	RenderComponent(GameObject* go, TransformComponent* pTransform);
+	RenderComponent(GameObject* go, TransformComponent* pTransform, const std::string& texturePath);
 	~RenderComponent() override;
 	RenderComponent(const RenderComponent&) = delete;
 	RenderComponent(RenderComponent&&) noexcept = delete;
@@ -31,8 +32,6 @@ public:
 private:
 	Texture2D* m_pTexture = nullptr;
 	TransformComponent* m_pTransformComponent = nullptr;
-
-	bool m_FillScreen = false;
 
 	std::optional<SDL_Rect> m_SrcRect;
 };
