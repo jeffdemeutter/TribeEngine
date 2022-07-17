@@ -33,7 +33,7 @@ void Texture2D::Draw(const glm::vec2& pos, float angle, SDL_RendererFlip flip) c
 	Draw(pos.x, pos.y, angle, flip);
 }
 
-void Texture2D::Draw(const glm::vec2& pos, const SDL_Rect& srcRect, float angle, SDL_RendererFlip flip)
+void Texture2D::Draw(const glm::vec2& pos, const SDL_Rect& srcRect, float angle, SDL_RendererFlip flip) const
 {
 	SDL_Rect dst{};
 	dst.x = static_cast<int>(pos.x);
