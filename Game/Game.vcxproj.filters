@@ -3,8 +3,21 @@
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PlayerTankComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePCH.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
+    <ClInclude Include="PlayerTankComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePCH.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Components">
+      <UniqueIdentifier>{adba131b-8432-4850-8f4d-e54c689ed0aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
