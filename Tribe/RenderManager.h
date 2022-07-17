@@ -19,6 +19,7 @@ public:
 		return { 0, 0, Instance().m_Width, Instance().m_Height };
 	}
 	static glm::vec2 GetWindowSize() { return {Instance().m_Width, Instance().m_Height}; }
+	static glm::vec2 GetWindowCenter() { return {Instance().m_Width / 2, Instance().m_Height / 2}; }
 	static void SetBackgroundColor(const SDL_Color& color)
 	{
 		Instance().m_ClearColor = color;
