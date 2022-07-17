@@ -1,5 +1,6 @@
 #pragma once
 #include "Singleton.h"
+#include "glm/glm.hpp"
 
 class Scene;
 
@@ -17,6 +18,7 @@ public:
 	{
 		return { 0, 0, Instance().m_Width, Instance().m_Height };
 	}
+	static glm::vec2 GetWindowSize() { return {Instance().m_Width, Instance().m_Height}; }
 	static void SetBackgroundColor(const SDL_Color& color)
 	{
 		Instance().m_ClearColor = color;
