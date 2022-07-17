@@ -37,14 +37,14 @@ void SpriteAnimationComponent::Update(GameContext& gc)
 	m_TimeSinceLastFrame = 0.f;
 }
 
-void SpriteAnimationComponent::AddAnimation(int action, const SDL_Rect& src, int spriteSize,
+void SpriteAnimationComponent::AddAnimation(int animationID, const SDL_Rect& src, int spriteSize,
 	int spriteCount)
 {
 	Animation anim{};
 		anim.animationSource = src;
 		anim.spriteCount = spriteCount;
 		anim.spriteSize = spriteSize;
-	AddAnimation(action, anim);
+	AddAnimation(animationID, anim);
 }
 
 void SpriteAnimationComponent::AddAnimation(int animationID, const Animation& animation)
