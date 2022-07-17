@@ -1,5 +1,12 @@
 #pragma once
 
+#include <iostream> // std::cout
+#include <memory> // smart pointers
+#include <vector>
+#include <string>
+#include <chrono>
+#include <thread>
+
 #include "Structs.h"
 
 #pragma warning(push, 0)
