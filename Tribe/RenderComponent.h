@@ -19,19 +19,16 @@ public:
 	virtual void Update(GameContext&) override {}
 	virtual void Render() const override;
 
-	void SetTexture(Texture2D* pTexture)
-	{
-		m_pTexture = pTexture;
-	}
-
-	void SetSrcRect(const SDL_Rect& srcRect)
-	{
-		m_SrcRect = srcRect;
-	}
+	void SetTexture(Texture2D* pTexture) { m_pTexture = pTexture; }
+	void SetSrcRect(const SDL_Rect& srcRect) { m_SrcRect = srcRect; }
+	void SetRotation(float rotation) { m_Rotation = rotation; }
+	void SetFlip(SDL_RendererFlip flip) { m_Flip = flip; }
 
 private:
 	Texture2D* m_pTexture = nullptr;
 	TransformComponent* m_pTransformComponent = nullptr;
+	float m_Rotation = 0.f;
+	SDL_RendererFlip m_Flip = SDL_FLIP_NONE;
 
 	std::optional<SDL_Rect> m_SrcRect;
 };

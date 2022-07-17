@@ -21,6 +21,7 @@ RenderComponent::RenderComponent(GameObject* go, TransformComponent* pTransform,
 RenderComponent::~RenderComponent()
 {
 	m_pTransformComponent = nullptr;
+	m_pTexture = nullptr;
 }
 
 
@@ -31,9 +32,9 @@ void RenderComponent::Render() const
 
 	if (m_SrcRect.has_value())
 	{
-		m_pTexture->Draw(m_pTransformComponent->GetPosition(), m_SrcRect.value());
+		m_pTexture->Draw(m_pTransformComponent->GetPosition(), m_SrcRect.value(), m_Rotation, m_Flip);
 		return;
 	}
 
-	m_pTexture->Draw(m_pTransformComponent->GetPosition());
+	m_pTexture->Draw(m_pTransformComponent->GetPosition(), m_Rotation, m_Flip);
 }
