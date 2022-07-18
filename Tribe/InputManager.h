@@ -49,6 +49,7 @@ public:
 	{
 		return SDL_GameControllerGetButton(m_pControllers[controllerID], controllerButton);
 	}
+	glm::vec2 GetMousePosition() const;
 
 	void AddInputAction(const InputAction& input);
 

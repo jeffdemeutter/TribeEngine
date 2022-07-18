@@ -43,6 +43,14 @@ float InputManager::GetJoystickAxis(int controllerID, SDL_GameControllerAxis axi
 	return normVal;
 }
 
+glm::vec2 InputManager::GetMousePosition() const
+{
+	int x, y;
+	SDL_GetMouseState(&x, &y);
+
+	return { x,y };
+}
+
 void InputManager::AddInputAction(const InputAction& input)
 {
 	if (input.ControllerID > m_MaxControllerCount)
