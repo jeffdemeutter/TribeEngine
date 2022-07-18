@@ -22,11 +22,16 @@ public:
 	void SetTexture(Texture2D* pTexture) { m_pTexture = pTexture; }
 	void SetSrcRect(const SDL_Rect& srcRect) { m_SrcRect = srcRect; }
 	void SetRotation(float rotation) { m_Rotation = rotation; }
+	void SetPivot(const glm::vec2& pivot) { m_Pivot = pivot; }
+	void SetCenter(const glm::vec2& center) { m_Center = center; }
 	void SetFlip(SDL_RendererFlip flip) { m_Flip = flip; }
 
 private:
 	Texture2D* m_pTexture = nullptr;
 	TransformComponent* m_pTransformComponent = nullptr;
+
+	glm::vec2 m_Center = { 0,0 };
+	glm::vec2 m_Pivot = { 0,0 };
 	float m_Rotation = 0.f;
 	SDL_RendererFlip m_Flip = SDL_FLIP_NONE;
 

@@ -21,8 +21,8 @@ public:
 private:
 	TransformComponent* m_pTransform = nullptr;
 	RenderComponent* m_pRender = nullptr;
-	int m_Player = 0;
 
+	int m_Player = 0;
 
 };
 

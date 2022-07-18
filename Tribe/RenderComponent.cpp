@@ -30,11 +30,13 @@ void RenderComponent::Render() const
 	if (!m_pTexture)
 		return;
 
+	const auto pos = m_pTransformComponent->GetPosition() - m_Center;
+
 	if (m_SrcRect.has_value())
 	{
-		m_pTexture->Draw(m_pTransformComponent->GetPosition(), m_SrcRect.value(), m_Rotation, m_Flip);
+		m_pTexture->Draw(pos, m_Pivot, m_SrcRect.value(), m_Rotation, m_Flip);
 		return;
 	}
 
-	m_pTexture->Draw(m_pTransformComponent->GetPosition(), m_Rotation, m_Flip);
+	m_pTexture->Draw(pos, m_Pivot, m_Rotation, m_Flip);
 }

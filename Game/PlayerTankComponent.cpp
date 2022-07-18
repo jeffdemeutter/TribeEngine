@@ -13,6 +13,9 @@ PlayerTankComponent::PlayerTankComponent(GameObject* pGo, TransformComponent* pT
 	, m_pRender(pRender)
 {
 	m_pRender->SetSrcRect(SDL_Rect{ 00,64,32,32 });
+
+	m_pRender->SetCenter({ 16, 16 });
+	m_pRender->SetPivot({ 16,16 });
 }
 
 PlayerTankComponent::~PlayerTankComponent()

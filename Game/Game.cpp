@@ -66,18 +66,17 @@ void Game::LoadGame() const
 		{
 			const auto pTransform = pTankTurret->AddComponent(new TransformComponent(pTankTurret, RenderManager::GetWindowCenter()));
 			const auto pRender = pTankTurret->AddComponent(new RenderComponent(pTankTurret, pTransform, "spritesheet.png"));
-			pRender->SetSrcRect(SDL_Rect{ 64,96,32,32 });
 			pTankTurret->AddComponent(new TurretComponent(pTankTurret, m_Player, pTransform, pRender));
 		}
 
-		// fps object
-		{
-			auto pFps = pScene->AddGameObject("fps");
-			
-			const auto pTransform = pFps->AddComponent(new TransformComponent(pFps));
-			const auto pRender = pFps->AddComponent(new RenderComponent(pFps, pTransform));
-			const auto pText = pFps->AddComponent(new TextComponent(pFps, pRender, "", pFont, { 255,255,0,255 }));
-			pFps->AddComponent(new FpsComponent(pFps, pText));
-		}
+		//// fps object
+		//{
+		//	auto pFps = pScene->AddGameObject("fps");
+		//	
+		//	const auto pTransform = pFps->AddComponent(new TransformComponent(pFps));
+		//	const auto pRender = pFps->AddComponent(new RenderComponent(pFps, pTransform));
+		//	const auto pText = pFps->AddComponent(new TextComponent(pFps, pRender, "", pFont, { 255,255,0,255 }));
+		//	pFps->AddComponent(new FpsComponent(pFps, pText));
+		//}
 	}
 }
