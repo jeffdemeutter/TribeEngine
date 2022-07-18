@@ -29,12 +29,6 @@ public:
 	void DoMovement(Movement movement);
 
 private:
-	enum Sprite
-	{
-		vertical,
-		horizontal
-	};
-
 	TransformComponent* m_pTransform = nullptr;
 	RenderComponent* m_pRender = nullptr;
 	Movement m_Movement = Movement::up;

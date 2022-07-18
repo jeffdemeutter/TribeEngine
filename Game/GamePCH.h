@@ -13,3 +13,6 @@
 #include <glm/glm.hpp>
 #include <SDL2/SDL.h>
 #pragma warning (pop)
+
+
+constexpr static float gPI = 3.141592f;

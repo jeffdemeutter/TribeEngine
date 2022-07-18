@@ -16,6 +16,7 @@
 #include "TextComponent.h"
 #include "TransformComponent.h"
 #include "SpriteAnimationComponent.h"
+#include "TurretComponent.h"
 
 void Game::LoadGame() const
 {
@@ -26,9 +27,8 @@ void Game::LoadGame() const
 		const auto pScene = m_GameContext.pSceneManager->AddScene("SinglePlayer");
 
 		// tank
+		const auto pTank = pScene->AddGameObject("PlayerTank");
 		{ 
-			const auto pTank = pScene->AddGameObject("PlayerTank");
-
 			const auto pTransform = pTank->AddComponent(new TransformComponent(pTank, RenderManager::GetWindowCenter()));
 			const auto pRender = pTank->AddComponent(new RenderComponent(pTank, pTransform, "spritesheet.png"));
 			const auto pPlayer = pTank->AddComponent(new PlayerTankComponent(pTank, pTransform, pRender));
@@ -59,6 +59,15 @@ void Game::LoadGame() const
 					down.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_DOWN;
 				m_GameContext.pInput->AddInputAction(down);
 			}
+		}
+
+		// tank turret
+		const auto pTankTurret = pTank->AddGameObject("Turret");
+		{
+			const auto pTransform = pTankTurret->AddComponent(new TransformComponent(pTankTurret, RenderManager::GetWindowCenter()));
+			const auto pRender = pTankTurret->AddComponent(new RenderComponent(pTankTurret, pTransform, "spritesheet.png"));
+			pRender->SetSrcRect(SDL_Rect{ 64,96,32,32 });
+			pTankTurret->AddComponent(new TurretComponent(pTankTurret, m_Player, pTransform, pRender));
 		}
 
 		// fps object

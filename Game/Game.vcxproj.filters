@@ -7,6 +7,7 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="GamePCH.cpp" />
+    <ClCompile Include="TurretComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
@@ -14,6 +15,7 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="GamePCH.h" />
+    <ClInclude Include="TurretComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">
