@@ -20,11 +20,11 @@ TransformComponent::TransformComponent(GameObject* pGo, const glm::vec2& pos, fl
 
 void TransformComponent::Update(GameContext&)
 {
-	auto& pGameObjects = GetParent()->GetGameObjects();
+	const auto& pGameObjects = GetParent()->GetGameObjects();
 
 	for (const GameObject* pGo : pGameObjects)
 	{
-		auto pTrans = pGo->GetComponent<TransformComponent>();
+		const auto pTrans = pGo->GetComponent<TransformComponent>();
 
 		pTrans->UpdatePosition(m_Position + m_RelativePosition);
 	}

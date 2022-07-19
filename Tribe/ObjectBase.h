@@ -18,7 +18,7 @@ public:
 	[[nodiscard]] GameObject* AddGameObject(const std::string& objectName);
 	[[nodiscard]] GameObject* GetGameObjectByName(const std::string& objectName) const;
 	const std::string& GetName() const { return m_Name; }
-	std::vector<GameObject*>& GetGameObjects() { return m_pGameObjects; }
+	const std::vector<GameObject*>& GetGameObjects() const { return m_pGameObjects; }
 
 	void Active() { m_IsActivated = true; }
 	bool IsActive() const { return m_IsActivated; }
