@@ -22,10 +22,22 @@ TurretComponent::~TurretComponent()
 	m_pRender = nullptr;
 }
 
+void TurretComponent::SpawnBullet() const
+{
+
+}
+
 void TurretComponent::Update(GameContext& gc)
 {
-	const auto dir = gc.pInput->GetMousePosition() - m_pTransform->GetAbsolutePosition();
-	
+	glm::vec2 dir;
+	if (m_Player == 0)
+		dir = gc.pInput->GetMousePosition() - m_pTransform->GetAbsolutePosition();
+	else
+	{
+		dir.x = gc.pInput->GetJoystickAxis(m_Player, SDL_CONTROLLER_AXIS_LEFTX);
+		dir.y = gc.pInput->GetJoystickAxis(m_Player, SDL_CONTROLLER_AXIS_LEFTY);
+	}
+
 	const float rotRad = atan2(-dir.x, dir.y);
 	float rotDegrees = rotRad * 180 / gPI;
 	rotDegrees += 90;

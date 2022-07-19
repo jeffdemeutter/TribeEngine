@@ -66,7 +66,12 @@ void Game::LoadGame() const
 		{
 			const auto pTransform = pTankTurret->AddComponent(new TransformComponent(pTankTurret, RenderManager::GetWindowCenter()));
 			const auto pRender = pTankTurret->AddComponent(new RenderComponent(pTankTurret, pTransform, "spritesheet.png"));
-			pTankTurret->AddComponent(new TurretComponent(pTankTurret, m_Player, pTransform, pRender));
+			const auto pTurret = pTankTurret->AddComponent(new TurretComponent(pTankTurret, m_Player, pTransform, pRender));
+
+			InputAction ia(new Command([pTurret] {pTurret->SpawnBullet(); }));
+			ia.stroke = Stroke::released;
+			ia.keyboardKey = SDL_SCANCODE_SPACE;
+			m_GameContext.pInput->AddInputAction(ia);
 		}
 
 		//// fps object

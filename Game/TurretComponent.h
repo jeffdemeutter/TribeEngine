@@ -14,6 +14,7 @@ public:
 	TurretComponent& operator=(const TurretComponent&) = delete;
 	TurretComponent& operator=(TurretComponent&&) noexcept = delete;
 
+	void SpawnBullet() const;
 
 	virtual void Update(GameContext&) override;
 	virtual void Render() const override {}
@@ -23,6 +24,5 @@ private:
 	RenderComponent* m_pRender = nullptr;
 
 	int m_Player = 0;
-
 };
 
