@@ -24,7 +24,7 @@ TurretComponent::~TurretComponent()
 
 void TurretComponent::Update(GameContext& gc)
 {
-	const auto dir = gc.pInput->GetMousePosition() - m_pTransform->GetPosition();
+	const auto dir = gc.pInput->GetMousePosition() - m_pTransform->GetAbsolutePosition();
 	
 	const float rotRad = atan2(-dir.x, dir.y);
 	float rotDegrees = rotRad * 180 / gPI;

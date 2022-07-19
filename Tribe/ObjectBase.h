@@ -18,12 +18,13 @@ public:
 	[[nodiscard]] GameObject* AddGameObject(const std::string& objectName);
 	[[nodiscard]] GameObject* GetGameObjectByName(const std::string& objectName) const;
 	const std::string& GetName() const { return m_Name; }
+	std::vector<GameObject*>& GetGameObjects() { return m_pGameObjects; }
 
 	void Active() { m_IsActivated = true; }
+	bool IsActive() const { return m_IsActivated; }
 	void Deactivate() { m_IsActivated = false; }
 	void SetActive(bool active) { m_IsActivated = active; }
 	void ToggleActive() { m_IsActivated = !m_IsActivated; }
-	bool IsActive() const { return m_IsActivated; }
 
 protected:
 	std::vector<GameObject*> m_pGameObjects;

@@ -30,7 +30,7 @@ void RenderComponent::Render() const
 	if (!m_pTexture)
 		return;
 
-	const auto pos = m_pTransformComponent->GetPosition() - m_Center;
+	const auto pos = m_pTransformComponent->GetAbsolutePosition() - m_Center;
 
 	if (m_SrcRect.has_value())
 	{

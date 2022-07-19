@@ -132,6 +132,9 @@
     <ClCompile Include="SpriteAnimationComponent.cpp">
       <Filter>Content\Components</Filter>
     </ClCompile>
+    <ClCompile Include="TransformComponent.cpp">
+      <Filter>Content\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

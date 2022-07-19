@@ -29,7 +29,7 @@ void PlayerTankComponent::Update(GameContext& gc)
 	if (!m_IsMoving)
 		return;
 
-	auto& pos = m_pTransform->GetPosition();
+	auto& pos = m_pTransform->GetRelativePosition();
 	switch (m_Movement)
 	{
 	case Movement::up:

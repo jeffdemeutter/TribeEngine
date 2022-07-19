@@ -62,6 +62,7 @@
     <ClCompile Include="SpriteAnimationComponent.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Texture2D.cpp" />
+    <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="Tribe.cpp" />
     <ClCompile Include="TribePCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
