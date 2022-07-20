@@ -13,6 +13,25 @@ void ObjectBase::Update(GameContext& gc)
 	for (const auto pGameObject : m_pGameObjects)
 		if (pGameObject->IsActive())
 			pGameObject->Update(gc);
+
+
+	// deleting oobjects
+	if (!m_pGameObjectsToDelete.empty())
+	{
+		std::cout << "Deleting objects, current size: " << m_pGameObjects.size() << '\n';
+		for (auto& pGameObjectToDelete : m_pGameObjectsToDelete)
+		{
+			if (auto it = 	std::ranges::find(m_pGameObjects, pGameObjectToDelete); 
+				it != m_pGameObjects.cend())
+			{
+				SafeDelete(*it);
+				m_pGameObjects.erase(it);
+			}
+		}
+
+		m_pGameObjectsToDelete.clear();
+		std::cout << "Deleted objects, new size: " << m_pGameObjects.size() << '\n' << '\n';
+	}
 }
 
 void ObjectBase::Render() const
@@ -35,4 +54,9 @@ GameObject* ObjectBase::GetGameObjectByName(const std::string& objectName) const
 		return nullptr;
 
 	return *findIt;
+}
+
+void ObjectBase::RemoveGameObject(GameObject* pGameObject)
+{
+	m_pGameObjectsToDelete.emplace_back(pGameObject);
 }

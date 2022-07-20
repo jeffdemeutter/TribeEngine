@@ -35,23 +35,24 @@ void TurretComponent::SpawnBullet()
 	{
 		const auto pTrans = pBullet->AddComponent(new TransformComponent(pBullet, m_pTransform->GetAbsolutePosition()));
 		const auto pRender = pBullet->AddComponent(new RenderComponent(pBullet, pTrans, "spritesheet.png"));
+		pBullet->AddComponent(new BulletComponent(pBullet, pTrans, m_Direction, 10.f));
+
 		pRender->SetSrcRect({ 96, 32, 32, 32 });
-		pBullet->AddComponent(new BulletComponent(pBullet, pTrans));
+		pRender->SetCenter({ 16,16 });
 	}
 }
 
 void TurretComponent::Update(GameContext& gc)
 {
-	glm::vec2 dir;
 	if (m_Player == 0)
-		dir = gc.pInput->GetMousePosition() - m_pTransform->GetAbsolutePosition();
+		m_Direction = gc.pInput->GetMousePosition() - m_pTransform->GetAbsolutePosition();
 	else
 	{
-		dir.x = gc.pInput->GetJoystickAxis(m_Player, SDL_CONTROLLER_AXIS_LEFTX);
-		dir.y = gc.pInput->GetJoystickAxis(m_Player, SDL_CONTROLLER_AXIS_LEFTY);
+		m_Direction.x = gc.pInput->GetJoystickAxis(m_Player, SDL_CONTROLLER_AXIS_LEFTX);
+		m_Direction.y = gc.pInput->GetJoystickAxis(m_Player, SDL_CONTROLLER_AXIS_LEFTY);
 	}
 
-	const float rotRad = atan2(-dir.x, dir.y);
+	const float rotRad = atan2(-m_Direction.x, m_Direction.y);
 	float rotDegrees = rotRad * 180 / gPI;
 	rotDegrees += 90;
 

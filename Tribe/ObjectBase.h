@@ -17,6 +17,7 @@ public:
 
 	[[nodiscard]] GameObject* AddGameObject(const std::string& objectName);
 	[[nodiscard]] GameObject* GetGameObjectByName(const std::string& objectName) const;
+	void RemoveGameObject(GameObject* pGameObject);
 	const std::string& GetName() const { return m_Name; }
 	const std::vector<GameObject*>& GetGameObjects() const { return m_pGameObjects; }
 
@@ -28,6 +29,7 @@ public:
 
 protected:
 	std::vector<GameObject*> m_pGameObjects;
+	std::vector<GameObject*> m_pGameObjectsToDelete;
 	std::string m_Name = "Default";
 
 private:

@@ -75,14 +75,14 @@ void Game::LoadGame() const
 			m_GameContext.pInput->AddInputAction(ia);
 		}
 
-		//// fps object
-		//{
-		//	auto pFps = pScene->AddGameObject("fps");
-		//	
-		//	const auto pTransform = pFps->AddComponent(new TransformComponent(pFps));
-		//	const auto pRender = pFps->AddComponent(new RenderComponent(pFps, pTransform));
-		//	const auto pText = pFps->AddComponent(new TextComponent(pFps, pRender, "", pFont, { 255,255,0,255 }));
-		//	pFps->AddComponent(new FpsComponent(pFps, pText));
-		//}
+		// fps object
+		{
+			auto pFps = pScene->AddGameObject("fps");
+			
+			const auto pTransform = pFps->AddComponent(new TransformComponent(pFps));
+			const auto pRender = pFps->AddComponent(new RenderComponent(pFps, pTransform));
+			const auto pText = pFps->AddComponent(new TextComponent(pFps, pRender, "", pFont, { 255,255,0,255 }));
+			pFps->AddComponent(new FpsComponent(pFps, pText));
+		}
 	}
 }
