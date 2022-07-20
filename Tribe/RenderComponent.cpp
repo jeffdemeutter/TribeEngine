@@ -32,6 +32,12 @@ void RenderComponent::Render() const
 
 	const auto pos = m_pTransformComponent->GetAbsolutePosition() - m_Center;
 
+	if (m_FillScreen)
+	{
+		m_pTexture->DrawFillScreen(m_Flip);
+		return;
+	}
+
 	if (m_SrcRect.has_value())
 	{
 		m_pTexture->Draw(pos, m_Pivot, m_SrcRect.value(), m_Rotation, m_Flip);

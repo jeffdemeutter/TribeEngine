@@ -16,6 +16,8 @@
 #include "TextComponent.h"
 #include "TransformComponent.h"
 #include "SpriteAnimationComponent.h"
+#include "LevelComponent.h"
+#include "TileComponent.h"
 #include "TurretComponent.h"
 
 void Game::LoadGame() const
@@ -25,6 +27,19 @@ void Game::LoadGame() const
 
 	{ // main scene
 		const auto pScene = m_GameContext.pSceneManager->AddScene("SinglePlayer");
+
+
+#pragma region Level
+		const auto pLevel = pScene->AddGameObject("Level");
+		{
+			const auto pLevelComponent = pLevel->AddComponent(new LevelComponent(pLevel, "background.png", "tilesheet.png", {32,32}));
+
+			pLevelComponent->AddTile(2, 2, TileType::corner, -90);
+			pLevelComponent->AddTile(3, 3, TileType::straight, 90);
+
+		}
+
+#pragma endregion
 
 		// tank
 		const auto pTank = pScene->AddGameObject("PlayerTank");

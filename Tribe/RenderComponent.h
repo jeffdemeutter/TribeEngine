@@ -25,10 +25,13 @@ public:
 	void SetPivot(const glm::vec2& pivot) { m_Pivot = pivot; }
 	void SetCenter(const glm::vec2& center) { m_Center = center; }
 	void SetFlip(SDL_RendererFlip flip) { m_Flip = flip; }
+	void SetFullScreen(bool fullscreen) { m_FillScreen = fullscreen; }
 
 private:
 	Texture2D* m_pTexture = nullptr;
 	TransformComponent* m_pTransformComponent = nullptr;
+
+	bool m_FillScreen = false;
 
 	glm::vec2 m_Center = { 0,0 };
 	glm::vec2 m_Pivot = { 0,0 };

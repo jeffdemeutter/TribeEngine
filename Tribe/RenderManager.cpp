@@ -45,7 +45,7 @@ void RenderManager::Init()
 
 	// create the window
 	inst.m_pWindow = SDL_CreateWindow(
-		"something",
+		"Prog 4 exam",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		inst.m_Width,
@@ -91,6 +91,13 @@ void RenderManager::Destroy()
 	SDL_DestroyWindow(inst.m_pWindow);
 	inst.m_pWindow = nullptr;
 	SDL_Quit();
+}
+
+void RenderManager::SetBackgroundColor(const glm::vec3& color)
+{
+	Instance().m_ClearColor.r = Uint8(color.x * 255.f);
+	Instance().m_ClearColor.g = Uint8(color.y * 255.f);
+	Instance().m_ClearColor.b = Uint8(color.z * 255.f);
 }
 
 void RenderManager::UpdateWindow(int width, int height)

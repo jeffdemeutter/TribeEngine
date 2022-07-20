@@ -24,12 +24,13 @@ public:
 	{
 		Instance().m_ClearColor = color;
 	}
+	static void SetBackgroundColor(const glm::vec3& color);
 
 private:
 	friend class Singleton<RenderManager>;
 	RenderManager() = default;
 
-	int m_Width = 900;
+	int m_Width = 800;
 	int m_Height = 600;
 	SDL_Renderer* m_pRenderer{};
 	SDL_Window* m_pWindow{};
