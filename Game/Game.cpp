@@ -69,8 +69,9 @@ void Game::LoadGame() const
 			const auto pTurret = pTankTurret->AddComponent(new TurretComponent(pTankTurret, m_Player, pTransform, pRender));
 
 			InputAction ia(new Command([pTurret] {pTurret->SpawnBullet(); }));
-			ia.stroke = Stroke::released;
+			ia.stroke = Stroke::held;
 			ia.keyboardKey = SDL_SCANCODE_SPACE;
+			ia.mouseButton = 0;
 			m_GameContext.pInput->AddInputAction(ia);
 		}
 

@@ -14,7 +14,7 @@ public:
 	TurretComponent& operator=(const TurretComponent&) = delete;
 	TurretComponent& operator=(TurretComponent&&) noexcept = delete;
 
-	void SpawnBullet() const;
+	void SpawnBullet();
 
 	virtual void Update(GameContext&) override;
 	virtual void Render() const override {}

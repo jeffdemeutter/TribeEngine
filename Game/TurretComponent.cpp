@@ -1,6 +1,8 @@
 #include "GamePCH.h"
 #include "TurretComponent.h"
 
+#include "BulletComponent.h"
+#include "GameObject.h"
 #include "InputManager.h"
 #include "TransformComponent.h"
 #include "RenderComponent.h"
@@ -22,9 +24,20 @@ TurretComponent::~TurretComponent()
 	m_pRender = nullptr;
 }
 
-void TurretComponent::SpawnBullet() const
+void TurretComponent::SpawnBullet()
 {
+	const auto& pTurret = GetParent();
+	const auto& pTank = static_cast<GameObject*>(pTurret->GetParent());
+	const auto& pScene = pTank->GetParent();
 
+
+	const auto pBullet = pScene->AddGameObject("Bullet");
+	{
+		const auto pTrans = pBullet->AddComponent(new TransformComponent(pBullet, m_pTransform->GetAbsolutePosition()));
+		const auto pRender = pBullet->AddComponent(new RenderComponent(pBullet, pTrans, "spritesheet.png"));
+		pRender->SetSrcRect({ 96, 32, 32, 32 });
+		pBullet->AddComponent(new BulletComponent(pBullet, pTrans));
+	}
 }
 
 void TurretComponent::Update(GameContext& gc)

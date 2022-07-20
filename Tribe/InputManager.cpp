@@ -1,7 +1,7 @@
 #include "TribePCH.h"
 #include "InputManager.h"
 
-#include "Structs.h"
+
 #include "RenderManager.h"
 
 InputManager::InputManager()
@@ -30,7 +30,7 @@ InputManager::~InputManager()
 		SafeDelete(input.pCommand);
 }
 
-float InputManager::GetJoystickAxis(int controllerID, SDL_GameControllerAxis axis)
+float InputManager::GetJoystickAxis(int controllerID, SDL_GameControllerAxis axis) const
 {
 	if (controllerID > m_ControllerCount)
 		return 0;
@@ -43,7 +43,7 @@ float InputManager::GetJoystickAxis(int controllerID, SDL_GameControllerAxis axi
 	return normVal;
 }
 
-glm::vec2 InputManager::GetMousePosition() const
+glm::vec2 InputManager::GetMousePosition()
 {
 	int x, y;
 	SDL_GetMouseState(&x, &y);
@@ -87,6 +87,21 @@ bool InputManager::ProcessInput()
 			for (InputAction& input : m_Commands)
 				if (CheckKeyboard(input, e.key.keysym.scancode, Stroke::released))
 					input.pCommand->Execute();
+			break;
+
+		case SDL_MOUSEBUTTONUP:
+			for (InputAction& input : m_Commands)
+				if (input.stroke == Stroke::released)
+					if (input.mouseButton, int(e.button.button))
+						input.pCommand->Execute();
+			break;
+					
+
+		case SDL_MOUSEBUTTONDOWN:
+			for (InputAction& input : m_Commands)
+				if (input.stroke == Stroke::pressed)
+					if (input.mouseButton, int(e.button.button))
+						input.pCommand->Execute();
 			break;
 #pragma endregion
 
