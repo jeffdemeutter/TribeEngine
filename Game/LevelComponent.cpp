@@ -12,16 +12,17 @@
 #include "Texture2D.h"
 
 
-LevelComponent::LevelComponent(GameObject* pGo, const std::string& background, const std::string& spriteSheet, const glm::ivec2& tileSize)
+LevelComponent::LevelComponent(GameObject* pGo, TransformComponent* pTrans, RenderComponent* pRender, const std::string& spriteSheet, const glm::ivec2& tileSize, const glm::ivec2& gridSize, float sizeMultiplier)
 	: Component(pGo)
 	, m_TileSize(tileSize)
+	, m_GridSize(gridSize)
+	, m_SizeMultiplier(sizeMultiplier)
+	, m_pTransform(pTrans)
 	, m_pSpriteSheet(ResourceManager::LoadTexture(spriteSheet))
-{
-	const auto pLevel = GetParent();
-
-	const auto pTrans = pLevel->AddComponent(new TransformComponent(pLevel));
-	const auto pRender = pLevel->AddComponent(new RenderComponent(pLevel, pTrans, background));
+{	
 	pRender->SetFullScreen(true);
+
+	m_pSpriteSheet->SetSizeMultiplier(sizeMultiplier);
 }
 
 #pragma region ColorStuff
@@ -93,18 +94,25 @@ void LevelComponent::Update(GameContext& gc)
 	RenderManager::SetBackgroundColor(m_BackGroundColor);
 }
 
-TileComponent* LevelComponent::AddTile(int x, int y, TileType tile, float rotation)
+TileComponent* LevelComponent::AddTile(int x, int y, TileType tile, float rotation) const
 {
 	const auto pGo = GetParent()->AddGameObject(std::to_string(x) + " - " + std::to_string(y));
 	
 	const auto pTrans = pGo->AddComponent(new TransformComponent(pGo));
 	const auto pRender = pGo->AddComponent(new RenderComponent(pGo, pTrans));
-	const auto pTile = pGo->AddComponent(new TileComponent(pGo, x, y, this, pTrans, pRender, tile, rotation));
+	const auto pTile = pGo->AddComponent(new TileComponent(pGo, x, y, tile, rotation));
+
+	pTrans->SetPosition(GetPositionForTile(x, y));
+
+	pRender->SetSrcRect(GetSrcRect(tile));
+	pRender->SetRotation(rotation);
+	pRender->SetTexture(m_pSpriteSheet);
+	pRender->SetPivot(m_TileSize / 2);
 
 	return pTile;
 }
 
-bool LevelComponent::GetPositionForTile(int x, int y, glm::vec3& position) const
+glm::vec2 LevelComponent::GetPositionForTile(int x, int y) const
 {
 	if (x < 0 || x >= m_Width)
 		std::cout << "Tile location X " << x << " is out of bounds \n";
@@ -113,17 +121,43 @@ bool LevelComponent::GetPositionForTile(int x, int y, glm::vec3& position) const
 		std::cout << "Tile location Y " << y << " is out of bounds \n";
 
 
-	// formula to calculate where the crossection should be rendered
+	glm::vec2 position{};
 
-	// remove the margin from both sides from window
-	position.x = float(RenderManager::GetWindowSize().x);
-	position.y = float(RenderManager::GetWindowSize().y);
-	// divide by levelWidth/Height and multiply with the location.x/y to find the position
-	position.x /= float(m_Width);
-	position.x += float(m_TileSize.x * x);
+	const float maxSizeX = float(m_Width  * m_GridSize.x * m_SizeMultiplier);
+	const float maxSizeY = float(m_Height * m_GridSize.y * m_SizeMultiplier);
 
-	position.y /= float(m_Height);
-	position.y += float(m_TileSize.y * y);
+	position.x += float(m_GridSize.x * x * m_SizeMultiplier) - maxSizeX / 2;
+	position.y += float(m_GridSize.y * y * m_SizeMultiplier) - maxSizeY / 2;
 
-	return true;
+	return position;
+}
+
+SDL_Rect LevelComponent::GetSrcRect(TileType tile) const
+{
+	SDL_Rect srcRect;
+	srcRect.x = 0;
+	srcRect.y = 0;
+	srcRect.w = m_TileSize.x;
+	srcRect.h = m_TileSize.y;
+
+	switch (tile)
+	{
+	case TileType::end:
+		srcRect.x = 0;
+		break;
+	case TileType::corner:
+		srcRect.x = 32;
+		break;
+	case TileType::straight:
+		srcRect.x = 64;
+		break;
+	case TileType::tPoint:
+		srcRect.x = 96;
+		break;
+	case TileType::cross:
+		srcRect.x = 128;
+		break;
+	}
+
+	return srcRect;
 }

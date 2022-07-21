@@ -14,6 +14,8 @@ public:
 	Texture2D& operator= (const Texture2D&) = delete;
 	Texture2D& operator= (const Texture2D&&) = delete;
 
+	void SetSizeMultiplier(float multiplier) { m_SizeMultiplier = multiplier; }
+
 	void Draw(const glm::vec2& pos, const glm::vec2& pivot, float angle = 0.f, SDL_RendererFlip flip = SDL_FLIP_NONE) const;
 	// source rect draw calls
 	void Draw(const glm::vec2& pos, const glm::vec2& pivot, const SDL_Rect& srcRect, float angle = 0.f, SDL_RendererFlip flip = SDL_FLIP_NONE) const;
@@ -22,4 +24,6 @@ public:
 
 private:
 	SDL_Texture* m_pTexture;
+
+	float m_SizeMultiplier = 1.f;
 };

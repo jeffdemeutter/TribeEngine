@@ -32,10 +32,16 @@ void Game::LoadGame() const
 #pragma region Level
 		const auto pLevel = pScene->AddGameObject("Level");
 		{
-			const auto pLevelComponent = pLevel->AddComponent(new LevelComponent(pLevel, "background.png", "tilesheet.png", {32,32}));
+			const auto pTrans = pLevel->AddComponent(new TransformComponent(pLevel, RenderManager::GetWindowCenter()));
+			const auto pRender = pLevel->AddComponent(new RenderComponent(pLevel, pTrans, "background.png"));
+			const auto pLevelComponent = pLevel->AddComponent(new LevelComponent(pLevel, pTrans, pRender, "tilesheet.png", { 32,32 }, { 24,24 }, 1.3f));
 
-			pLevelComponent->AddTile(2, 2, TileType::corner, -90);
-			pLevelComponent->AddTile(3, 3, TileType::straight, 90);
+			for (int i = 0; i < 16; ++i)
+			{
+				pLevelComponent->AddTile(i, i, TileType::cross);
+				
+				pLevelComponent->AddTile(16 - i, i, TileType::cross);
+			}
 
 		}
 

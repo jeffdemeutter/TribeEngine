@@ -19,7 +19,7 @@ enum class TileType
 class TileComponent : public Component
 {
 public:
-	TileComponent(GameObject* go, int x, int y, LevelComponent* pLevel, TransformComponent* pTransform, RenderComponent* pRender, TileType tile, float rotation);
+	TileComponent(GameObject* go, int x, int y, TileType tile, float rotation);
 	~TileComponent() override = default;
 	TileComponent(const TileComponent&) = delete;
 	TileComponent(TileComponent&&) noexcept = delete;
@@ -32,8 +32,6 @@ public:
 
 private:
 	glm::ivec2 m_Location = { 0,0 };
-	TransformComponent* m_pTransform = nullptr;
-	LevelComponent* m_pLevel = nullptr;
-
-	const glm::vec3 m_pPawnOffsets = { 4, -10, 0 };
+	TileType m_Type;
+	float m_Rotation = 0;
 };

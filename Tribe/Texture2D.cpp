@@ -15,8 +15,10 @@ void Texture2D::Draw(const glm::vec2& pos, const glm::vec2& pivot, float angle, 
 	dst.y = static_cast<int>(pos.y);
 	SDL_QueryTexture(m_pTexture, nullptr, nullptr, &dst.w, &dst.h);
 
-	SDL_Point center(int(pivot.x), int(pivot.y));
+	dst.w = int(float(dst.w) * m_SizeMultiplier);
+	dst.h = int(float(dst.h) * m_SizeMultiplier);
 
+	SDL_Point center(int(pivot.x), int(pivot.y));
 	SDL_RenderCopyEx(RenderManager::GetSDLRenderer(), m_pTexture, nullptr, &dst, double(angle), &center, flip);
 }
 
@@ -25,8 +27,8 @@ void Texture2D::Draw(const glm::vec2& pos, const glm::vec2& pivot, const SDL_Rec
 	SDL_Rect dst{};
 	dst.x = static_cast<int>(pos.x);
 	dst.y = static_cast<int>(pos.y);
-	dst.w = static_cast<int>(srcRect.w);
-	dst.h = static_cast<int>(srcRect.h);
+	dst.w = static_cast<int>(srcRect.w * m_SizeMultiplier);
+	dst.h = static_cast<int>(srcRect.h * m_SizeMultiplier);
 
 	SDL_Point center(int(pivot.x), int(pivot.y));
 
@@ -35,7 +37,7 @@ void Texture2D::Draw(const glm::vec2& pos, const glm::vec2& pivot, const SDL_Rec
 
 void Texture2D::DrawFillScreen(SDL_RendererFlip flip) const
 {
-	SDL_Rect dst = RenderManager::GetWindowRect();
+	const SDL_Rect dst = RenderManager::GetWindowRect();
 	SDL_RenderCopyEx(RenderManager::GetSDLRenderer(), m_pTexture, nullptr, &dst, 0, nullptr, flip);
 }
 
