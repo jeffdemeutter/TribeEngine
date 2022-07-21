@@ -18,7 +18,6 @@ void ObjectBase::Update(GameContext& gc)
 	// deleting oobjects
 	if (!m_pGameObjectsToDelete.empty())
 	{
-		std::cout << "Deleting objects, current size: " << m_pGameObjects.size() << '\n';
 		for (auto& pGameObjectToDelete : m_pGameObjectsToDelete)
 		{
 			if (auto it = 	std::ranges::find(m_pGameObjects, pGameObjectToDelete); 
@@ -30,7 +29,6 @@ void ObjectBase::Update(GameContext& gc)
 		}
 
 		m_pGameObjectsToDelete.clear();
-		std::cout << "Deleted objects, new size: " << m_pGameObjects.size() << '\n' << '\n';
 	}
 }
 
