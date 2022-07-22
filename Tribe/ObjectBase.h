@@ -21,8 +21,8 @@ public:
 	const std::string& GetName() const { return m_Name; }
 	const std::vector<GameObject*>& GetGameObjects() const { return m_pGameObjects; }
 
-	void Active() { m_IsActivated = true; }
 	bool IsActive() const { return m_IsActivated; }
+	void Activate() { m_IsActivated = true; }
 	void Deactivate() { m_IsActivated = false; }
 	void SetActive(bool active) { m_IsActivated = active; }
 	void ToggleActive() { m_IsActivated = !m_IsActivated; }
