@@ -12,17 +12,14 @@
 #include "Texture2D.h"
 
 
-LevelComponent::LevelComponent(GameObject* pGo, TransformComponent* pTrans, RenderComponent* pRender, const std::string& spriteSheet, const glm::ivec2& tileSize, const glm::ivec2& gridSize, float sizeMultiplier)
+LevelComponent::LevelComponent(GameObject* pGo, TransformComponent* pTrans, RenderComponent* pRender, const std::string& spriteSheet, const glm::ivec2& tileSize, const glm::ivec2& gridSize)
 	: Component(pGo)
 	, m_TileSize(tileSize)
 	, m_GridSize(gridSize)
-	, m_SizeMultiplier(sizeMultiplier)
 	, m_pTransform(pTrans)
 	, m_pSpriteSheet(ResourceManager::LoadTexture(spriteSheet))
 {	
 	pRender->SetFullScreen(true);
-
-	m_pSpriteSheet->SetSizeMultiplier(sizeMultiplier);
 }
 
 #pragma region ColorStuff
@@ -94,13 +91,13 @@ void LevelComponent::Update(GameContext& gc)
 	RenderManager::SetBackgroundColor(m_BackGroundColor);
 }
 
-TileComponent* LevelComponent::AddTile(int x, int y, TileType tile, float rotation) const
+void LevelComponent::AddTile(int x, int y, TileType tile, float rotation) const
 {
 	const auto pGo = GetParent()->AddGameObject(std::to_string(x) + " - " + std::to_string(y));
 	
 	const auto pTrans = pGo->AddComponent(new TransformComponent(pGo));
 	const auto pRender = pGo->AddComponent(new RenderComponent(pGo, pTrans));
-	const auto pTile = pGo->AddComponent(new TileComponent(pGo, x, y, tile, rotation));
+	pGo->AddComponent(new TileComponent(pGo, x, y, tile, rotation));
 
 	pTrans->SetPosition(GetPositionForTile(x, y));
 
@@ -108,8 +105,7 @@ TileComponent* LevelComponent::AddTile(int x, int y, TileType tile, float rotati
 	pRender->SetRotation(rotation);
 	pRender->SetTexture(m_pSpriteSheet);
 	pRender->SetPivot(m_TileSize / 2);
-
-	return pTile;
+	
 }
 
 glm::vec2 LevelComponent::GetPositionForTile(int x, int y) const
@@ -123,11 +119,11 @@ glm::vec2 LevelComponent::GetPositionForTile(int x, int y) const
 
 	glm::vec2 position{};
 
-	const float maxSizeX = float(m_Width  * m_GridSize.x * m_SizeMultiplier);
-	const float maxSizeY = float(m_Height * m_GridSize.y * m_SizeMultiplier);
+	const float maxSizeX = float(m_Width  * m_GridSize.x);
+	const float maxSizeY = float(m_Height * m_GridSize.y);
 
-	position.x += float(m_GridSize.x * x * m_SizeMultiplier) - maxSizeX / 2;
-	position.y += float(m_GridSize.y * y * m_SizeMultiplier) - maxSizeY / 2;
+	position.x += float(m_GridSize.x * x) - maxSizeX / 2;
+	position.y += float(m_GridSize.y * y) - maxSizeY / 2;
 
 	return position;
 }

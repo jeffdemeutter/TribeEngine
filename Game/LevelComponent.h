@@ -10,7 +10,7 @@ class Texture2D;
 class LevelComponent : public Component
 {
 public:
-	LevelComponent(GameObject* pGo, TransformComponent* pTrans, RenderComponent* pRender, const std::string& spriteSheet, const glm::ivec2& tileSize, const glm::ivec2& gridSize, float sizeMultiplier);
+	LevelComponent(GameObject* pGo, TransformComponent* pTrans, RenderComponent* pRender, const std::string& spriteSheet, const glm::ivec2& tileSize, const glm::ivec2& gridSize);
 	~LevelComponent() override = default;
 	LevelComponent(const LevelComponent&) = delete;
 	LevelComponent(LevelComponent&&) noexcept = delete;
@@ -20,17 +20,16 @@ public:
 	virtual void Update(GameContext&) override;
 	virtual void Render() const override {}
 
-	TileComponent* AddTile(int x, int y, TileType tile, float rotation = 0) const;
+	void AddTile(int x, int y, TileType tile, float rotation = 0) const;
 
 private:
 	glm::vec2 GetPositionForTile(int x, int y) const;
 
 	static constexpr int m_Width = 17; 
-	static constexpr int m_Height = 17;
+	static constexpr int m_Height = 18;
 	
 	const glm::ivec2 m_TileSize = { 24, 24 };
 	const glm::ivec2 m_GridSize = { 24,24 };
-	const float m_SizeMultiplier = 1.f;
 
 	TransformComponent* m_pTransform = nullptr;
 	Texture2D* m_pSpriteSheet = nullptr;
