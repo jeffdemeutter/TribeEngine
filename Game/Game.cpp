@@ -1,6 +1,7 @@
 #include "GamePCH.h"
 #include "Game.h"
 
+#include "CollisionComponent.h"
 #include "Font.h"
 #include "FpsComponent.h"
 #include "GameObject.h"
@@ -34,8 +35,7 @@ void Game::LoadGame() const
 		{
 			const auto pTrans = pLevel->AddComponent(new TransformComponent(pLevel, RenderManager::GetWindowCenter()));
 			const auto pRender = pLevel->AddComponent(new RenderComponent(pLevel, pTrans, "background.png"));
-			const auto pLevelComponent = pLevel->AddComponent(new LevelComponent(pLevel, pTrans, pRender, "tilesheet.png", { 32,32 }, { 24,24 }));
-
+			const auto pLevelComponent = pLevel->AddComponent(new LevelComponent(pLevel, pRender, "tilesheet.png", { 32,32 }, { 24,24 }));
 
 			pLevelComponent->AddTile(0, 0, TileType::corner, -90);
 			pLevelComponent->AddTile(0, 1, TileType::straight, 90);
@@ -293,6 +293,8 @@ void Game::LoadGame() const
 			pLevelComponent->AddTile(17, 15, TileType::straight, 90);
 			pLevelComponent->AddTile(17, 16, TileType::straight, 90);
 			pLevelComponent->AddTile(17, 17, TileType::corner, 90);
+
+			pLevelComponent->GenerateWalls();
 		}
 
 #pragma endregion
@@ -302,7 +304,8 @@ void Game::LoadGame() const
 		{ 
 			const auto pTransform = pTank->AddComponent(new TransformComponent(pTank, RenderManager::GetWindowCenter()));
 			const auto pRender = pTank->AddComponent(new RenderComponent(pTank, pTransform, "spritesheet.png"));
-			const auto pPlayer = pTank->AddComponent(new PlayerTankComponent(pTank, pTransform, pRender));
+			const auto pCollision = pTank->AddComponent(new CollisionComponent(pTank, pTransform, 14, 14));
+			const auto pPlayer = pTank->AddComponent(new PlayerTankComponent(pTank, pTransform, pRender, pCollision));
 
 			// tank inputs
 			{

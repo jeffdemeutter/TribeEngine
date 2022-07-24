@@ -1,6 +1,7 @@
 #pragma once
 #include <Component.h>
 
+class CollisionComponent;
 class TransformComponent;
 
 class BulletComponent final : public Component

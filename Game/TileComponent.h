@@ -12,7 +12,8 @@ enum class TileType
 	corner,
 	straight,
 	tPoint,
-	cross
+	cross,
+	wall
 };
 
 
@@ -28,7 +29,8 @@ public:
 
 	virtual void Update(GameContext&) override {}
 	virtual void Render() const override {}
-	
+
+	TileType GetType() const { return m_Type; }
 
 private:
 	glm::ivec2 m_Location = { 0,0 };

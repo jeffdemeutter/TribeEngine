@@ -14,6 +14,7 @@ public:
 
 	std::shared_ptr<Scene> AddScene(const std::string& sceneName);
 	std::shared_ptr<Scene> GetScene(const std::string& name);
+	std::shared_ptr<Scene> GetActiveScene();
 	void ActivateScene(int sceneIndex);
 	void ActivateScene(const std::string& sceneName);
 

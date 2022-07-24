@@ -2,6 +2,7 @@
 #include "TurretComponent.h"
 
 #include "BulletComponent.h"
+#include "CollisionComponent.h"
 #include "GameObject.h"
 #include "InputManager.h"
 #include "TransformComponent.h"
@@ -38,7 +39,7 @@ void TurretComponent::SpawnBullet()
 		pBullet->AddComponent(new BulletComponent(pBullet, pTrans, m_Direction, 10.f));
 
 		pRender->SetSrcRect({ 96, 32, 32, 32 });
-		pRender->SetCenter({ 16,16 });
+
 	}
 }
 

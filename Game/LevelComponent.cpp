@@ -1,6 +1,7 @@
 #include "GamePCH.h"
 #include "LevelComponent.h"
 
+#include "CollisionComponent.h"
 #include "GameObject.h"
 #include "GameTime.h"
 #include "TileComponent.h"
@@ -9,17 +10,28 @@
 
 #include "RenderManager.h"
 #include "ResourceManager.h"
-#include "Texture2D.h"
 
 
-LevelComponent::LevelComponent(GameObject* pGo, TransformComponent* pTrans, RenderComponent* pRender, const std::string& spriteSheet, const glm::ivec2& tileSize, const glm::ivec2& gridSize)
+std::string stringKey(int x, int y)
+{
+	return std::to_string(x) + " - " + std::to_string(y);
+}
+
+LevelComponent::LevelComponent(GameObject* pGo, RenderComponent* pRender, const std::string& spriteSheet, const glm::ivec2& tileSize, const glm::ivec2& gridSize)
 	: Component(pGo)
 	, m_TileSize(tileSize)
 	, m_GridSize(gridSize)
-	, m_pTransform(pTrans)
 	, m_pSpriteSheet(ResourceManager::LoadTexture(spriteSheet))
 {	
 	pRender->SetFullScreen(true);
+
+	for (int x = 0; x < m_Width; ++x)
+	{
+		for (int y = 0; y < m_Height; ++y)
+		{
+			m_Tiles[stringKey(x, y)] = nullptr;
+		}
+	}
 }
 
 #pragma region ColorStuff
@@ -91,21 +103,68 @@ void LevelComponent::Update(GameContext& gc)
 	RenderManager::SetBackgroundColor(m_BackGroundColor);
 }
 
-void LevelComponent::AddTile(int x, int y, TileType tile, float rotation) const
+void LevelComponent::AddTile(int x, int y, TileType tile, float rotation)
 {
-	const auto pGo = GetParent()->AddGameObject(std::to_string(x) + " - " + std::to_string(y));
+	const auto pTile = GetParent()->AddGameObject(stringKey(x,y));
 	
-	const auto pTrans = pGo->AddComponent(new TransformComponent(pGo));
-	const auto pRender = pGo->AddComponent(new RenderComponent(pGo, pTrans));
-	pGo->AddComponent(new TileComponent(pGo, x, y, tile, rotation));
+	const auto pTrans = pTile->AddComponent(new TransformComponent(pTile));
+	if (tile == TileType::wall)
+	{
+		pTile->AddComponent(new CollisionComponent(pTile, pTrans, float(m_TileSize.x), float(m_TileSize.y)));
+	}
+	else
+	{
+		const auto pRender = pTile->AddComponent(new RenderComponent(pTile, pTrans));
+		
+		pRender->SetSrcRect(GetSrcRect(tile));
+		pRender->SetRotation(rotation);
+		pRender->SetTexture(m_pSpriteSheet);
+		pRender->SetPivot(m_TileSize / 2);
+	}
+	pTile->AddComponent(new TileComponent(pTile, x, y, tile, rotation));
 
 	pTrans->SetPosition(GetPositionForTile(x, y));
 
-	pRender->SetSrcRect(GetSrcRect(tile));
-	pRender->SetRotation(rotation);
-	pRender->SetTexture(m_pSpriteSheet);
-	pRender->SetPivot(m_TileSize / 2);
-	
+	m_Tiles[stringKey(x, y)] = pTile;
+}
+
+void LevelComponent::GenerateWalls()
+{
+	for (int x = 0; x < m_Width; ++x)
+	{
+		for (int y = 0; y < m_Height; ++y)
+		{
+			const auto& string = stringKey(x, y);
+			auto& pTile = m_Tiles[string];
+			if (pTile)
+				continue;
+
+			pTile = GetParent()->AddGameObject(string);
+
+			const auto pTrans = pTile->AddComponent(new TransformComponent(pTile));
+			pTile->AddComponent(new CollisionComponent(pTile, pTrans, float(m_GridSize.x), float(m_GridSize.y)));
+
+			pTrans->SetPosition(GetPositionForTile(x, y));
+			pTile->AddComponent(new TileComponent(pTile, x, y, TileType::wall, 0));
+		}
+	}
+}
+
+std::vector<GameObject*> LevelComponent::GetNearbyTiles(glm::vec2 pos, float radius) const
+{
+	const auto pLevel = GetParent();
+
+	std::vector<GameObject*> pNearbyTiles;
+	for (const auto pTile : pLevel->GetGameObjects())
+	{
+		const auto& tilePos = pTile->GetComponent<TransformComponent>()->GetAbsolutePosition();
+
+		const auto deltaVector = tilePos - pos;
+		const auto dist = deltaVector.x * deltaVector.x + deltaVector.y * deltaVector.y;
+		if (dist < radius * radius)
+			pNearbyTiles.emplace_back(pTile);
+	}
+	return pNearbyTiles;
 }
 
 glm::vec2 LevelComponent::GetPositionForTile(int x, int y) const
@@ -127,6 +186,8 @@ glm::vec2 LevelComponent::GetPositionForTile(int x, int y) const
 
 	return position;
 }
+
+
 
 SDL_Rect LevelComponent::GetSrcRect(TileType tile) const
 {

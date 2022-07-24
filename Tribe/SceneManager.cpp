@@ -16,6 +16,11 @@ std::shared_ptr<Scene> SceneManager::GetScene(const std::string& name)
 		[&name](std::shared_ptr<Scene> pscene) { return name == pscene->GetName(); });	
 }
 
+std::shared_ptr<Scene> SceneManager::GetActiveScene()
+{
+	return m_pScenes[m_ActiveSceneIndex];
+}
+
 void SceneManager::ActivateScene(int sceneIndex)
 {
 	if (sceneIndex >=  static_cast<int>(m_pScenes.size()))

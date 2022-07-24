@@ -29,3 +29,8 @@ void TransformComponent::Update(GameContext&)
 		pTrans->UpdatePosition(m_Position + m_RelativePosition);
 	}
 }
+
+void TransformComponent::SetAbsolutePosition(const glm::vec2& absolutePos)
+{
+	m_RelativePosition = absolutePos - m_Position;
+}

@@ -21,6 +21,7 @@ public:
 
 	void SetPosition(float x = 0, float y = 0) { m_RelativePosition = { x, y }; }
 	void SetPosition(const glm::vec2& pos) { m_RelativePosition = pos; }
+	void SetAbsolutePosition(const glm::vec2& absolutePos);
 	void SetDepth(float depth) { m_Depth = depth; }
 
 	glm::vec2 GetAbsolutePosition() const { return m_Position + m_RelativePosition; }
