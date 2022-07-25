@@ -31,7 +31,7 @@ private:
 	RenderManager() = default;
 
 	int m_Width = 800;
-	int m_Height = 600;
+	int m_Height = 800;
 	SDL_Renderer* m_pRenderer{};
 	SDL_Window* m_pWindow{};
 	SDL_Color m_ClearColor{};

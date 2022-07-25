@@ -21,12 +21,12 @@ public:
 private:
 	TransformComponent* m_pTransform = nullptr;
 
-	float m_Speed = 20.f;
+	float m_Speed = 300.f;
 	glm::vec2 m_Direction = {0.f, 1.f};
 
 
 	// makes sure bullets dissapear after some time
 	float m_Duration = 0.f;
-	static constexpr float m_MaxDuration = 1.f;
+	static constexpr float m_MaxDuration = 4.f;
 };
 

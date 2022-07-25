@@ -16,9 +16,6 @@
     <ClCompile Include="LevelComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="TileComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="CollisionComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -36,9 +33,6 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="LevelComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="TileComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="CollisionComponent.h">

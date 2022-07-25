@@ -26,8 +26,10 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="LevelParser.h" />
     <ClInclude Include="ObjectBase.h" />
     <ClInclude Include="PrinterComponent.h" />
+    <ClInclude Include="Raycast.h" />
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -50,6 +52,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="LevelParser.cpp" />
     <ClCompile Include="ObjectBase.cpp" />
     <ClCompile Include="PrinterComponent.cpp" />
     <ClCompile Include="RenderComponent.cpp" />

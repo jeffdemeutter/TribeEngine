@@ -14,8 +14,8 @@ TurretComponent::TurretComponent(GameObject* pGo, int player, TransformComponent
 	, m_pRender(pRender)
 	, m_Player(player)
 {
+	m_pTransform->SetPosition(-9, -23);
 	m_pRender->SetSrcRect(SDL_Rect{ 64,96,32,32 });
-	m_pRender->SetCenter({ 9,23 });
 	m_pRender->SetPivot({ 9,23 });
 }
 
@@ -34,12 +34,14 @@ void TurretComponent::SpawnBullet()
 
 	const auto pBullet = pScene->AddGameObject("Bullet");
 	{
-		const auto pTrans = pBullet->AddComponent(new TransformComponent(pBullet, m_pTransform->GetAbsolutePosition()));
+		const auto pTrans = pBullet->AddComponent(new TransformComponent(pBullet));
 		const auto pRender = pBullet->AddComponent(new RenderComponent(pBullet, pTrans, "spritesheet.png"));
-		pBullet->AddComponent(new BulletComponent(pBullet, pTrans, m_Direction, 10.f));
+		pBullet->AddComponent(new BulletComponent(pBullet, pTrans, m_Direction, 300.f));
 
-		pRender->SetSrcRect({ 96, 32, 32, 32 });
+		pTrans->SetPosition(m_pTransform->GetAbsolutePosition() - glm::vec2{-9, -23} );
 
+		pRender->SetSrcRect({ 109, 46, 6, 5 });
+		pRender->SetPivot({3.f, 2.5f});
 	}
 }
 

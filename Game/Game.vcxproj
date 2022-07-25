@@ -185,7 +185,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="PlayerTankComponent.cpp" />
-    <ClCompile Include="TileComponent.cpp" />
     <ClCompile Include="TurretComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -195,7 +194,6 @@
     <ClInclude Include="GamePCH.h" />
     <ClInclude Include="LevelComponent.h" />
     <ClInclude Include="PlayerTankComponent.h" />
-    <ClInclude Include="TileComponent.h" />
     <ClInclude Include="TurretComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

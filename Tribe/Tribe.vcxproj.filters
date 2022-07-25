@@ -73,6 +73,12 @@
     <ClInclude Include="SpriteAnimationComponent.h">
       <Filter>Content\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Raycast.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelParser.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tribe.cpp">
@@ -134,6 +140,9 @@
     </ClCompile>
     <ClCompile Include="TransformComponent.cpp">
       <Filter>Content\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelParser.cpp">
+      <Filter>Helpers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

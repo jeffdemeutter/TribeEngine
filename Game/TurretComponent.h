@@ -23,7 +23,7 @@ private:
 	TransformComponent* m_pTransform = nullptr;
 	RenderComponent* m_pRender = nullptr;
 
-	glm::vec2 m_Direction;
+	glm::vec2 m_Direction = {1.f, 0.f};
 	int m_Player = 0;
 };
 
