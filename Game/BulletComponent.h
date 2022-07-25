@@ -24,9 +24,13 @@ private:
 	float m_Speed = 300.f;
 	glm::vec2 m_Direction = {0.f, 1.f};
 
+	int m_Bounces = 0;
+	static constexpr int m_BouncesMax = 5;
 
 	// makes sure bullets dissapear after some time
 	float m_Duration = 0.f;
-	static constexpr float m_MaxDuration = 4.f;
+	static constexpr float m_MaxDuration = 10.f;
+
+	void Destroy() const;
 };
 
