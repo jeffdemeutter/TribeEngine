@@ -11,7 +11,7 @@ class Texture2D;
 class LevelComponent : public Component
 {
 public:
-	LevelComponent(GameObject* pGo);
+	LevelComponent(GameObject* pGo, TransformComponent* pTrans);
 	~LevelComponent() override = default;
 	LevelComponent(const LevelComponent&) = delete;
 	LevelComponent(LevelComponent&&) noexcept = delete;
@@ -21,7 +21,8 @@ public:
 	virtual void Update(GameContext&) override;
 	virtual void Render() const override{}
 
-	void AddObstacle(const std::vector<glm::vec2>& spline);
+	// intentional copy, because we need to add the transform to each element
+	void AddObstacle(std::vector<glm::vec2> spline);
 	void AddObstacles(const std::vector<std::vector<glm::vec2>>& obstacles);
 
 	const std::vector<std::vector<glm::vec2>>& GetObstacles() const
@@ -30,6 +31,8 @@ public:
 	}
 
 private:
+	TransformComponent* m_pTransform = nullptr;
+
 	std::vector<std::vector<glm::vec2>> m_Obstacles;
 	
 

@@ -14,8 +14,9 @@ std::string stringKey(int x, int y)
 	return std::to_string(x) + " - " + std::to_string(y);
 }
 
-LevelComponent::LevelComponent(GameObject* pGo)
+LevelComponent::LevelComponent(GameObject* pGo, TransformComponent* pTrans)
 	: Component(pGo)
+	, m_pTransform(pTrans)
 {	
 }
 
@@ -88,10 +89,15 @@ void LevelComponent::Update(GameContext& gc)
 	RenderManager::SetBackgroundColor(m_BackGroundColor);
 }
 
-void LevelComponent::AddObstacle(const std::vector<glm::vec2>& spline)
+void LevelComponent::AddObstacle(std::vector<glm::vec2> spline)
 {
 	if (spline.size() < 4)
 		return;
+
+	const auto& pos = m_pTransform->GetRelativePosition();
+
+	for (glm::vec2& point : spline)
+		point += pos;
 
 	m_Obstacles.emplace_back(spline);
 }
@@ -101,6 +107,6 @@ void LevelComponent::AddObstacles(const std::vector<std::vector<glm::vec2>>& obs
 	if (obstacles.empty())
 		return;
 
-	for (auto spline : obstacles)
+	for (auto& spline : obstacles)
 		AddObstacle(spline);
 }

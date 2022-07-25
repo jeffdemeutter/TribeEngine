@@ -41,7 +41,9 @@ void Game::LoadGame() const
 		{
 			const auto pTrans = pLevel->AddComponent(new TransformComponent(pLevel));
 			pLevel->AddComponent(new RenderComponent(pLevel, pTrans, "level1.png"));
-			const auto pLevelComponent = pLevel->AddComponent(new LevelComponent(pLevel));
+			const auto pLevelComponent = pLevel->AddComponent(new LevelComponent(pLevel, pTrans));
+
+			pTrans->SetPosition(100, 100);
 			
 			pLevelComponent->AddObstacle(
 				{
