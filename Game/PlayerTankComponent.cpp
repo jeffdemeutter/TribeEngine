@@ -35,15 +35,6 @@ PlayerTankComponent::~PlayerTankComponent()
 void PlayerTankComponent::Update(GameContext& gc)
 {
 	DoMovement(gc);
-
-
-	// check collision
-	//const auto activeScene = gc.pSceneManager->GetActiveScene();
-	//const auto pLevel = activeScene->GetGameObjectByName("Level")->GetComponent<LevelComponent>();
-
-	//const auto nearbyTiles = pLevel->GetNearbyTiles(m_pTransform->GetAbsolutePosition(), 30.f);
-
-
 }
 
 void PlayerTankComponent::DoMovement(Movement movement)

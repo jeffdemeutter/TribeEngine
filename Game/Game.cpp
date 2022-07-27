@@ -1,7 +1,7 @@
 #include "GamePCH.h"
 #include "Game.h"
 
-#include "CollisionComponent.h"
+#include <CollisionComponent.h>
 #include "Font.h"
 #include "FpsComponent.h"
 #include "GameObject.h"
@@ -44,7 +44,8 @@ void Game::LoadGame() const
 			const auto pLevelComponent = pLevel->AddComponent(new LevelComponent(pLevel, pTrans));
 
 			pTrans->SetPosition(100, 100);
-			
+
+#pragma region Obstacles
 			pLevelComponent->AddObstacle(
 				{
 					{0.f, 0.f},
@@ -406,6 +407,16 @@ void Game::LoadGame() const
 					{366, 346},
 					{366, 252}
 				});
+#pragma endregion
+		}
+
+		const auto pReset = pLevel->AddGameObject("Reset");
+		{
+			const auto pTrans = pReset->AddComponent(new TransformComponent(pReset));
+			pReset->AddComponent(new CollisionComponent(pReset, pTrans, 86, 24));
+			
+
+			pTrans->SetPosition(300, 300);
 		}
 
 #pragma endregion
@@ -417,6 +428,15 @@ void Game::LoadGame() const
 			const auto pRender = pTank->AddComponent(new RenderComponent(pTank, pTransform, "spritesheet.png"));
 			const auto pCollision = pTank->AddComponent(new CollisionComponent(pTank, pTransform, 14, 14));
 			const auto pPlayer = pTank->AddComponent(new PlayerTankComponent(pTank, pTransform, pRender, pCollision));
+
+			// collision
+			pCollision->AddColliderCheck(
+				pReset->GetComponent<CollisionComponent>(),
+				new Command([this]
+				{
+					std::cout << "overlapping\n";
+				})
+			);
 
 			// tank inputs
 			{

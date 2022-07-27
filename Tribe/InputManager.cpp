@@ -26,7 +26,7 @@ InputManager::InputManager()
 
 InputManager::~InputManager()
 {
-	for (auto input : m_Commands)
+	for (auto& input : m_Commands)
 		SafeDelete(input.pCommand);
 }
 

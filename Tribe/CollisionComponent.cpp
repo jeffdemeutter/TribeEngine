@@ -1,0 +1,88 @@
+#include "TribePCH.h"
+#include "CollisionComponent.h"
+
+#include "Command.h"
+#include "TransformComponent.h"
+
+CollisionComponent::CollisionComponent(GameObject* pGo, TransformComponent* pTrans, float width, float height)
+	: Component(pGo)
+	, m_pTransform(pTrans)
+	, m_Left(-width / 2)
+	, m_Right(width / 2)
+	, m_Top(-height / 2)
+	, m_Bottom(height / 2)
+{
+	
+}
+
+CollisionComponent::~CollisionComponent()
+{
+	for (auto& [pCollider, pCommand] : m_pCollideChecks)
+	{
+		pCollider = nullptr;
+		SafeDelete(pCommand);
+	}
+	m_pCollideChecks.clear();
+
+	m_pTransform = nullptr;
+}
+
+
+void CollisionComponent::Update(GameContext&)
+{
+	for (const auto& [pCollision, pCommand] : m_pCollideChecks)
+		if (pCollision->CollisionDetection(this))
+			pCommand->Execute();
+}
+
+void CollisionComponent::AddColliderCheck(CollisionComponent* pCollision, Command* pCommand)
+{
+	if (!pCollision)
+		return;
+
+	if (!pCommand)
+		return;
+
+
+	m_pCollideChecks.emplace_back(std::make_pair(pCollision, pCommand));
+}
+
+bool CollisionComponent::CheckCollision(const glm::vec2& position) const
+{
+	const auto pos = m_pTransform->GetAbsolutePosition();
+
+	if (position.x < pos.x + m_Left)
+		return false;
+
+	if (position.x > pos.x + m_Right)
+		return false;
+
+	if (position.y < pos.y + m_Top)
+		return false;
+
+	if (position.y > pos.y + m_Bottom)
+		return false;
+
+
+	return true;
+}
+
+bool CollisionComponent::CollisionDetection(CollisionComponent* pCollision) const
+{
+	const auto otherPos = pCollision->m_pTransform->GetAbsolutePosition();
+	const auto pos = m_pTransform->GetAbsolutePosition();
+
+	if (otherPos.x + pCollision->m_Right	< pos.x + m_Left)
+		return false;
+
+	if (otherPos.x + pCollision->m_Left		> pos.x + m_Right)
+		return false;
+
+	if (otherPos.y + pCollision->m_Bottom	< pos.y + m_Top)
+		return false;
+
+	if (otherPos.y + pCollision->m_Top		> pos.y + m_Bottom)
+		return false;
+
+	return true;
+}
