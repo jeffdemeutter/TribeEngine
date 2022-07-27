@@ -110,3 +110,15 @@ void LevelComponent::AddObstacles(const std::vector<std::vector<glm::vec2>>& obs
 	for (auto& spline : obstacles)
 		AddObstacle(spline);
 }
+
+int GetRand(int min, int max)
+{
+	return rand() % (max - min + 1) + min;
+}
+
+glm::vec2 LevelComponent::GetRandomPosition() const
+{
+	const auto& pos = m_pTransform->GetAbsolutePosition();
+
+	return { float(GetRand(0, 600)) + pos.x, float(GetRand(0, 600)) + pos.y };
+}

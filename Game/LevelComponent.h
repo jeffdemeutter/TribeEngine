@@ -30,6 +30,8 @@ public:
 		return m_Obstacles;
 	}
 
+	[[nodiscard]] glm::vec2 GetRandomPosition() const;
+
 private:
 	TransformComponent* m_pTransform = nullptr;
 

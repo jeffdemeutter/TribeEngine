@@ -432,9 +432,9 @@ void Game::LoadGame() const
 			// collision
 			pCollision->AddColliderCheck(
 				pReset->GetComponent<CollisionComponent>(),
-				new Command([this]
+				new Command([pTransform, pLevel]
 				{
-					std::cout << "overlapping\n";
+					pTransform->SetAbsolutePosition(pLevel->GetComponent<LevelComponent>()->GetRandomPosition());
 				})
 			);
 
