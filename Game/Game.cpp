@@ -18,12 +18,12 @@
 #include "TransformComponent.h"
 #include "SpriteAnimationComponent.h"
 #include "LevelComponent.h"
+#include "PointsDisplayComponent.h"
 #include "TurretComponent.h"
 
 void Game::LoadGame() const
 {
 	Font* pFont = ResourceManager::LoadFont("Lingua.otf", 36);
-	pFont;
 
 	{ // main scene
 		const auto pScene = m_GameContext.pSceneManager->AddScene("SinglePlayer");
@@ -39,12 +39,9 @@ void Game::LoadGame() const
 
 		const auto pLevel = pScene->AddGameObject("Level");
 		{
-			const auto pTrans = pLevel->AddComponent(new TransformComponent(pLevel));
+			const auto pTrans = pLevel->AddComponent(new TransformComponent(pLevel, 100, 100));
 			pLevel->AddComponent(new RenderComponent(pLevel, pTrans, "level1.png"));
 			const auto pLevelComponent = pLevel->AddComponent(new LevelComponent(pLevel, pTrans));
-
-			pTrans->SetPosition(100, 100);
-
 #pragma region Obstacles
 			pLevelComponent->AddObstacle(
 				{
@@ -412,11 +409,8 @@ void Game::LoadGame() const
 
 		const auto pReset = pLevel->AddGameObject("Reset");
 		{
-			const auto pTrans = pReset->AddComponent(new TransformComponent(pReset));
+			const auto pTrans = pReset->AddComponent(new TransformComponent(pReset, 300, 300));
 			pReset->AddComponent(new CollisionComponent(pReset, pTrans, 86, 24));
-			
-
-			pTrans->SetPosition(300, 300);
 		}
 
 #pragma endregion
@@ -478,6 +472,15 @@ void Game::LoadGame() const
 			ia.keyboardKey = SDL_SCANCODE_SPACE;
 			ia.mouseButton = 0;
 			m_GameContext.pInput->AddInputAction(ia);
+		}
+
+		// High Score
+		const auto pHighScore = pScene->AddGameObject("HighScore");
+		{
+			const auto pTransform = pHighScore->AddComponent(new TransformComponent(pHighScore, 410, 25));
+			const auto pRender = pHighScore->AddComponent(new RenderComponent(pHighScore, pTransform));
+			const auto pText = pHighScore->AddComponent(new TextComponent(pHighScore, pRender, "0", pFont));
+			pHighScore->AddComponent(new PointsDisplayComponent(pHighScore, pText));
 		}
 
 		// fps object
