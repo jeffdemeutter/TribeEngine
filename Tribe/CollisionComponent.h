@@ -22,7 +22,8 @@ public:
 	void AddColliderCheck(CollisionComponent* pCollision, Command* pCommand);
 
 	bool CheckCollision(const glm::vec2& position) const;
-	bool CollisionDetection(CollisionComponent* pCollision) const;
+	bool CheckEdgeCollision(const glm::vec2& p1, const glm::vec2& p2) const;
+	bool IsOverlapping(CollisionComponent* pCollision) const;
 
 
 private:

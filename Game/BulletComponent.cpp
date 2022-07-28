@@ -5,12 +5,10 @@
 #include "GameTime.h"
 #include "Scene.h"
 #include "TransformComponent.h"
-#include "CollisionComponent.h"
 #include "LevelComponent.h"
 #include "SceneManager.h"
 
 #include "Raycast.h"
-#include "RenderComponent.h"
 
 BulletComponent::BulletComponent(GameObject* pGo, TransformComponent* pTrans, const glm::vec2& direction, float speed)
 	: Component(pGo)

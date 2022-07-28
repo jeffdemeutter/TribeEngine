@@ -4,6 +4,7 @@
 struct RaycastInfo
 {
 	glm::vec2 hitPos;
+	float distance = FLT_MAX;
 	glm::vec2 reflect;
 };
 
@@ -11,7 +12,8 @@ namespace Raycast
 {
 	inline bool DoRaycast(glm::vec2 p1, glm::vec2 dir, float speed, const std::vector<std::vector<glm::vec2>>& obstacles, RaycastInfo& rcInfo)
 	{
-		const glm::vec2 p2 = p1 + dir * speed * 1.2f;
+		bool hit = false;
+		const glm::vec2 p2 = p1 + dir * speed;
 
 		const float x1 = p1.x;
 		const float x2 = p2.x;
@@ -22,7 +24,7 @@ namespace Raycast
 		for (auto spline : obstacles)
 		{
 			glm::vec2 p3 = spline.back();
-			for (int i = 0; i < spline.size(); ++i)
+			for (size_t i = 0; i < spline.size(); ++i)
 			{
 				const glm::vec2 p4 = spline[i];
 				if (i != 0)
@@ -35,16 +37,16 @@ namespace Raycast
 				const float y3 = p3.y;
 				const float y4 = p4.y;
 
-				float d = (p1.x - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
-				// If d is zero, there is no intersection
-				if (abs(d) <= 1e-6)
+				const float denominator = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+				// If denominator is zero, there is no intersection
+				if (abs(denominator) <= 1e-6)
 					continue;
 
-				const float pre = (x1 * y2 - y1 * x2);
-				const float post = (x3 * y4 - y3 * x4);
+				const float pre = x1 * y2 - y1 * x2;
+				const float post = x3 * y4 - y3 * x4;
 				// Get the x and y
-				float x = (pre * (x3 - x4) - (x1 - x2) * post) / d;
-				float y = (pre * (y3 - y4) - (y1 - y2) * post) / d;
+				float x = (pre * (x3 - x4) - (x1 - x2) * post) / denominator;
+				float y = (pre * (y3 - y4) - (y1 - y2) * post) / denominator;
 
 				// Check if the x and y coordinates are within both lines
 				if (x < std::min(x1, x2) || x > std::max(x1, x2) ||
@@ -56,16 +58,21 @@ namespace Raycast
 
 
 
+				
 				// raycast hit
+				const float dist = distance(p1, { x, y });
+				if (dist > rcInfo.distance)
+					continue;
+
+				hit = true;
 				rcInfo.hitPos = { x, y };
+				rcInfo.distance = dist;
 				glm::vec2 normal{ (p4.y - p3.y), -(p4.x - p3.x) };
 				normal = normalize(normal);
-				rcInfo.reflect = normalize(reflect(normalize(p2 - p1), normal));
-
-				return true;
+				rcInfo.reflect = normalize(reflect(normalize(p2 - p1), normal));				
 			}
 		}
-		return false;
+		return hit;
 	}
 
 }

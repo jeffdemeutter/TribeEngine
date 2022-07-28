@@ -1,7 +1,6 @@
 #include "GamePCH.h"
 #include "PlayerTankComponent.h"
 
-#include "CollisionComponent.h"
 #include "GameObject.h"
 #include "GameTime.h"
 #include "InputManager.h"
@@ -10,7 +9,8 @@
 #include "Scene.h"
 #include "SceneManager.h"
 #include "TransformComponent.h"
-#include "CollisionComponent.h"
+#include <CollisionComponent.h>
+#include "Raycast.h"
 
 class CollisionComponent;
 class LevelComponent;
@@ -30,6 +30,7 @@ PlayerTankComponent::~PlayerTankComponent()
 {
 	m_pTransform = nullptr;
 	m_pRender = nullptr;
+	m_pCollision = nullptr;
 }
 
 void PlayerTankComponent::Update(GameContext& gc)
@@ -48,24 +49,43 @@ void PlayerTankComponent::DoMovement(Movement movement)
 
 void PlayerTankComponent::DoMovement(GameContext& gc)
 {
+	const auto& dTime = gc.pTime->GetDeltaTime();
 	if (!m_IsMoving)
 		return;
 
 	auto& pos = m_pTransform->GetRelativePosition();
+	glm::vec2 dir{};
 	switch (m_Movement)
 	{
 	case Movement::up:
-		pos.y -= m_MoveSpeed * gc.pTime->GetDeltaTime();
+		dir = { 0, -1 };
 		break;
 	case Movement::right:
-		pos.x += m_MoveSpeed * gc.pTime->GetDeltaTime();
+		dir = { 1, 0 };
 		break;
 	case Movement::down:
-		pos.y += m_MoveSpeed * gc.pTime->GetDeltaTime();
+		dir = { 0, 1 };
 		break;
 	case Movement::left:
-		pos.x -= m_MoveSpeed * gc.pTime->GetDeltaTime();
+		dir = { -1, 0 };
 		break;
+	}
+	pos += dir * m_MoveSpeed * dTime;
+
+
+	const auto pLevelComp = gc.pSceneManager->GetActiveScene()->GetGameObjectByName("Level")->GetComponent<LevelComponent>();
+	for (const auto& obstacle : pLevelComp->GetObstacles())
+	{
+		glm::vec2 start = obstacle.back();
+		for (const auto& end : obstacle)
+		{
+			if (m_pCollision->CheckEdgeCollision(start, end))
+			{
+				pos -= dir * m_MoveSpeed * dTime * 2.f; // *2 to negate the movement its already done
+				break;
+			}
+			start = end;
+		}
 	}
 
 	m_IsMoving = false;

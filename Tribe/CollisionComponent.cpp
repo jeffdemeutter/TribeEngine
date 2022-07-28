@@ -11,8 +11,7 @@ CollisionComponent::CollisionComponent(GameObject* pGo, TransformComponent* pTra
 	, m_Right(width / 2)
 	, m_Top(-height / 2)
 	, m_Bottom(height / 2)
-{
-	
+{	
 }
 
 CollisionComponent::~CollisionComponent()
@@ -31,7 +30,7 @@ CollisionComponent::~CollisionComponent()
 void CollisionComponent::Update(GameContext&)
 {
 	for (const auto& [pCollision, pCommand] : m_pCollideChecks)
-		if (pCollision->CollisionDetection(this))
+		if (pCollision->IsOverlapping(this))
 			pCommand->Execute();
 }
 
@@ -67,7 +66,26 @@ bool CollisionComponent::CheckCollision(const glm::vec2& position) const
 	return true;
 }
 
-bool CollisionComponent::CollisionDetection(CollisionComponent* pCollision) const
+bool CollisionComponent::CheckEdgeCollision(const glm::vec2& p1, const glm::vec2& p2) const
+{
+	const auto pos = m_pTransform->GetAbsolutePosition();
+
+	if (p1.x < pos.x + m_Left && p2.x < pos.x + m_Left)
+		return false;
+
+	if (p1.x > pos.x + m_Right && p2.x > pos.x + m_Right)
+		return false;
+
+	if (p1.y < pos.y + m_Top && p2.y < pos.y + m_Top)
+		return false;
+
+	if (p1.y > pos.y + m_Bottom && p2.y > pos.y + m_Bottom)
+		return false;
+
+	return true;
+}
+
+bool CollisionComponent::IsOverlapping(CollisionComponent* pCollision) const
 {
 	const auto otherPos = pCollision->m_pTransform->GetAbsolutePosition();
 	const auto pos = m_pTransform->GetAbsolutePosition();
