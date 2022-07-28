@@ -18,6 +18,7 @@
 #include "TransformComponent.h"
 #include "SpriteAnimationComponent.h"
 #include "LevelComponent.h"
+#include "MovementComponent.h"
 #include "PointsDisplayComponent.h"
 #include "TurretComponent.h"
 
@@ -437,9 +438,11 @@ void Game::LoadGame() const
 			const auto pTransform = pTank->AddComponent(new TransformComponent(pTank, RenderManager::GetWindowCenter()));
 			const auto pRender = pTank->AddComponent(new RenderComponent(pTank, pTransform, "spritesheet.png"));
 			const auto pCollision = pTank->AddComponent(new CollisionComponent(pTank, pTransform, 25, 25));
-			const auto pPlayer = pTank->AddComponent(new PlayerTankComponent(pTank, pTransform, pRender, pCollision));
+			const auto pMovement = pTank->AddComponent(new MovementComponent(pTank, pTransform, pCollision));
+			const auto pPlayer = pTank->AddComponent(new PlayerTankComponent(pTank, pRender, pMovement));
 
 			// collision
+			pMovement->SetLevelComponent(pLevel->GetComponent<LevelComponent>());
 			pCollision->AddColliderCheck(
 				pReset->GetComponent<CollisionComponent>(),
 				new Command([pTransform, pLevel]
@@ -450,25 +453,25 @@ void Game::LoadGame() const
 
 			// tank inputs
 			{
-				InputAction right(new Command([pPlayer] { pPlayer->DoMovement(PlayerTankComponent::Movement::right); }));
+				InputAction right(new Command([pPlayer] { pPlayer->MoveRight(); }));
 					right.stroke = Stroke::held;
 					right.keyboardKey = SDL_SCANCODE_D;
 					right.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_RIGHT;
 				m_GameContext.pInput->AddInputAction(right);
 
-				InputAction left(new Command([pPlayer] { pPlayer->DoMovement(PlayerTankComponent::Movement::left); }));
+				InputAction left(new Command([pPlayer] { pPlayer->MoveLeft(); }));
 					left.stroke = Stroke::held;
 					left.keyboardKey = SDL_SCANCODE_A;
 					left.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_LEFT;
 				m_GameContext.pInput->AddInputAction(left);
 
-				InputAction up(new Command([pPlayer] { pPlayer->DoMovement(PlayerTankComponent::Movement::up); }));
+				InputAction up(new Command([pPlayer] { pPlayer->MoveUp(); }));
 					up.stroke = Stroke::held;
 					up.keyboardKey = SDL_SCANCODE_W;
 					up.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_UP;
 				m_GameContext.pInput->AddInputAction(up);
 
-				InputAction down(new Command([pPlayer] { pPlayer->DoMovement(PlayerTankComponent::Movement::down); }));
+				InputAction down(new Command([pPlayer] { pPlayer->MoveDown(); }));
 					down.stroke = Stroke::held;
 					down.keyboardKey = SDL_SCANCODE_S;
 					down.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_DOWN;
