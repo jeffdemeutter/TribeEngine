@@ -15,7 +15,7 @@ public:
 	PlayerTankComponent& operator=(PlayerTankComponent&&) noexcept = delete;
 
 	virtual void Render() const override {}
-	virtual void Update(GameContext& gc) override;
+	virtual void Update(GameContext&) override {}
 
 	void MoveUp() const;
 	void MoveDown() const;

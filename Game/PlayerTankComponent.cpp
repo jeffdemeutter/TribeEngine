@@ -2,8 +2,6 @@
 #include "PlayerTankComponent.h"
 
 #include "GameObject.h"
-#include "GameTime.h"
-#include "InputManager.h"
 #include "LevelComponent.h"
 #include "MovementComponent.h"
 #include "RenderComponent.h"
