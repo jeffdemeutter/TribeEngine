@@ -436,7 +436,7 @@ void Game::LoadGame() const
 		{ 
 			const auto pTransform = pTank->AddComponent(new TransformComponent(pTank, RenderManager::GetWindowCenter()));
 			const auto pRender = pTank->AddComponent(new RenderComponent(pTank, pTransform, "spritesheet.png"));
-			const auto pCollision = pTank->AddComponent(new CollisionComponent(pTank, pTransform, 14, 14));
+			const auto pCollision = pTank->AddComponent(new CollisionComponent(pTank, pTransform, 25, 25));
 			const auto pPlayer = pTank->AddComponent(new PlayerTankComponent(pTank, pTransform, pRender, pCollision));
 
 			// collision

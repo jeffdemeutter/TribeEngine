@@ -120,5 +120,5 @@ glm::vec2 LevelComponent::GetRandomPosition() const
 {
 	const auto& pos = m_pTransform->GetAbsolutePosition();
 
-	return { float(GetRand(0, 600)) + pos.x, float(GetRand(0, 600)) + pos.y };
+	return { float(GetRand(10, 590)) + pos.x, float(GetRand(10, 590)) + pos.y };
 }
