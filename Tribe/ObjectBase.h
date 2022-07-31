@@ -15,7 +15,7 @@ public:
 	virtual void Update(GameContext&);
 	virtual void Render() const;
 
-	[[nodiscard]] GameObject* AddGameObject(const std::string& objectName);
+	GameObject* AddGameObject(const std::string& objectName);
 	[[nodiscard]] GameObject* GetGameObjectByName(const std::string& objectName) const;
 	void RemoveGameObject(GameObject* pGameObject);
 	const std::string& GetName() const { return m_Name; }

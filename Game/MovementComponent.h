@@ -10,7 +10,7 @@ class LevelComponent;
 class MovementComponent final : public Component
 {
 public:
-	enum class Movement
+	enum class Direction
 	{
 		right,
 		down,
@@ -29,7 +29,8 @@ public:
 	virtual void Render() const override {}
 
 	void SetLevelComponent(LevelComponent* pLevel) { m_pLevel = pLevel; }
-	void SetMovement(Movement movement);
+	void SetMovementSpeed(float speed) { m_MoveSpeed = speed; }
+	void SetDirection(Direction movement);
 
 private:
 	LevelComponent* m_pLevel = nullptr;
@@ -37,7 +38,7 @@ private:
 	TransformComponent* m_pTransform = nullptr;
 	CollisionComponent* m_pCollision = nullptr;
 
-	Movement m_Movement = Movement::up;
+	Direction m_Movement = Direction::up;
 	float m_MoveSpeed = 100.f;
 	bool m_IsMoving = false;
 };

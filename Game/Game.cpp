@@ -2,6 +2,8 @@
 #include "Game.h"
 
 #include <CollisionComponent.h>
+
+#include "EnemyTankComponent.h"
 #include "Font.h"
 #include "FpsComponent.h"
 #include "GameObject.h"
@@ -432,6 +434,7 @@ void Game::LoadGame() const
 
 #pragma endregion
 
+#pragma region players
 		// tank
 		const auto pTank = pScene->AddGameObject("PlayerTank");
 		{ 
@@ -501,6 +504,24 @@ void Game::LoadGame() const
 			const auto pText = pHighScore->AddComponent(new TextComponent(pHighScore, pRender, "0", pFont));
 			pHighScore->AddComponent(new PointsDisplayComponent(pHighScore, pText));
 		}
+#pragma endregion
+
+		//const auto pBulletManager = pScene->AddGameObject("BulletManager");
+
+
+		const auto pEnemy1 = pScene->AddGameObject("PlayerTank");
+		{
+			const auto pTransform = pEnemy1->AddComponent(new TransformComponent(pEnemy1, pLevel->GetComponent<LevelComponent>()->GetRandomPosition()));
+			const auto pRender = pEnemy1->AddComponent(new RenderComponent(pEnemy1, pTransform, "spritesheet.png"));
+			const auto pCollision = pEnemy1->AddComponent(new CollisionComponent(pEnemy1, pTransform, 25, 25));
+			const auto pMovement = pEnemy1->AddComponent(new MovementComponent(pEnemy1, pTransform, pCollision));
+			const auto pEnemyTank = pEnemy1->AddComponent(new EnemyTankComponent(pEnemy1, pRender, pMovement, TankType::blueTank));
+
+			pEnemyTank->SetTarget(pTank);
+
+
+		}
+
 
 		// fps object
 		{

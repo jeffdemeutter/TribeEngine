@@ -3,13 +3,7 @@
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="PlayerTankComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="GamePCH.cpp" />
-    <ClCompile Include="TurretComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="BulletComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -22,16 +16,22 @@
     <ClCompile Include="MovementComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerTankComponent.cpp">
+      <Filter>Components\TankComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="TankComponent.cpp">
+      <Filter>Components\TankComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyTankComponent.cpp">
+      <Filter>Components\TankComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="TurretComponent.cpp">
+      <Filter>Components\TankComponents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
-    <ClInclude Include="PlayerTankComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="GamePCH.h" />
-    <ClInclude Include="TurretComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="BulletComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -45,10 +45,25 @@
     <ClInclude Include="MovementComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerTankComponent.h">
+      <Filter>Components\TankComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="TankComponent.h">
+      <Filter>Components\TankComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyTankComponent.h">
+      <Filter>Components\TankComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="TurretComponent.h">
+      <Filter>Components\TankComponents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">
       <UniqueIdentifier>{adba131b-8432-4850-8f4d-e54c689ed0aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\TankComponents">
+      <UniqueIdentifier>{075d9f65-8439-4e8f-8a13-f99791169556}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -169,6 +169,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BulletComponent.cpp" />
+    <ClCompile Include="EnemyTankComponent.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GamePCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -186,10 +187,12 @@
     <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="PlayerTankComponent.cpp" />
     <ClCompile Include="PointsDisplayComponent.cpp" />
+    <ClCompile Include="TankComponent.cpp" />
     <ClCompile Include="TurretComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BulletComponent.h" />
+    <ClInclude Include="EnemyTankComponent.h" />
     <ClInclude Include="EventEnum.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GamePCH.h" />
@@ -197,6 +200,7 @@
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="PlayerTankComponent.h" />
     <ClInclude Include="PointsDisplayComponent.h" />
+    <ClInclude Include="TankComponent.h" />
     <ClInclude Include="TurretComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

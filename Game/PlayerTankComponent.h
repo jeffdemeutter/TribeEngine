@@ -1,14 +1,14 @@
 #pragma once
-#include <Component.h>
+#include "TankComponent.h"
 
 class RenderComponent;
 class MovementComponent;
 
-class PlayerTankComponent final : public Component
+class PlayerTankComponent final : public TankComponent
 {
 public:
 	PlayerTankComponent(GameObject* pGo, RenderComponent* pRender, MovementComponent* pMovement);
-	~PlayerTankComponent() override;
+	~PlayerTankComponent() override = default;
 	PlayerTankComponent(const PlayerTankComponent&) = delete;
 	PlayerTankComponent(PlayerTankComponent&&) noexcept = delete;
 	PlayerTankComponent& operator=(const PlayerTankComponent&) = delete;
@@ -21,9 +21,5 @@ public:
 	void MoveDown() const;
 	void MoveLeft() const;
 	void MoveRight() const;
-
-private:
-	RenderComponent* m_pRender = nullptr;
-	MovementComponent* m_pMovement = nullptr;
 };
 

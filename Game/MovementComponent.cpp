@@ -32,16 +32,16 @@ void MovementComponent::Update(GameContext& gc)
 	glm::vec2 dir{};
 	switch (m_Movement)
 	{
-	case Movement::up:
+	case Direction::up:
 		dir = { 0, -1 };
 		break;
-	case Movement::right:
+	case Direction::right:
 		dir = { 1, 0 };
 		break;
-	case Movement::down:
+	case Direction::down:
 		dir = { 0, 1 };
 		break;
-	case Movement::left:
+	case Direction::left:
 		dir = { -1, 0 };
 		break;
 	}
@@ -69,7 +69,7 @@ void MovementComponent::Update(GameContext& gc)
 	m_IsMoving = false;
 }
 
-void MovementComponent::SetMovement(Movement movement)
+void MovementComponent::SetDirection(Direction movement)
 {
 	m_Movement = movement;
 	m_IsMoving = true;
