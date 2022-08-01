@@ -8,6 +8,7 @@
 #include <thread>
 
 #include "Structs.h"
+#include "EventEnum.h"
 
 #pragma warning(push, 0)
 #include <glm/glm.hpp>

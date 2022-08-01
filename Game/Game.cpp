@@ -3,7 +3,9 @@
 
 #include <CollisionComponent.h>
 
+#include "BulletManagerComponent.h"
 #include "EnemyTankComponent.h"
+#include "EventManager.h"
 #include "Font.h"
 #include "FpsComponent.h"
 #include "GameObject.h"
@@ -22,6 +24,7 @@
 #include "LevelComponent.h"
 #include "MovementComponent.h"
 #include "PointsDisplayComponent.h"
+#include "ServiceLocator.h"
 #include "TurretComponent.h"
 
 void Game::LoadGame() const
@@ -506,8 +509,8 @@ void Game::LoadGame() const
 		}
 #pragma endregion
 
-		//const auto pBulletManager = pScene->AddGameObject("BulletManager");
-
+		const auto pBulletManager = pScene->AddGameObject("BulletManager");
+		const auto pBulletManagerComp = pBulletManager->AddComponent(new BulletManagerComponent(pBulletManager));
 
 		const auto pEnemy1 = pScene->AddGameObject("PlayerTank");
 		{
@@ -519,7 +522,10 @@ void Game::LoadGame() const
 
 			pEnemyTank->SetTarget(pTank);
 
-
+			pBulletManagerComp->AddCollision(pCollision, new Command([pEnemyTank]
+			{
+				pEnemyTank->Kill();
+			}));
 		}
 
 

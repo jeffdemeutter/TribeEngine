@@ -2,6 +2,7 @@
 #include "TurretComponent.h"
 
 #include "BulletComponent.h"
+#include "BulletManagerComponent.h"
 #include "GameObject.h"
 #include "InputManager.h"
 #include "TransformComponent.h"
@@ -26,22 +27,12 @@ TurretComponent::~TurretComponent()
 
 void TurretComponent::SpawnBullet()
 {
-	const auto& pTurret = GetParent();
-	const auto& pTank = static_cast<GameObject*>(pTurret->GetParent());
-	const auto& pScene = pTank->GetParent();
+	const auto pTurret = GetParent();
+	const auto pTank = static_cast<GameObject*>(pTurret->GetParent());
+	const auto pScene = pTank->GetParent();
 
-
-	const auto pBullet = pScene->AddGameObject("Bullet");
-	{
-		const auto pTrans = pBullet->AddComponent(new TransformComponent(pBullet));
-		const auto pRender = pBullet->AddComponent(new RenderComponent(pBullet, pTrans, "spritesheet.png"));
-		pBullet->AddComponent(new BulletComponent(pBullet, pTrans, m_Direction, 300.f));
-
-		pTrans->SetPosition(m_pTransform->GetAbsolutePosition() - glm::vec2{ -9, -23 });
-
-		pRender->SetSrcRect({ 109, 46, 6, 5 });
-		pRender->SetPivot({ 3.f, 2.5f });
-	}
+	const auto pBulletManager = pScene->GetGameObjectByName("BulletManager")->GetComponent<BulletManagerComponent>();
+	pBulletManager->SpawnBullet(m_pTransform->GetAbsolutePosition() - glm::vec2{ -9, -23 }, m_Direction);
 }
 
 void TurretComponent::Update(GameContext& gc)

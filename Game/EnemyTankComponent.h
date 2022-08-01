@@ -23,6 +23,7 @@ public:
 
 	void MovementAI();
 	void SetTarget(GameObject* ptarget) { m_pTarget = ptarget; }
+	void Kill();
 
 private:
 	GameObject* m_pTarget = nullptr;

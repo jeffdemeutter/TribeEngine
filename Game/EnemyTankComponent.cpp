@@ -1,8 +1,11 @@
 #include "GamePCH.h"
 #include "EnemyTankComponent.h"
 
+#include "EventManager.h"
+#include "GameObject.h"
 #include "RenderComponent.h"
 #include "MovementComponent.h"
+#include "ServiceLocator.h"
 
 EnemyTankComponent::EnemyTankComponent(GameObject* pGo, RenderComponent* pRender, MovementComponent* pMovement, TankType tankType)
 		: TankComponent(pGo, pRender, pMovement)
@@ -31,4 +34,13 @@ EnemyTankComponent::~EnemyTankComponent()
 void EnemyTankComponent::MovementAI()
 {
 	
+}
+
+void EnemyTankComponent::Kill()
+{
+	const auto pTank = GetParent();
+
+	ServiceLocator::GetEventManager()->Notify(pTank, BlueTankDied);
+
+	//pTank->GetParent()->RemoveGameObject(pTank);
 }

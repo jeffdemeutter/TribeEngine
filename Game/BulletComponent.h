@@ -29,7 +29,7 @@ private:
 
 	// makes sure bullets dissapear after some time
 	float m_Duration = 0.f;
-	static constexpr float m_MaxDuration = 10.f;
+	static constexpr float m_MaxDuration = 25.f;
 
 	void Destroy() const;
 };

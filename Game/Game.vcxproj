@@ -169,6 +169,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BulletComponent.cpp" />
+    <ClCompile Include="BulletManagerComponent.cpp" />
     <ClCompile Include="EnemyTankComponent.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GamePCH.cpp">
@@ -192,6 +193,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BulletComponent.h" />
+    <ClInclude Include="BulletManagerComponent.h" />
     <ClInclude Include="EnemyTankComponent.h" />
     <ClInclude Include="EventEnum.h" />
     <ClInclude Include="Game.h" />
