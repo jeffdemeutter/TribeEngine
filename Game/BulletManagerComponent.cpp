@@ -31,18 +31,28 @@ BulletManagerComponent::~BulletManagerComponent()
 
 void BulletManagerComponent::Update(GameContext&)
 {
-	for (const auto [pCollision, pCommand] : m_pCollisions)
+	for (auto pBullet : m_pBullets)
 	{
-		for (const auto pBullet : m_pBullets)
+		const auto pTrans = pBullet->GetComponent<TransformComponent>();
+		const auto pBulletComp = pBullet->GetComponent<BulletComponent>();
+		for (const auto& pCollision : m_pCollisions)
 		{
-			if (pCollision->CheckCollision(pBullet->GetAbsolutePosition()))
+
+			if (pCollision.first->CheckCollision(pTrans->GetAbsolutePosition()))
 			{
-				// remove the bullet
-				GetParent()->RemoveGameObject(pBullet->GetParent());
+				pBulletComp->SetCanBeDestroyed();
 
 				// run command
-				pCommand->Execute();
-			}
+				pCollision.second->Execute();
+				m_pCollisions.erase(std::ranges::find(m_pCollisions, pCollision));
+			}			
+		}
+
+		if (pBulletComp->CanBeDestroyed())
+		{
+			// remove the bullet
+			pBullet->Remove();
+			m_pBullets.erase(std::ranges::find(m_pBullets, pBullet));
 		}
 	}
 }
@@ -68,6 +78,6 @@ void BulletManagerComponent::SpawnBullet(const glm::vec2& pos, const glm::vec2& 
 		pRender->SetSrcRect({ 109, 46, 6, 5 });
 		pRender->SetPivot({ 3.f, 2.5f });
 
-		m_pBullets.emplace_back(pTrans);
 	}
+	m_pBullets.emplace_back(pBullet);
 }

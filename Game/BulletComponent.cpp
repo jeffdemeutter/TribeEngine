@@ -29,7 +29,7 @@ void BulletComponent::Update(GameContext& gc)
 	const auto& dTime = gc.pTime->GetDeltaTime();
 	m_Duration += dTime;
 	if (m_Duration >= m_MaxDuration)
-		Destroy();
+		SetCanBeDestroyed();
 
 	auto& pos = m_pTransform->GetRelativePosition();
 
@@ -40,17 +40,11 @@ void BulletComponent::Update(GameContext& gc)
 	{
 		++m_Bounces;
 		if (m_Bounces > m_BouncesMax)
-			Destroy();
+			SetCanBeDestroyed();
 
 		m_Direction = rcInfo.reflect;
 		pos = rcInfo.hitPos + m_Direction;
 	}
 	else
 		pos += m_Direction * m_Speed * gc.pTime->GetDeltaTime();
-}
-
-void BulletComponent::Destroy() const
-{
-	const auto pBulletObject = GetParent();
-	pBulletObject->GetParent()->RemoveGameObject(pBulletObject);
 }

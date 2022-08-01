@@ -54,7 +54,7 @@ GameObject* ObjectBase::GetGameObjectByName(const std::string& objectName) const
 	return *findIt;
 }
 
-void ObjectBase::RemoveGameObject(GameObject* pGameObject)
+void ObjectBase::RemoveChild(GameObject* pGameObject)
 {
 	m_pGameObjectsToDelete.emplace_back(pGameObject);
 }

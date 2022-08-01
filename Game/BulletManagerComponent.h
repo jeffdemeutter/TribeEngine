@@ -1,6 +1,7 @@
 #pragma once
 #include <Component.h>
 
+class BulletComponent;
 class Command;
 class TransformComponent;
 class CollisionComponent;
@@ -21,10 +22,11 @@ public:
 	void AddCollision(CollisionComponent* pCollision, Command* pCommand);
 
 	void SpawnBullet(const glm::vec2& pos, const glm::vec2& dir);
-
 private:
-	std::vector<TransformComponent*> m_pBullets;
+	std::vector<GameObject*> m_pBullets;
 
 	std::vector<std::pair<CollisionComponent*, Command*>> m_pCollisions;
+
+
 };
 

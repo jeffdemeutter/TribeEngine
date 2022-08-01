@@ -24,6 +24,8 @@ public:
 
 	ObjectBase* GetParent() const { return m_pParent; }
 
+	void Remove();
+
 protected:
 	friend class Scene;
 	friend class ObjectBase; // this ensures we can call render and update from within the baseclass
@@ -35,7 +37,7 @@ private:
 	ObjectBase* m_pParent = nullptr;
 };
 
-
+#pragma region TemplateImplementations
 template <typename T>
 T* GameObject::AddComponent(T* pComponent)
 {
@@ -64,3 +66,4 @@ void GameObject::RemoveComponent()
 
 	m_pComponents.erase(&typeid(T));
 }
+#pragma endregion

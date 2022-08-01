@@ -16,6 +16,11 @@ GameObject::GameObject(ObjectBase* pParent, const std::string& objectName)
 {
 }
 
+void GameObject::Remove()
+{
+	GetParent()->RemoveChild(this);
+}
+
 void GameObject::Render() const
 {
 	if (const RenderComponent* const comp = GetComponent<RenderComponent>())

@@ -17,7 +17,7 @@ public:
 
 	GameObject* AddGameObject(const std::string& objectName);
 	[[nodiscard]] GameObject* GetGameObjectByName(const std::string& objectName) const;
-	void RemoveGameObject(GameObject* pGameObject);
+	void RemoveChild(GameObject* pGameObject);
 	const std::string& GetName() const { return m_Name; }
 	const std::vector<GameObject*>& GetGameObjects() const { return m_pGameObjects; }
 

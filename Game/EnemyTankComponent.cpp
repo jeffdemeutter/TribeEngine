@@ -42,5 +42,5 @@ void EnemyTankComponent::Kill()
 
 	ServiceLocator::GetEventManager()->Notify(pTank, BlueTankDied);
 
-	//pTank->GetParent()->RemoveGameObject(pTank);
+	pTank->Remove();
 }
