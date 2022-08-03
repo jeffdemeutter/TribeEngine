@@ -1,10 +1,10 @@
 #pragma once
 #include <Component.h>
+#include <unordered_map>
 
 class BulletComponent;
 class Command;
 class TransformComponent;
-class CollisionComponent;
 
 class BulletManagerComponent final : public Component
 {
@@ -19,14 +19,14 @@ public:
 	virtual void Update(GameContext&) override;
 	virtual void Render() const override {}
 
-	void AddCollision(CollisionComponent* pCollision, Command* pCommand);
+	void AddCollision(GameObject* pGo, Command* pCommand);
+	void RemoveCollision(GameObject* pGo);
 
 	void SpawnBullet(const glm::vec2& pos, const glm::vec2& dir);
 private:
 	std::vector<GameObject*> m_pBullets;
-
-	std::vector<std::pair<CollisionComponent*, Command*>> m_pCollisions;
-
+	
+	std::unordered_map<GameObject*, Command*> m_pGameObjects;
 
 };
 

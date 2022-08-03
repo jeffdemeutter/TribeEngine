@@ -522,9 +522,9 @@ void Game::LoadGame() const
 
 			pEnemyTank->SetTarget(pTank);
 
-			pBulletManagerComp->AddCollision(pCollision, new Command([pEnemyTank]
+			pBulletManagerComp->AddCollision(pEnemy1, new Command([pEnemyTank]
 			{
-				pEnemyTank->Kill();
+				pEnemyTank->Hit();
 			}));
 		}
 

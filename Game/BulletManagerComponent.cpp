@@ -7,44 +7,40 @@
 #include "RenderComponent.h"
 #include "CollisionComponent.h"
 #include "Command.h"
+#include "EventManager.h"
+#include "ServiceLocator.h"
 
 BulletManagerComponent::BulletManagerComponent(GameObject* pGo)
 	: Component(pGo)
 {
-	
+	ServiceLocator::GetEventManager()->AddEventHandle(GameobjectDeleted, [this](GameObject* pObj, int) { 	RemoveCollision(pObj); });
+
 }
 
 BulletManagerComponent::~BulletManagerComponent()
 {
-	for (auto pBullet : m_pBullets)
-		pBullet = nullptr;
 	m_pBullets.clear();
-
-	for (auto [pCollision, pCommand] : m_pCollisions)
-	{
-		pCollision = nullptr;
-		delete pCommand;
-		pCommand = nullptr;
-	}
-	m_pCollisions.clear();
+	
+	m_pGameObjects.clear();
 }
 
 void BulletManagerComponent::Update(GameContext&)
 {
+	if (m_pGameObjects.empty())
+		return;
+
 	for (auto pBullet : m_pBullets)
 	{
 		const auto pTrans = pBullet->GetComponent<TransformComponent>();
 		const auto pBulletComp = pBullet->GetComponent<BulletComponent>();
-		for (const auto& pCollision : m_pCollisions)
+		for (const auto& pGo : m_pGameObjects)
 		{
-
-			if (pCollision.first->CheckCollision(pTrans->GetAbsolutePosition()))
+			if (pGo.first->GetComponent<CollisionComponent>()->CheckCollision(pTrans->GetAbsolutePosition()))
 			{
 				pBulletComp->SetCanBeDestroyed();
 
 				// run command
-				pCollision.second->Execute();
-				m_pCollisions.erase(std::ranges::find(m_pCollisions, pCollision));
+				pGo.second->Execute();
 			}			
 		}
 
@@ -57,12 +53,21 @@ void BulletManagerComponent::Update(GameContext&)
 	}
 }
 
-void BulletManagerComponent::AddCollision(CollisionComponent* pCollision, Command* pCommand)
+void BulletManagerComponent::AddCollision(GameObject* pGo, Command* pCommand)
 {
-	if (!pCollision)
+	if (!pGo)
 		return;
 
-	m_pCollisions.emplace_back(std::make_pair(pCollision, pCommand));
+	m_pGameObjects[pGo] = pCommand;
+}
+
+void BulletManagerComponent::RemoveCollision(GameObject* pGo)
+{
+	if (!m_pGameObjects.contains(pGo))
+		return;
+
+	SafeDelete(m_pGameObjects.at(pGo));
+	m_pGameObjects.erase(pGo);	
 }
 
 void BulletManagerComponent::SpawnBullet(const glm::vec2& pos, const glm::vec2& dir)

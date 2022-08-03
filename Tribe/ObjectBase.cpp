@@ -1,6 +1,9 @@
 #include "TribePCH.h"
 #include "ObjectBase.h"
+
+#include "EventManager.h"
 #include "GameObject.h"
+#include "ServiceLocator.h"
 
 ObjectBase::~ObjectBase()
 {
@@ -16,20 +19,21 @@ void ObjectBase::Update(GameContext& gc)
 
 
 	// deleting oobjects
-	if (!m_pGameObjectsToDelete.empty())
+	if (m_pGameObjectsToDelete.empty())
+		return;
+	
+	for (auto& pGameObjectToDelete : m_pGameObjectsToDelete)
 	{
-		for (auto& pGameObjectToDelete : m_pGameObjectsToDelete)
+		if (auto it = 	std::ranges::find(m_pGameObjects, pGameObjectToDelete); 
+			it != m_pGameObjects.cend())
 		{
-			if (auto it = 	std::ranges::find(m_pGameObjects, pGameObjectToDelete); 
-				it != m_pGameObjects.cend())
-			{
-				SafeDelete(*it);
-				m_pGameObjects.erase(it);
-			}
+			ServiceLocator::GetEventManager()->Notify(*it, GameobjectDeleted);
+			SafeDelete(*it);
+			m_pGameObjects.erase(it);
 		}
-
-		m_pGameObjectsToDelete.clear();
 	}
+
+	m_pGameObjectsToDelete.clear();
 }
 
 void ObjectBase::Render() const

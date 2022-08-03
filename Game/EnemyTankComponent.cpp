@@ -7,8 +7,9 @@
 #include "MovementComponent.h"
 #include "ServiceLocator.h"
 
-EnemyTankComponent::EnemyTankComponent(GameObject* pGo, RenderComponent* pRender, MovementComponent* pMovement, TankType tankType)
+EnemyTankComponent::EnemyTankComponent(GameObject* pGo, RenderComponent* pRender, MovementComponent* pMovement, TankType tankType, int lives)
 	: TankComponent(pGo, pRender, pMovement)
+	, m_Lives(lives)
 	, m_Type(tankType)
 {
 	switch (m_Type)
@@ -37,8 +38,15 @@ void EnemyTankComponent::MovementAI()
 	
 }
 
-void EnemyTankComponent::Kill() const
+void EnemyTankComponent::Hit()
 {
+	--m_Lives;
+	std::cout << m_Lives << '\n';
+	if (m_Lives > 0)
+		return;
+
+	
+
 	const auto pTank = GetParent();
 
 	if (m_Type == TankType::blueTank)

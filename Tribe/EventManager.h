@@ -1,6 +1,11 @@
 #pragma once
 #include <functional>
 
+enum EngineEvents
+{
+	GameobjectDeleted = 999
+};
+
 class GameObject;
 class EventManager final
 {

@@ -11,7 +11,7 @@ enum class TankType
 class EnemyTankComponent : public TankComponent
 {
 public:
-	EnemyTankComponent(GameObject* pGo, RenderComponent* pRender, MovementComponent* pMovement, TankType tankType);
+	EnemyTankComponent(GameObject* pGo, RenderComponent* pRender, MovementComponent* pMovement, TankType tankType, int lives = 3);
 	~EnemyTankComponent() override;
 	EnemyTankComponent(const EnemyTankComponent&) = delete;
 	EnemyTankComponent(EnemyTankComponent&&) noexcept = delete;
@@ -23,11 +23,11 @@ public:
 
 	void MovementAI();
 	void SetTarget(GameObject* ptarget) { m_pTarget = ptarget; }
-	void Kill() const;
-
+	void Hit();
 private:
 	GameObject* m_pTarget = nullptr;
 
+	int m_Lives = 3;
 	TankType m_Type;
 };
 
