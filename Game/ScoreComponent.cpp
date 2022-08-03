@@ -1,12 +1,12 @@
 #include "GamePCH.h"
-#include "PointsDisplayComponent.h"
+#include "ScoreComponent.h"
 
 #include "ServiceLocator.h"
 #include "EventEnum.h"
 #include "EventManager.h"
 #include "TextComponent.h"
 
-PointsDisplayComponent::PointsDisplayComponent(GameObject* go, TextComponent* pText)
+ScoreComponent::ScoreComponent(GameObject* go, TextComponent* pText)
 	: Component(go)
 	, m_pTextComponent(pText)
 {
@@ -16,12 +16,12 @@ PointsDisplayComponent::PointsDisplayComponent(GameObject* go, TextComponent* pT
 
 	m_pTextComponent->SetText(m_Prefix + std::to_string(m_Score));
 }
-PointsDisplayComponent::~PointsDisplayComponent()
+ScoreComponent::~ScoreComponent()
 {
 	m_pTextComponent = nullptr;
 }
 
-void PointsDisplayComponent::UpdateScore(GameObject*, int type)
+void ScoreComponent::UpdateScore(GameObject*, int type)
 {
 	switch (type)
 	{

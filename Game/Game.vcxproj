@@ -187,7 +187,7 @@
     </ClCompile>
     <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="PlayerTankComponent.cpp" />
-    <ClCompile Include="PointsDisplayComponent.cpp" />
+    <ClCompile Include="ScoreComponent.cpp" />
     <ClCompile Include="TankComponent.cpp" />
     <ClCompile Include="TurretComponent.cpp" />
   </ItemGroup>
@@ -201,7 +201,7 @@
     <ClInclude Include="LevelComponent.h" />
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="PlayerTankComponent.h" />
-    <ClInclude Include="PointsDisplayComponent.h" />
+    <ClInclude Include="ScoreComponent.h" />
     <ClInclude Include="TankComponent.h" />
     <ClInclude Include="TurretComponent.h" />
   </ItemGroup>

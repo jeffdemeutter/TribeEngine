@@ -10,7 +10,7 @@
     <ClCompile Include="LevelComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="PointsDisplayComponent.cpp">
+    <ClCompile Include="ScoreComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="MovementComponent.cpp">
@@ -41,7 +41,7 @@
     <ClInclude Include="LevelComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="PointsDisplayComponent.h">
+    <ClInclude Include="ScoreComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="EventEnum.h" />
