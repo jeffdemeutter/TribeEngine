@@ -8,9 +8,10 @@
 #include "ServiceLocator.h"
 
 EnemyTankComponent::EnemyTankComponent(GameObject* pGo, RenderComponent* pRender, MovementComponent* pMovement, TankType tankType)
-		: TankComponent(pGo, pRender, pMovement)
+	: TankComponent(pGo, pRender, pMovement)
+	, m_Type(tankType)
 {
-	switch (tankType)
+	switch (m_Type)
 	{
 	case TankType::blueTank:
 		m_pRender->SetSrcRect(SDL_Rect{ 00,96,32,32 });
@@ -36,11 +37,14 @@ void EnemyTankComponent::MovementAI()
 	
 }
 
-void EnemyTankComponent::Kill()
+void EnemyTankComponent::Kill() const
 {
 	const auto pTank = GetParent();
 
-	ServiceLocator::GetEventManager()->Notify(pTank, BlueTankDied);
+	if (m_Type == TankType::blueTank)
+		ServiceLocator::GetEventManager()->Notify(pTank, BlueTankDied);
+	else if (m_Type == TankType::recognizer)
+		ServiceLocator::GetEventManager()->Notify(pTank, RedRecognizerDied);
 
 	pTank->Remove();
 }

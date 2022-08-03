@@ -23,9 +23,11 @@ public:
 
 	void MovementAI();
 	void SetTarget(GameObject* ptarget) { m_pTarget = ptarget; }
-	void Kill();
+	void Kill() const;
 
 private:
 	GameObject* m_pTarget = nullptr;
+
+	TankType m_Type;
 };
 
