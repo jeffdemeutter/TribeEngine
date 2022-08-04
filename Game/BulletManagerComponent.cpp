@@ -20,7 +20,11 @@ BulletManagerComponent::BulletManagerComponent(GameObject* pGo)
 BulletManagerComponent::~BulletManagerComponent()
 {
 	m_pBullets.clear();
-	
+
+	for (auto& [pGo, pCommand] : m_pGameObjects)
+	{
+		SafeDelete(pCommand);
+	}
 	m_pGameObjects.clear();
 }
 
