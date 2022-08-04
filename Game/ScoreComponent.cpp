@@ -65,10 +65,4 @@ void ScoreComponent::HighScoreParser()
 	in.read((char*)m_HighScores.data(), sizeof(int) * 10);
 
 	in.close();
-
-	for (int highScore : m_HighScores)
-	{
-		std::cout << highScore << ", ";
-	}
-	std::cout << "\n\n";
 }
