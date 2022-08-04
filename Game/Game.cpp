@@ -505,7 +505,7 @@ void Game::LoadGame() const
 			const auto pTransform = pHighScore->AddComponent(new TransformComponent(pHighScore, 410, 25));
 			const auto pRender = pHighScore->AddComponent(new RenderComponent(pHighScore, pTransform));
 			const auto pText = pHighScore->AddComponent(new TextComponent(pHighScore, pRender, "0", pFont));
-			pHighScore->AddComponent(new ScoreComponent(pHighScore, pText));
+			pHighScore->AddComponent(new ScoreComponent(pHighScore, pText, "HighScores.txt"));
 		}
 #pragma endregion
 
