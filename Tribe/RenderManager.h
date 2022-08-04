@@ -2,6 +2,7 @@
 #include "Singleton.h"
 #include "glm/glm.hpp"
 
+class GameObject;
 class Scene;
 
 class RenderManager final : public Singleton<RenderManager>
@@ -41,7 +42,7 @@ private:
 	static void UpdateWindow(int width, int height);
 
 	friend class SceneManager;
-	static void Render(std::shared_ptr<Scene> pScene);
+	static void Render(std::shared_ptr<Scene> pScene, const std::vector<GameObject*>& persistentObjects);
 
 	friend class Tribe;
 	static void Init();

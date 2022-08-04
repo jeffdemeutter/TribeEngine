@@ -27,7 +27,9 @@ public:
 	void Remove();
 
 protected:
+	friend class SceneManager;
 	friend class Scene;
+	friend class RenderManager;
 	friend class ObjectBase; // this ensures we can call render and update from within the baseclass
 	virtual void Render() const override;
 	virtual void Update(GameContext& gc) override;

@@ -1,9 +1,16 @@
 #include "TribePCH.h"
 #include "SceneManager.h"
 
+#include "GameObject.h"
 #include "RenderManager.h"
 #include "Scene.h"
 
+
+SceneManager::~SceneManager()
+{
+	for (GameObject* pPersistentObject : m_pPersistentObjects)
+		SafeDelete(pPersistentObject);
+}
 
 std::shared_ptr<Scene> SceneManager::AddScene(const std::string& sceneName)
 {
@@ -44,13 +51,21 @@ void SceneManager::ActivateScene(const std::string& sceneName)
 	throw std::runtime_error(std::string("SceneManager::ActivateScene: sceneName '") + sceneName + "' does not exist");
 }
 
+GameObject* SceneManager::AddPersistentObject(const std::string& objectName)
+{
+	return m_pPersistentObjects.emplace_back(new GameObject(nullptr, objectName));
+}
+
 void SceneManager::Update(GameContext& gc) const
 {
 	for (const auto& pScene : m_pScenes)
 		pScene->Update(gc);
+
+	for (const auto& pPersistentObject : m_pPersistentObjects)
+		pPersistentObject->Update(gc);
 }
 
 void SceneManager::Render() const
 {
-	RenderManager::Render(m_pScenes[m_ActiveSceneIndex]);
+	RenderManager::Render(m_pScenes[m_ActiveSceneIndex], m_pPersistentObjects);
 }

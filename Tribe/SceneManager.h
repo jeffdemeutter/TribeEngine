@@ -1,12 +1,13 @@
 #pragma once
 
+class GameObject;
 class Scene;
 
 class SceneManager final
 {
 public:
 	SceneManager() = default;
-	~SceneManager() = default;
+	~SceneManager();
 	SceneManager(const SceneManager&) = delete;
 	SceneManager(SceneManager&&) noexcept = delete;
 	SceneManager& operator=(const SceneManager&) = delete;
@@ -18,9 +19,13 @@ public:
 	void ActivateScene(int sceneIndex);
 	void ActivateScene(const std::string& sceneName);
 
+	GameObject* AddPersistentObject(const std::string& objectName);
+
 private:
 	std::vector<std::shared_ptr<Scene>> m_pScenes;
 	int m_ActiveSceneIndex = 0;
+
+	std::vector<GameObject*> m_pPersistentObjects;
 
 	friend class Tribe;
 	void Update(GameContext& gc) const;

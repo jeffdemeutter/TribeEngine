@@ -27,6 +27,5 @@ private:
 	std::vector<GameObject*> m_pBullets;
 	
 	std::unordered_map<GameObject*, Command*> m_pGameObjects;
-
 };
 
