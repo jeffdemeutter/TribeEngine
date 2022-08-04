@@ -1,13 +1,14 @@
 #pragma once
 #include <Component.h>
 
+class LevelComponent;
 class CollisionComponent;
 class TransformComponent;
 
 class BulletComponent final : public Component
 {
 public:
-	BulletComponent(GameObject* pGo, TransformComponent* pTrans, const glm::vec2& direction, float speed);
+	BulletComponent(GameObject* pGo, TransformComponent* pTrans, LevelComponent* pLevel, const glm::vec2& direction, float speed);
 	~BulletComponent() override;
 	BulletComponent(const BulletComponent&) = delete;
 	BulletComponent(BulletComponent&&) noexcept = delete;
@@ -21,6 +22,7 @@ public:
 	bool CanBeDestroyed() const { return m_CanBeDestroyed; }
 private:
 	TransformComponent* m_pTransform = nullptr;
+	LevelComponent* m_pLevel = nullptr;
 
 	float m_Speed = 300.f;
 	glm::vec2 m_Direction = {0.f, 1.f};

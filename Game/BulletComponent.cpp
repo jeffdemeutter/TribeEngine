@@ -10,9 +10,10 @@
 
 #include "Raycast.h"
 
-BulletComponent::BulletComponent(GameObject* pGo, TransformComponent* pTrans, const glm::vec2& direction, float speed)
+BulletComponent::BulletComponent(GameObject* pGo, TransformComponent* pTrans, LevelComponent* pLevel, const glm::vec2& direction, float speed)
 	: Component(pGo)
 	, m_pTransform(pTrans)
+	, m_pLevel(pLevel)
 	, m_Speed(speed)
 	, m_Direction(normalize(direction))
 {
@@ -32,11 +33,9 @@ void BulletComponent::Update(GameContext& gc)
 		SetCanBeDestroyed();
 
 	auto& pos = m_pTransform->GetRelativePosition();
-
-	const auto pLevelComp = gc.pSceneManager->GetActiveScene()->GetGameObjectByName("Level")->GetComponent<LevelComponent>();
-
 	
-	if (RaycastInfo rcInfo{}; Raycast::DoRaycast(pos, m_Direction, m_Speed * dTime, pLevelComp->GetObstacles(), rcInfo))
+	
+	if (RaycastInfo rcInfo{}; Raycast::DoRaycast(pos, m_Direction, m_Speed * dTime, m_pLevel->GetObstacles(), rcInfo))
 	{
 		++m_Bounces;
 		if (m_Bounces > m_BouncesMax)

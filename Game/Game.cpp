@@ -62,7 +62,7 @@ void Game::LoadGame() const
 					pRender->SetFullScreen(true);
 				}
 
-				const auto pLevel = pScene1->AddGameObject("Level");
+				const auto pLevel = pScene1->AddGameObject("Level1");
 				{
 					const auto pTrans = pLevel->AddComponent(new TransformComponent(pLevel, 100, 100));
 					pLevel->AddComponent(new RenderComponent(pLevel, pTrans, "level1.png"));
@@ -529,7 +529,7 @@ void Game::LoadGame() const
 	#pragma endregion
 
 				const auto pBulletManager = pScene1->AddGameObject("BulletManager");
-				const auto pBulletManagerComp = pBulletManager->AddComponent(new BulletManagerComponent(pBulletManager));
+				const auto pBulletManagerComp = pBulletManager->AddComponent(new BulletManagerComponent(pBulletManager, pLevel->GetComponent<LevelComponent>()));
 
 				const auto pEnemy1 = pScene1->AddGameObject("PlayerTank");
 				{

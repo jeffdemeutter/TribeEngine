@@ -10,8 +10,9 @@
 #include "EventManager.h"
 #include "ServiceLocator.h"
 
-BulletManagerComponent::BulletManagerComponent(GameObject* pGo)
+BulletManagerComponent::BulletManagerComponent(GameObject* pGo, LevelComponent* pLevelComp)
 	: Component(pGo)
+	, m_pLevelComponent(pLevelComp)
 {
 	ServiceLocator::GetEventManager()->AddEventHandle(GameobjectDeleted, [this](GameObject* pObj, int) { 	RemoveCollision(pObj); });
 
@@ -80,7 +81,7 @@ void BulletManagerComponent::SpawnBullet(const glm::vec2& pos, const glm::vec2& 
 	{
 		const auto pTrans = pBullet->AddComponent(new TransformComponent(pBullet));
 		const auto pRender = pBullet->AddComponent(new RenderComponent(pBullet, pTrans, "spritesheet.png"));
-		pBullet->AddComponent(new BulletComponent(pBullet, pTrans, dir, 300.f));
+		pBullet->AddComponent(new BulletComponent(pBullet, pTrans, m_pLevelComponent, dir, 300.f));
 
 		pTrans->SetPosition(pos);
 

@@ -2,6 +2,7 @@
 #include <Component.h>
 #include <unordered_map>
 
+class LevelComponent;
 class BulletComponent;
 class Command;
 class TransformComponent;
@@ -9,7 +10,7 @@ class TransformComponent;
 class BulletManagerComponent final : public Component
 {
 public:
-	BulletManagerComponent(GameObject* pGo);
+	BulletManagerComponent(GameObject* pGo, LevelComponent* pLevel);
 	~BulletManagerComponent() override;
 	BulletManagerComponent(const BulletManagerComponent&) = delete;
 	BulletManagerComponent(BulletManagerComponent&&) noexcept = delete;
@@ -27,5 +28,7 @@ private:
 	std::vector<GameObject*> m_pBullets;
 	
 	std::unordered_map<GameObject*, Command*> m_pGameObjects;
+
+	LevelComponent* m_pLevelComponent = nullptr;
 };
 
