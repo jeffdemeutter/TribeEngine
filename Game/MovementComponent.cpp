@@ -76,4 +76,5 @@ glm::vec2 MovementComponent::GetDirectionVec() const
 	case Direction::left:
 		return { -1, 0 };
 	}
+	return {0,0};
 }
