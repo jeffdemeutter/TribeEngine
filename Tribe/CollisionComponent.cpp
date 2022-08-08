@@ -104,3 +104,28 @@ bool CollisionComponent::IsOverlapping(CollisionComponent* pCollision) const
 
 	return true;
 }
+
+glm::vec2 CollisionComponent::GetCornerPos(corners corner)
+{
+	glm::vec2 cornerPos = m_pTransform->GetAbsolutePosition();
+	switch (corner) {
+	case topLeft:
+		cornerPos.x += m_Left;
+		cornerPos.y += m_Top;
+		break;
+	case topRight:
+		cornerPos.x += m_Right;
+		cornerPos.y += m_Top;
+		break;
+	case bottomLeft:
+		cornerPos.x += m_Left;
+		cornerPos.y += m_Bottom;
+		break;
+	case bottomRight:
+		cornerPos.x += m_Right;
+		cornerPos.y += m_Bottom;
+		break;
+	}
+
+	return cornerPos;
+}

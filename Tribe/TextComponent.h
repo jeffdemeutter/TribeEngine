@@ -16,6 +16,7 @@ public:
 
 	void SetText(const std::string& text);
 	void SetVisibility(bool visible);
+	void SetBackgroundColor(const SDL_Color& bgColor);
 
 	// Inherited via Component
 	virtual void Update(GameContext& ) override {}
@@ -24,7 +25,8 @@ public:
 private:
 	std::string m_Text = "Default";
 	Font* m_pFont;
-	SDL_Color m_Color;
+	std::optional<SDL_Color> m_BackgroundColor;
+	SDL_Color m_ForegroundColor;
 	bool m_IsVisible;
 
 	Texture2D* m_pTexture = nullptr;

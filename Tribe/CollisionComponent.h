@@ -1,6 +1,13 @@
 #pragma once
 #include "Component.h"
 
+enum corners
+{
+	topLeft,
+	topRight,
+	bottomLeft,
+	bottomRight
+};
 
 class Command;
 class TransformComponent;
@@ -25,6 +32,7 @@ public:
 	bool CheckEdgeCollision(const glm::vec2& p1, const glm::vec2& p2) const;
 	bool IsOverlapping(CollisionComponent* pCollision) const;
 
+	glm::vec2 GetCornerPos(corners corner);
 
 private:
 	TransformComponent* m_pTransform = nullptr;

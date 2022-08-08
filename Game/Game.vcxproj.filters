@@ -19,9 +19,6 @@
     <ClCompile Include="PlayerTankComponent.cpp">
       <Filter>Components\TankComponents</Filter>
     </ClCompile>
-    <ClCompile Include="TankComponent.cpp">
-      <Filter>Components\TankComponents</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyTankComponent.cpp">
       <Filter>Components\TankComponents</Filter>
     </ClCompile>
@@ -50,9 +47,6 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="PlayerTankComponent.h">
-      <Filter>Components\TankComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="TankComponent.h">
       <Filter>Components\TankComponents</Filter>
     </ClInclude>
     <ClInclude Include="EnemyTankComponent.h">

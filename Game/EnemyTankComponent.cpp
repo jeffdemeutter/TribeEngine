@@ -3,12 +3,22 @@
 
 #include "EventManager.h"
 #include "GameObject.h"
+#include "GameTime.h"
 #include "RenderComponent.h"
 #include "MovementComponent.h"
+#include "CollisionComponent.h"
 #include "ServiceLocator.h"
+#include "TransformComponent.h"
+#include "Raycast.h"
+#include "LevelComponent.h"
 
-EnemyTankComponent::EnemyTankComponent(GameObject* pGo, RenderComponent* pRender, MovementComponent* pMovement, TankType tankType, int lives)
-	: TankComponent(pGo, pRender, pMovement)
+EnemyTankComponent::EnemyTankComponent(GameObject* pGo, TransformComponent* pTrans, RenderComponent* pRender, CollisionComponent* pCollision, MovementComponent* pMovement, LevelComponent* pLevel, TankType tankType, int lives)
+	: Component(pGo)
+	, m_pTransform(pTrans)
+	, m_pRender(pRender)
+	, m_pCollision(pCollision)
+	, m_pMovement(pMovement)
+	, m_pLevel(pLevel)
 	, m_Lives(lives)
 	, m_Type(tankType)
 {
@@ -33,15 +43,19 @@ EnemyTankComponent::~EnemyTankComponent()
 	m_pTarget = nullptr;
 }
 
+void EnemyTankComponent::Update(GameContext& )
+{
+	MovementAI();
+}
+
 void EnemyTankComponent::MovementAI()
 {
-	
+
 }
 
 void EnemyTankComponent::Hit()
 {
 	--m_Lives;
-	std::cout << m_Lives << '\n';
 	if (m_Lives > 0)
 		return;
 

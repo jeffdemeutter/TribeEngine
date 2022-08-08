@@ -15,7 +15,7 @@ ScoreComponent::ScoreComponent(GameObject* go, TextComponent* pText, const std::
 	ServiceLocator::GetEventManager()->AddEventHandle(BlueTankDied, [this](GameObject* go, int type) { UpdateScore(go, type); });
 	ServiceLocator::GetEventManager()->AddEventHandle(RedRecognizerDied, [this](GameObject* go, int type) { UpdateScore(go, type); });
 
-
+	m_pTextComponent->SetBackgroundColor(SDL_Color{ 0,0,0,255 });
 	m_pTextComponent->SetText(m_Prefix + std::to_string(m_Score));
 
 	HighScoreParser();

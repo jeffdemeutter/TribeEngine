@@ -1,4 +1,4 @@
-#include "GamePCH.h"
+﻿#include "GamePCH.h"
 #include "Game.h"
 
 #include <CollisionComponent.h>
@@ -44,13 +44,27 @@ void Game::LoadGame() const
 			pFps->AddComponent(new FpsComponent(pFps, pText));
 		}
 
+		// High Score
+		const auto pHighScore = m_GameContext.pSceneManager->AddPersistentObject("HighScore");
+		{
+			const auto pTransform = pHighScore->AddComponent(new TransformComponent(pHighScore, 410, 25));
+			const auto pRender = pHighScore->AddComponent(new RenderComponent(pHighScore, pTransform));
+			const auto pText = pHighScore->AddComponent(new TextComponent(pHighScore, pRender, "0", pFont));
+			pHighScore->AddComponent(new ScoreComponent(pHighScore, pText, "HighScores.txt"));
+		}
 
+		// lives
 		const auto pLivesObject = m_GameContext.pSceneManager->AddPersistentObject("Lives");
-		pLivesObject->AddComponent(new LivesComponent(pLivesObject, 3));
+		{
+			const auto pTransform = pLivesObject->AddComponent(new TransformComponent(pLivesObject, 320, 25));
+			const auto pRender = pLivesObject->AddComponent(new RenderComponent(pLivesObject, pTransform));
+			const auto pText = pLivesObject->AddComponent(new TextComponent(pLivesObject, pRender, " ", pFont, {255,0,0,255}));
+			pLivesObject->AddComponent(new LivesComponent(pLivesObject, pText, 3));
+		}
 	}
 
-
-	{ // main scene
+	// main scene
+	{ 
 		const auto pScene1 = m_GameContext.pSceneManager->AddScene("Scene1");
 		{
 			{
@@ -517,27 +531,21 @@ void Game::LoadGame() const
 					ia.mouseButton = 0;
 					m_GameContext.pInput->AddInputAction(ia);
 				}
-
-				// High Score
-				const auto pHighScore = pScene1->AddGameObject("HighScore");
-				{
-					const auto pTransform = pHighScore->AddComponent(new TransformComponent(pHighScore, 410, 25));
-					const auto pRender = pHighScore->AddComponent(new RenderComponent(pHighScore, pTransform));
-					const auto pText = pHighScore->AddComponent(new TextComponent(pHighScore, pRender, "0", pFont));
-					pHighScore->AddComponent(new ScoreComponent(pHighScore, pText, "HighScores.txt"));
-				}
 	#pragma endregion
 
 				const auto pBulletManager = pScene1->AddGameObject("BulletManager");
 				const auto pBulletManagerComp = pBulletManager->AddComponent(new BulletManagerComponent(pBulletManager, pLevel->GetComponent<LevelComponent>()));
 
+				// enemies
 				const auto pEnemy1 = pScene1->AddGameObject("PlayerTank");
 				{
 					const auto pTransform = pEnemy1->AddComponent(new TransformComponent(pEnemy1, pLevel->GetComponent<LevelComponent>()->GetRandomPosition()));
 					const auto pRender = pEnemy1->AddComponent(new RenderComponent(pEnemy1, pTransform, "spritesheet.png"));
 					const auto pCollision = pEnemy1->AddComponent(new CollisionComponent(pEnemy1, pTransform, 25, 25));
 					const auto pMovement = pEnemy1->AddComponent(new MovementComponent(pEnemy1, pTransform, pCollision));
-					const auto pEnemyTank = pEnemy1->AddComponent(new EnemyTankComponent(pEnemy1, pRender, pMovement, TankType::blueTank));
+					const auto pEnemyTank = pEnemy1->AddComponent(new EnemyTankComponent(pEnemy1, pTransform, pRender, pCollision, pMovement, pLevel->GetComponent<LevelComponent>(), TankType::blueTank));
+
+					pMovement->SetLevelComponent(pLevel->GetComponent<LevelComponent>());
 
 					pEnemyTank->SetTarget(pTank);
 

@@ -10,7 +10,7 @@
 TextComponent::TextComponent(GameObject* go, RenderComponent* pRenderComponent, const std::string& text, Font* pFont, const SDL_Color& color, bool isVisible)
 	: Component(go)
 	, m_pFont{ pFont }
-	, m_Color{ color }
+	, m_ForegroundColor{ color }
 	, m_IsVisible(isVisible)
 	, m_pRenderComponent{pRenderComponent}
 {
@@ -35,15 +35,20 @@ void TextComponent::SetText(const std::string& text)
 
 	SafeDelete(m_pTexture);
 
-	const auto surf = TTF_RenderText_Blended(m_pFont->GetFont(), m_Text.c_str(), m_Color);
-	if (surf == nullptr)
+	SDL_Surface* pSurface;
+	if (m_BackgroundColor.has_value())
+		pSurface = TTF_RenderText_Shaded(m_pFont->GetFont(), m_Text.c_str(), m_ForegroundColor, m_BackgroundColor.value());
+	else
+		pSurface = TTF_RenderText_Blended(m_pFont->GetFont(), m_Text.c_str(), m_ForegroundColor);
+
+	if (pSurface == nullptr)
 		throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
 
-	const auto texture = SDL_CreateTextureFromSurface(RenderManager::GetSDLRenderer(), surf);
+	const auto texture = SDL_CreateTextureFromSurface(RenderManager::GetSDLRenderer(), pSurface);
 	if (texture == nullptr)
 		throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 
-	SDL_FreeSurface(surf);
+	SDL_FreeSurface(pSurface);
 	m_pTexture = new Texture2D(texture);
 
 	if (m_IsVisible)
@@ -56,5 +61,12 @@ void TextComponent::SetVisibility(bool visible)
 
 	if (m_IsVisible)
 		m_pRenderComponent->SetTexture(m_pTexture);
+}
+
+void TextComponent::SetBackgroundColor(const SDL_Color& bgColor)
+{
+	m_BackgroundColor = bgColor;
+
+	m_pRenderComponent->SetTexture(m_pTexture);
 }
 

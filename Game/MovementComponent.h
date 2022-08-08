@@ -31,6 +31,7 @@ public:
 	void SetLevelComponent(LevelComponent* pLevel) { m_pLevel = pLevel; }
 	void SetMovementSpeed(float speed) { m_MoveSpeed = speed; }
 	void SetDirection(Direction movement);
+	void SetMoving(bool isMoving) { m_IsMoving = isMoving; }
 
 private:
 	LevelComponent* m_pLevel = nullptr;

@@ -1,10 +1,10 @@
 #pragma once
-#include "TankComponent.h"
+#include "Component.h"
 
 class RenderComponent;
 class MovementComponent;
 
-class PlayerTankComponent final : public TankComponent
+class PlayerTankComponent final : public Component
 {
 public:
 	PlayerTankComponent(GameObject* pGo, RenderComponent* pRender, MovementComponent* pMovement);
@@ -21,5 +21,9 @@ public:
 	void MoveDown() const;
 	void MoveLeft() const;
 	void MoveRight() const;
+
+private:
+	RenderComponent* m_pRender = nullptr;
+	MovementComponent* m_pMovement = nullptr;
 };
 

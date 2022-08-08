@@ -2,7 +2,6 @@
 #include "PlayerTankComponent.h"
 
 #include "GameObject.h"
-#include "TankComponent.h"
 #include "MovementComponent.h"
 #include "RenderComponent.h"
 
@@ -10,7 +9,9 @@ class CollisionComponent;
 class LevelComponent;
 
 PlayerTankComponent::PlayerTankComponent(GameObject* pGo, RenderComponent* pRender, MovementComponent* pMovement)
-	: TankComponent(pGo, pRender, pMovement)
+	: Component(pGo)
+	, m_pRender(pRender)
+	, m_pMovement(pMovement)
 {
 	m_pRender->SetSrcRect(SDL_Rect{ 00,64,32,32 });
 	m_pRender->SetCenter({ 16,16 });
