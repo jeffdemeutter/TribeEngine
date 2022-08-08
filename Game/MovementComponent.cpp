@@ -29,22 +29,7 @@ void MovementComponent::Update(GameContext& gc)
 		return;
 
 	auto& pos = m_pTransform->GetRelativePosition();
-	glm::vec2 dir{};
-	switch (m_Movement)
-	{
-	case Direction::up:
-		dir = { 0, -1 };
-		break;
-	case Direction::right:
-		dir = { 1, 0 };
-		break;
-	case Direction::down:
-		dir = { 0, 1 };
-		break;
-	case Direction::left:
-		dir = { -1, 0 };
-		break;
-	}
+	const glm::vec2 dir{ GetDirectionVec() };
 	pos += dir * m_MoveSpeed * dTime;
 
 
@@ -73,4 +58,22 @@ void MovementComponent::SetDirection(Direction movement)
 {
 	m_Movement = movement;
 	m_IsMoving = true;
+}
+
+glm::vec2 MovementComponent::GetDirectionVec() const
+{
+	switch (m_Movement)
+	{
+	case Direction::up:
+		return { 0, -1 };
+
+	case Direction::right:
+		return { 1, 0 };
+
+	case Direction::down:
+		return { 0, 1 };
+
+	case Direction::left:
+		return { -1, 0 };
+	}
 }

@@ -13,12 +13,17 @@ LivesComponent::LivesComponent(GameObject* pGo, TextComponent* pText, int lives)
 	ServiceLocator::GetEventManager()->AddEventHandle(PlayerDied, [this](GameObject*, int) { DecreaseLive(); });
 
 	m_pTextComponent->SetBackgroundColor(SDL_Color{ 0,0,0,255 });
-	m_pTextComponent->SetText("HHH");
+	m_pTextComponent->SetText("XXX");
 }
 
 void LivesComponent::DecreaseLive()
 {
 	--m_Lives;
+
+	std::stringstream ss{};
+	for (int i = 0; i < m_Lives; ++i)
+		ss << 'X';
+	m_pTextComponent->SetText(ss.str());
 
 	if (m_Lives == 0)
 		ServiceLocator::GetEventManager()->Notify(GetParent(), GameOver);
