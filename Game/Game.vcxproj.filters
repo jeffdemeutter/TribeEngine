@@ -4,9 +4,6 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="GamePCH.cpp" />
-    <ClCompile Include="BulletComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="LevelComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -25,22 +22,22 @@
     <ClCompile Include="TurretComponent.cpp">
       <Filter>Components\TankComponents</Filter>
     </ClCompile>
-    <ClCompile Include="BulletManagerComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="LivesComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="BulletComponent.cpp">
+      <Filter>Components\BulletComponents</Filter>
+    </ClCompile>
     <ClCompile Include="BulletConfigComponent.cpp">
-      <Filter>Components</Filter>
+      <Filter>Components\BulletComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletManagerComponent.cpp">
+      <Filter>Components\BulletComponents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
     <ClInclude Include="GamePCH.h" />
-    <ClInclude Include="BulletComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="LevelComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -60,14 +57,17 @@
     <ClInclude Include="TurretComponent.h">
       <Filter>Components\TankComponents</Filter>
     </ClInclude>
-    <ClInclude Include="BulletManagerComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="LivesComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="BulletComponent.h">
+      <Filter>Components\BulletComponents</Filter>
+    </ClInclude>
     <ClInclude Include="BulletConfigComponent.h">
-      <Filter>Components</Filter>
+      <Filter>Components\BulletComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletManagerComponent.h">
+      <Filter>Components\BulletComponents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +76,9 @@
     </Filter>
     <Filter Include="Components\TankComponents">
       <UniqueIdentifier>{075d9f65-8439-4e8f-8a13-f99791169556}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\BulletComponents">
+      <UniqueIdentifier>{cdbd03b7-81c6-4328-b40a-3004f39e705d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

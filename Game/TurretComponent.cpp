@@ -2,21 +2,30 @@
 #include "TurretComponent.h"
 
 #include "BulletComponent.h"
-#include "BulletManagerComponent.h"
+#include "BulletConfigComponent.h"
+#include "EventManager.h"
 #include "GameObject.h"
 #include "InputManager.h"
 #include "TransformComponent.h"
 #include "RenderComponent.h"
+#include "ServiceLocator.h"
 
-TurretComponent::TurretComponent(GameObject* pGo, int player, TransformComponent* pTrans, RenderComponent* pRender)
+TurretComponent::TurretComponent(GameObject* pGo, int player, TransformComponent* pTrans, RenderComponent* pRender, BulletConfigComponent* pBulletConfig)
 	: Component(pGo)
 	, m_pTransform(pTrans)
 	, m_pRender(pRender)
+	, m_pBulletConfig(pBulletConfig)
 	, m_Player(player)
 {
 	m_pTransform->SetPosition(-9, -23);
 	m_pRender->SetSrcRect(SDL_Rect{ 64,96,32,32 });
 	m_pRender->SetPivot({ 9,23 });
+
+	m_pBulletConfig->SetSpeed(300.f);
+	m_pBulletConfig->SetPivot({3.f, 2.5f});
+	m_pBulletConfig->SetSrcRect(SDL_Rect{ 109, 46, 6, 5 });
+	// first getparent is turret, second is the tank
+	m_pBulletConfig->SetSourceObject(static_cast<GameObject*>(GetParent()->GetParent()));
 }
 
 TurretComponent::~TurretComponent()
@@ -25,14 +34,12 @@ TurretComponent::~TurretComponent()
 	m_pRender = nullptr;
 }
 
-void TurretComponent::SpawnBullet()
+void TurretComponent::SpawnBullet() const
 {
-	const auto pTurret = GetParent();
-	const auto pTank = static_cast<GameObject*>(pTurret->GetParent());
-	const auto pScene = pTank->GetParent();
+	m_pBulletConfig->SetPos(m_pTransform->GetAbsolutePosition() - glm::vec2{ -9, -23 });
+	m_pBulletConfig->SetDirection(m_Direction);
 
-	const auto pBulletManager = pScene->GetGameObjectByName("BulletManager")->GetComponent<BulletManagerComponent>();
-	pBulletManager->SpawnBullet(m_pTransform->GetAbsolutePosition() - glm::vec2{ -9, -23 }, m_Direction);
+	ServiceLocator::GetEventManager()->Notify(GetParent(), PlayerSpawnedBullet);
 }
 
 void TurretComponent::Update(GameContext& gc)

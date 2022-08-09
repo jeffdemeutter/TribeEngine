@@ -471,6 +471,9 @@ void Game::LoadGame() const
 
 	#pragma endregion
 
+				const auto pBulletManager = pScene1->AddGameObject("BulletManager");
+				const auto pBulletManagerComp = pBulletManager->AddComponent(new BulletManagerComponent(pBulletManager, pLevel->GetComponent<LevelComponent>()));
+
 	#pragma region players
 				// tank
 				const auto pTank = pScene1->AddGameObject("PlayerTank");
@@ -490,6 +493,10 @@ void Game::LoadGame() const
 						pTransform->SetAbsolutePosition(pLevel->GetComponent<LevelComponent>()->GetRandomPosition());
 					})
 					);
+					pBulletManagerComp->AddCollision(pTank, new Command([pPlayer]
+					{
+						pPlayer->Kill();
+					}));
 
 					// tank inputs
 					{
@@ -524,7 +531,8 @@ void Game::LoadGame() const
 				{
 					const auto pTransform = pTankTurret->AddComponent(new TransformComponent(pTankTurret, RenderManager::GetWindowCenter()));
 					const auto pRender = pTankTurret->AddComponent(new RenderComponent(pTankTurret, pTransform, "spritesheet.png"));
-					const auto pTurret = pTankTurret->AddComponent(new TurretComponent(pTankTurret, m_Player, pTransform, pRender));
+					const auto pBulletConfig = pTankTurret->AddComponent(new BulletConfigComponent(pTankTurret));
+					const auto pTurret = pTankTurret->AddComponent(new TurretComponent(pTankTurret, m_Player, pTransform, pRender, pBulletConfig));
 
 					InputAction ia(new Command([pTurret] {pTurret->SpawnBullet(); }));
 					ia.stroke = Stroke::released;
@@ -533,9 +541,6 @@ void Game::LoadGame() const
 					m_GameContext.pInput->AddInputAction(ia);
 				}
 	#pragma endregion
-
-				const auto pBulletManager = pScene1->AddGameObject("BulletManager");
-				const auto pBulletManagerComp = pBulletManager->AddComponent(new BulletManagerComponent(pBulletManager, pLevel->GetComponent<LevelComponent>()));
 
 				// enemies
 				const auto pEnemy1 = pScene1->AddGameObject("PlayerTank");

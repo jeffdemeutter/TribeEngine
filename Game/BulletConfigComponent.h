@@ -24,6 +24,8 @@ public:
 	void SetPivot(const glm::vec2& pivot) { m_Pivot = pivot; }
 	float GetSpeed() const { return m_Speed; }
 	void SetSpeed(float speed) { m_Speed = speed; }
+	GameObject* GetSourceObject() const { return m_pSource; }
+	void SetSourceObject(GameObject* pSource) { m_pSource = pSource; }
 
 private:
 	SDL_Rect m_SourceRect{0,0,32,32};
@@ -31,5 +33,7 @@ private:
 	glm::vec2 m_Pos{0.f, 0.f};
 	glm::vec2 m_Pivot{ 0.f, 0.f};
 	float m_Speed{10.f};
+
+	GameObject* m_pSource = nullptr;
 };
 

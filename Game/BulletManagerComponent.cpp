@@ -22,7 +22,12 @@ BulletManagerComponent::BulletManagerComponent(GameObject* pGo, LevelComponent* 
 
 	ServiceLocator::GetEventManager()->AddEventHandle(EnemySpawnedBullet, [this](GameObject* pObj, int)
 	{
-		SpawnBullet(pObj);
+		SpawnBullet(pObj->GetComponent<BulletConfigComponent>());
+	});
+
+	ServiceLocator::GetEventManager()->AddEventHandle(PlayerSpawnedBullet, [this](GameObject* pObj, int)
+	{
+		SpawnBullet(pObj->GetComponent<BulletConfigComponent>());
 	});
 }
 
@@ -87,39 +92,22 @@ void BulletManagerComponent::RemoveCollision(GameObject* pGo)
 	m_pGameObjects.erase(pGo);	
 }
 
-void BulletManagerComponent::SpawnBullet(const glm::vec2& pos, const glm::vec2& dir)
+
+void BulletManagerComponent::SpawnBullet(BulletConfigComponent* pBulletConfig)
 {
-	const auto pBullet = GetParent()->AddGameObject("Bullet");
-	{
-		const auto pTrans = pBullet->AddComponent(new TransformComponent(pBullet));
-		const auto pRender = pBullet->AddComponent(new RenderComponent(pBullet, pTrans, "spritesheet.png"));
-		pBullet->AddComponent(new BulletComponent(pBullet, pTrans, m_pLevelComponent, dir, 300.f, GetParent()));
-
-		pTrans->SetPosition(pos);
-
-		pRender->SetSrcRect({ 109, 46, 6, 5 });
-		pRender->SetPivot({ 3.f, 2.5f });
-
-	}
-	m_pBullets.emplace_back(pBullet);
-}
-
-void BulletManagerComponent::SpawnBullet(GameObject* pGo)
-{
-	const auto pBulletConfig = pGo->GetComponent<BulletConfigComponent>();
-
 	const auto& srcRect = pBulletConfig->GetSrcRect();
 	const auto& dir = pBulletConfig->GetDirection();
 	const auto& pos = pBulletConfig->GetPos();
 	const auto& pivot = pBulletConfig->GetPivot();
 	const auto& speed	 = pBulletConfig->GetSpeed();
+	const auto pSource = pBulletConfig->GetSourceObject();
 
 	// spawn the bullet
 	const auto pBullet = GetParent()->AddGameObject("Bullet");
 	{
 		const auto pTrans = pBullet->AddComponent(new TransformComponent(pBullet));
 		const auto pRender = pBullet->AddComponent(new RenderComponent(pBullet, pTrans, "spritesheet.png"));
-		pBullet->AddComponent(new BulletComponent(pBullet, pTrans, m_pLevelComponent, dir, speed, pGo));
+		pBullet->AddComponent(new BulletComponent(pBullet, pTrans, m_pLevelComponent, dir, speed, pSource));
 
 		pTrans->SetPosition(pos);
 

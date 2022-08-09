@@ -1,9 +1,11 @@
 #include "GamePCH.h"
 #include "PlayerTankComponent.h"
 
+#include "EventManager.h"
 #include "GameObject.h"
 #include "MovementComponent.h"
 #include "RenderComponent.h"
+#include "ServiceLocator.h"
 
 class CollisionComponent;
 class LevelComponent;
@@ -43,6 +45,11 @@ void PlayerTankComponent::MoveRight() const
 {
 	m_pRender->SetRotation(0);
 	m_pMovement->SetDirection(MovementComponent::Direction::right);	
+}
+
+void PlayerTankComponent::Kill() const
+{
+	ServiceLocator::GetEventManager()->Notify(GetParent(), PlayerDied);
 }
 
 

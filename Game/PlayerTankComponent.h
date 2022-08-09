@@ -22,6 +22,7 @@ public:
 	void MoveLeft() const;
 	void MoveRight() const;
 
+	void Kill() const;
 private:
 	RenderComponent* m_pRender = nullptr;
 	MovementComponent* m_pMovement = nullptr;

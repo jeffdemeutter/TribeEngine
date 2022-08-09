@@ -43,6 +43,8 @@ EnemyTankComponent::EnemyTankComponent(GameObject* pGo, TransformComponent* pTra
 	m_pBulletConfig->SetSrcRect(SDL_Rect{ 11, 44, 8, 9 });
 	m_pBulletConfig->SetPivot({ 4.f, 4.5f });
 	m_pBulletConfig->SetSpeed(200.f);
+
+	m_pBulletConfig->SetSourceObject(GetParent());
 }
 
 EnemyTankComponent::~EnemyTankComponent()

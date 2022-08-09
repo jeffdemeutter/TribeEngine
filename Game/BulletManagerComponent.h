@@ -23,8 +23,6 @@ public:
 
 	void AddCollision(GameObject* pGo, Command* pCommand);
 	void RemoveCollision(GameObject* pGo);
-
-	void SpawnBullet(const glm::vec2& pos, const glm::vec2& dir);
 private:
 	std::vector<GameObject*> m_pBullets;
 	
@@ -32,6 +30,6 @@ private:
 
 	LevelComponent* m_pLevelComponent = nullptr;
 
-	void SpawnBullet(GameObject* pGo);
+	void SpawnBullet(BulletConfigComponent* pBulletConfig);
 };
 
