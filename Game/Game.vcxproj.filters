@@ -31,6 +31,9 @@
     <ClCompile Include="LivesComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="BulletConfigComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
@@ -61,6 +64,9 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="LivesComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletConfigComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>

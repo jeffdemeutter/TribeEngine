@@ -3,6 +3,7 @@
 
 #include <CollisionComponent.h>
 
+#include "BulletConfigComponent.h"
 #include "BulletManagerComponent.h"
 #include "EnemyTankComponent.h"
 #include "EventManager.h"
@@ -543,7 +544,8 @@ void Game::LoadGame() const
 					const auto pRender = pEnemy1->AddComponent(new RenderComponent(pEnemy1, pTransform, "spritesheet.png"));
 					const auto pCollision = pEnemy1->AddComponent(new CollisionComponent(pEnemy1, pTransform, 25, 25));
 					const auto pMovement = pEnemy1->AddComponent(new MovementComponent(pEnemy1, pTransform, pCollision));
-					const auto pEnemyTank = pEnemy1->AddComponent(new EnemyTankComponent(pEnemy1, pTransform, pRender, pCollision, pMovement, pLevel->GetComponent<LevelComponent>(), TankType::blueTank));
+					const auto pBulletConfig = pEnemy1->AddComponent(new BulletConfigComponent(pEnemy1));
+					const auto pEnemyTank = pEnemy1->AddComponent(new EnemyTankComponent(pEnemy1, pTransform, pRender, pCollision, pMovement, pBulletConfig, pLevel->GetComponent<LevelComponent>(), TankType::blueTank));
 
 					pMovement->SetLevelComponent(pLevel->GetComponent<LevelComponent>());
 

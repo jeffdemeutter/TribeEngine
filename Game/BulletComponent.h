@@ -8,7 +8,7 @@ class TransformComponent;
 class BulletComponent final : public Component
 {
 public:
-	BulletComponent(GameObject* pGo, TransformComponent* pTrans, LevelComponent* pLevel, const glm::vec2& direction, float speed);
+	BulletComponent(GameObject* pGo, TransformComponent* pTrans, LevelComponent* pLevel, const glm::vec2& direction, float speed, GameObject* pParent);
 	~BulletComponent() override;
 	BulletComponent(const BulletComponent&) = delete;
 	BulletComponent(BulletComponent&&) noexcept = delete;
@@ -18,11 +18,13 @@ public:
 	virtual void Update(GameContext&) override;
 	virtual void Render() const override {}
 
+	GameObject* GetOriginFired() const { return m_pOriginObject; }
 	void SetCanBeDestroyed() { m_CanBeDestroyed = true; }
 	bool CanBeDestroyed() const { return m_CanBeDestroyed; }
 private:
 	TransformComponent* m_pTransform = nullptr;
 	LevelComponent* m_pLevel = nullptr;
+	GameObject* m_pOriginObject = nullptr;
 
 	float m_Speed = 300.f;
 	glm::vec2 m_Direction = {0.f, 1.f};

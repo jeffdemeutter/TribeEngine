@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 
+class BulletConfigComponent;
 class LevelComponent;
 class CollisionComponent;
 class RenderComponent;
@@ -16,7 +17,7 @@ enum class TankType
 class EnemyTankComponent : public Component
 {
 public:
-	EnemyTankComponent(GameObject* pGo, TransformComponent* pTrans, RenderComponent* pRender, CollisionComponent* pCollision, MovementComponent* pMovement, LevelComponent* pLevel, TankType tankType, int lives = 3);
+	EnemyTankComponent(GameObject* pGo, TransformComponent* pTrans, RenderComponent* pRender, CollisionComponent* pCollision, MovementComponent* pMovement, BulletConfigComponent* pBulletConfig, LevelComponent* pLevel, TankType tankType, int lives = 3);
 	~EnemyTankComponent() override;
 	EnemyTankComponent(const EnemyTankComponent&) = delete;
 	EnemyTankComponent(EnemyTankComponent&&) noexcept = delete;
@@ -35,12 +36,16 @@ private:
 	RenderComponent* m_pRender = nullptr;
 	CollisionComponent* m_pCollision = nullptr;
 	MovementComponent* m_pMovement = nullptr;
+	BulletConfigComponent* m_pBulletConfig = nullptr;
 	LevelComponent* m_pLevel = nullptr;
 
 	int m_Lives = 3;
 	TankType m_Type;
 
+	bool m_CanShoot = false;
 	float m_Timer = 0.f;
+	float m_TimerMax = 2.f;
+
 	void MovementAI();
 };
 

@@ -10,10 +10,11 @@
 
 #include "Raycast.h"
 
-BulletComponent::BulletComponent(GameObject* pGo, TransformComponent* pTrans, LevelComponent* pLevel, const glm::vec2& direction, float speed)
+BulletComponent::BulletComponent(GameObject* pGo, TransformComponent* pTrans, LevelComponent* pLevel, const glm::vec2& direction, float speed, GameObject* pParent)
 	: Component(pGo)
 	, m_pTransform(pTrans)
 	, m_pLevel(pLevel)
+	, m_pOriginObject(pParent)
 	, m_Speed(speed)
 	, m_Direction(normalize(direction))
 {

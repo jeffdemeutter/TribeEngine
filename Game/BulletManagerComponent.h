@@ -2,6 +2,7 @@
 #include <Component.h>
 #include <unordered_map>
 
+class BulletConfigComponent;
 class LevelComponent;
 class BulletComponent;
 class Command;
@@ -30,5 +31,7 @@ private:
 	std::unordered_map<GameObject*, Command*> m_pGameObjects;
 
 	LevelComponent* m_pLevelComponent = nullptr;
+
+	void SpawnBullet(GameObject* pGo);
 };
 
