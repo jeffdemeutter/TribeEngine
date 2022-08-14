@@ -33,12 +33,14 @@ void SceneManager::ActivateScene(int sceneIndex)
 	if (sceneIndex >=  static_cast<int>(m_pScenes.size()))
 		throw std::runtime_error(std::string("SceneManager::ActivateScene: sceneIndex '") + std::to_string(sceneIndex) + "' out of bounds");
 
+	GetActiveScene()->Deactivate();
 	m_ActiveSceneIndex = sceneIndex;
+	GetActiveScene()->Activate();
 }
 
 void SceneManager::ActivateScene(const std::string& sceneName)
 {
-	for (int i = 0; i > int(m_pScenes.size()); ++i)
+	for (int i = 0; i < int(m_pScenes.size()); ++i)
 	{
 		if (m_pScenes[i]->GetName() != sceneName)
 			continue;
