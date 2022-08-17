@@ -7,19 +7,19 @@
 #include "RenderComponent.h"
 #include "MovementComponent.h"
 #include "CollisionComponent.h"
-#include "GameTime.h"
 #include "ServiceLocator.h"
 #include "TransformComponent.h"
 #include "Raycast.h"
 #include "LevelComponent.h"
+#include "Command.h"
+#include "PlayerTankComponent.h"
 
-EnemyTankComponent::EnemyTankComponent(GameObject* pGo, TransformComponent* pTrans, RenderComponent* pRender, CollisionComponent* pCollision, MovementComponent* pMovement, BulletConfigComponent* pBulletConfig, LevelComponent* pLevel, TankType tankType, int lives)
+EnemyTankComponent::EnemyTankComponent(GameObject* pGo, TransformComponent* pTrans, RenderComponent* pRender, CollisionComponent* pCollision, MovementComponent* pMovement, LevelComponent* pLevel, TankType tankType, int lives)
 	: Component(pGo)
 	, m_pTransform(pTrans)
+	, m_pMovement(pMovement)
 	, m_pRender(pRender)
 	, m_pCollision(pCollision)
-	, m_pMovement(pMovement)
-	, m_pBulletConfig(pBulletConfig)
 	, m_pLevel(pLevel)
 	, m_Lives(lives)
 	, m_Type(tankType)
@@ -38,13 +38,6 @@ EnemyTankComponent::EnemyTankComponent(GameObject* pGo, TransformComponent* pTra
 
 	m_pRender->SetCenter({ 16,16 });
 	m_pRender->SetPivot({ 16,16 });
-
-
-	m_pBulletConfig->SetSrcRect(SDL_Rect{ 11, 44, 8, 9 });
-	m_pBulletConfig->SetPivot({ 4.f, 4.5f });
-	m_pBulletConfig->SetSpeed(200.f);
-
-	m_pBulletConfig->SetSourceObject(GetParent());
 }
 
 EnemyTankComponent::~EnemyTankComponent()
@@ -52,25 +45,26 @@ EnemyTankComponent::~EnemyTankComponent()
 	m_pTarget = nullptr;
 }
 
-void EnemyTankComponent::Update(GameContext& gc)
+void EnemyTankComponent::Update(GameContext&)
 {
-	m_Timer += gc.pTime->GetDeltaTime();
-	if (m_CanShoot)
-	{
-		if (m_Timer > m_TimerMax)
-		{
-			m_pBulletConfig->SetPos(m_pTransform->GetAbsolutePosition());
-			m_pBulletConfig->SetDirection(m_pMovement->GetDirectionVec());
-
-			ServiceLocator::GetEventManager()->Notify(GetParent(), EnemySpawnedBullet);
-			m_Timer = 0;
-		}
-	}
-
 	MovementAI();
 }
 
-void EnemyTankComponent::MovementAI()
+void EnemyTankComponent::SetTarget(GameObject* ptarget)
+{
+	m_pTarget = ptarget;
+
+	m_pCollision->AddColliderCheck(
+		m_pTarget->GetComponent<CollisionComponent>(), 
+		new Command([this, ptarget]
+		{
+			ptarget->GetComponent<PlayerTankComponent>()->Kill();
+			GetParent()->Remove();
+		})
+	);
+}
+
+void EnemyTankComponent::MovementAI() const
 {
 	static float margin = 0.01f;
 	// allows next frame to move
@@ -94,7 +88,6 @@ void EnemyTankComponent::MovementAI()
 				setDirTo = MovementComponent::Direction::left;
 			else				// target is right
 				setDirTo = MovementComponent::Direction::right;
-			m_CanShoot = true;
 		}
 		else if (dir.y < 0.f) // target is above
 		{
@@ -104,7 +97,6 @@ void EnemyTankComponent::MovementAI()
 				cornerPos = m_pCollision->GetCornerPos(topRight);
 
 			setDirTo = MovementComponent::Direction::up;
-			m_CanShoot = false;
 		}
 		else			// target is below
 		{
@@ -114,7 +106,6 @@ void EnemyTankComponent::MovementAI()
 				cornerPos = m_pCollision->GetCornerPos(bottomRight);
 
 			setDirTo = MovementComponent::Direction::down;
-			m_CanShoot = false;
 		}
 
 		dir.y = 0.f;
@@ -127,7 +118,6 @@ void EnemyTankComponent::MovementAI()
 				setDirTo = MovementComponent::Direction::up;
 			else				// target is downwards
 				setDirTo = MovementComponent::Direction::down;
-			m_CanShoot = true;
 		}
 		else if (dir.x < 0.f) // target is left
 		{
@@ -137,7 +127,6 @@ void EnemyTankComponent::MovementAI()
 				cornerPos = m_pCollision->GetCornerPos(topLeft);
 
 			setDirTo = MovementComponent::Direction::left;
-			m_CanShoot = false;
 		}
 		else			// target is right
 		{
@@ -147,7 +136,6 @@ void EnemyTankComponent::MovementAI()
 				cornerPos = m_pCollision->GetCornerPos(topRight);
 
 			setDirTo = MovementComponent::Direction::right;
-			m_CanShoot = false;
 		}
 
 		dir.x = 0.f;
