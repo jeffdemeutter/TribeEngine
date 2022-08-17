@@ -537,6 +537,8 @@ void Game::LoadGame() const
 					const auto pCollision = pTank->AddComponent(new CollisionComponent(pTank, pTransform, 25, 25));
 					const auto pMovement = pTank->AddComponent(new MovementComponent(pTank, pTransform, pCollision));
 					const auto pPlayer = pTank->AddComponent(new PlayerTankComponent(pTank, pRender, pMovement));
+					pRender->SetSrcRect(SDL_Rect{ 00,64,32,32 });
+					
 
 					// collision
 					pMovement->SetLevelComponent(pLevel->GetComponent<LevelComponent>());
@@ -603,6 +605,7 @@ void Game::LoadGame() const
 					const auto pCollision = pTank2->AddComponent(new CollisionComponent(pTank2, pTransform, 25, 25));
 					const auto pMovement = pTank2->AddComponent(new MovementComponent(pTank2, pTransform, pCollision));
 					const auto pPlayer = pTank2->AddComponent(new PlayerTankComponent(pTank2, pRender, pMovement));
+					pRender->SetSrcRect(SDL_Rect{ 32,64,32,32 });
 
 					// collision
 					pMovement->SetLevelComponent(pLevel->GetComponent<LevelComponent>());
@@ -624,24 +627,28 @@ void Game::LoadGame() const
 						right.stroke = Stroke::held;
 						right.ControllerID = 1;
 						right.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_RIGHT;
+						right.keyboardKey = SDL_SCANCODE_RIGHT;
 						m_GameContext.pInput->AddInputAction(right);
 
 						InputAction left(new Command([pPlayer] { pPlayer->MoveLeft(); }));
 						left.stroke = Stroke::held;
 						left.ControllerID = 1;
 						left.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_LEFT;
+						left.keyboardKey = SDL_SCANCODE_LEFT;
 						m_GameContext.pInput->AddInputAction(left);
 
 						InputAction up(new Command([pPlayer] { pPlayer->MoveUp(); }));
 						up.stroke = Stroke::held;
 						up.ControllerID = 1;
 						up.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_UP;
+						up.keyboardKey = SDL_SCANCODE_UP;
 						m_GameContext.pInput->AddInputAction(up);
 
 						InputAction down(new Command([pPlayer] { pPlayer->MoveDown(); }));
 						down.stroke = Stroke::held;
 						down.ControllerID = 1;
 						down.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_DOWN;
+						down.keyboardKey = SDL_SCANCODE_DOWN;
 						m_GameContext.pInput->AddInputAction(down);
 					}
 				}
