@@ -42,7 +42,7 @@ private:
 	static void UpdateWindow(int width, int height);
 
 	friend class SceneManager;
-	static void Render(std::shared_ptr<Scene> pScene, const std::vector<GameObject*>& persistentObjects);
+	static void Render(std::shared_ptr<Scene> pScene);
 
 	friend class Tribe;
 	static void Init();

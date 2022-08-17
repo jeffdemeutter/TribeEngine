@@ -13,9 +13,6 @@ public:
 
 protected:
 	virtual void LoadGame() const override;
-
-private:
-	int m_Player = 0;
 };
 
 

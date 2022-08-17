@@ -20,13 +20,18 @@ void LivesComponent::DecreaseLive()
 {
 	--m_Lives;
 
+	if (m_Lives == 0)
+	{
+		m_pTextComponent->SetText(" ");
+		ServiceLocator::GetEventManager()->Notify(GetParent(), GameOver);
+		return;
+	}
+
 	std::stringstream ss{};
 	for (int i = 0; i < m_Lives; ++i)
 		ss << 'X';
 	m_pTextComponent->SetText(ss.str());
 
-	if (m_Lives == 0)
-		ServiceLocator::GetEventManager()->Notify(GetParent(), GameOver);
 }
 
 

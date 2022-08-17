@@ -66,7 +66,7 @@ void RenderManager::Init()
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 }
 
-void RenderManager::Render(std::shared_ptr<Scene> pScene, const std::vector<GameObject*>& persistentObjects)
+void RenderManager::Render(std::shared_ptr<Scene> pScene)
 {
 	auto& inst = Instance();
 	// clear renderer
@@ -75,9 +75,6 @@ void RenderManager::Render(std::shared_ptr<Scene> pScene, const std::vector<Game
 
 	// render scenes
 	pScene->Render();
-
-	for (const GameObject* pObject : persistentObjects)
-		pObject->Render();
 
 	SDL_RenderPresent(inst.m_pRenderer);
 }

@@ -171,6 +171,7 @@
     <ClCompile Include="BulletComponent.cpp" />
     <ClCompile Include="BulletConfigComponent.cpp" />
     <ClCompile Include="BulletManagerComponent.cpp" />
+    <ClCompile Include="ButtonComponent.cpp" />
     <ClCompile Include="EnemyTankComponent.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GamePCH.cpp">
@@ -196,6 +197,7 @@
     <ClInclude Include="BulletComponent.h" />
     <ClInclude Include="BulletConfigComponent.h" />
     <ClInclude Include="BulletManagerComponent.h" />
+    <ClInclude Include="ButtonComponent.h" />
     <ClInclude Include="EnemyTankComponent.h" />
     <ClInclude Include="EventEnum.h" />
     <ClInclude Include="Game.h" />

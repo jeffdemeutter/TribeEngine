@@ -16,16 +16,17 @@ public:
 	virtual void Render() const;
 
 	GameObject* AddGameObject(const std::string& objectName);
+	GameObject* AddGameObject(GameObject* pObject);
 	[[nodiscard]] GameObject* GetGameObjectByName(const std::string& objectName) const;
 	void RemoveChild(GameObject* pGameObject);
 	const std::string& GetName() const { return m_Name; }
 	const std::vector<GameObject*>& GetGameObjects() const { return m_pGameObjects; }
 
 	bool IsActive() const { return m_IsActivated; }
-	void Activate() { m_IsActivated = true; }
-	void Deactivate() { m_IsActivated = false; }
-	void SetActive(bool active) { m_IsActivated = active; }
-	void ToggleActive() { m_IsActivated = !m_IsActivated; }
+	void Activate();
+	void Deactivate();
+	void SetActive(bool active);
+	void ToggleActive();
 
 protected:
 	std::vector<GameObject*> m_pGameObjects;

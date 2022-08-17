@@ -8,8 +8,6 @@
 
 SceneManager::~SceneManager()
 {
-	for (GameObject* pPersistentObject : m_pPersistentObjects)
-		SafeDelete(pPersistentObject);
 }
 
 std::shared_ptr<Scene> SceneManager::AddScene(const std::string& sceneName)
@@ -45,7 +43,7 @@ void SceneManager::ActivateScene(const std::string& sceneName)
 		if (m_pScenes[i]->GetName() != sceneName)
 			continue;
 
-		m_ActiveSceneIndex = i;
+		ActivateScene(i);
 		return;
 	}
 
@@ -53,21 +51,13 @@ void SceneManager::ActivateScene(const std::string& sceneName)
 	throw std::runtime_error(std::string("SceneManager::ActivateScene: sceneName '") + sceneName + "' does not exist");
 }
 
-GameObject* SceneManager::AddPersistentObject(const std::string& objectName)
-{
-	return m_pPersistentObjects.emplace_back(new GameObject(nullptr, objectName));
-}
-
 void SceneManager::Update(GameContext& gc) const
 {
 	for (const auto& pScene : m_pScenes)
 		pScene->Update(gc);
-
-	for (const auto& pPersistentObject : m_pPersistentObjects)
-		pPersistentObject->Update(gc);
 }
 
 void SceneManager::Render() const
 {
-	RenderManager::Render(m_pScenes[m_ActiveSceneIndex], m_pPersistentObjects);
+	RenderManager::Render(m_pScenes[m_ActiveSceneIndex]);
 }

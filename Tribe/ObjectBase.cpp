@@ -48,6 +48,11 @@ GameObject* ObjectBase::AddGameObject(const std::string& objectName)
 	return m_pGameObjects.emplace_back(new GameObject(this, objectName));
 }
 
+GameObject* ObjectBase::AddGameObject(GameObject* pObject)
+{
+	return m_pGameObjects.emplace_back(pObject);	
+}
+
 GameObject* ObjectBase::GetGameObjectByName(const std::string& objectName) const
 {
 	auto findIt = std::ranges::find_if(m_pGameObjects, [&objectName](GameObject* pGo) { return objectName == pGo->GetName(); });
@@ -61,4 +66,36 @@ GameObject* ObjectBase::GetGameObjectByName(const std::string& objectName) const
 void ObjectBase::RemoveChild(GameObject* pGameObject)
 {
 	m_pGameObjectsToDelete.emplace_back(pGameObject);
+}
+
+void ObjectBase::Activate()
+{
+	m_IsActivated = true;
+
+	for (GameObject* pGameObject : m_pGameObjects)
+		pGameObject->Activate();
+}
+
+void ObjectBase::Deactivate()
+{
+	m_IsActivated = false;
+
+	for (GameObject* pGameObject : m_pGameObjects)
+		pGameObject->Deactivate();
+}
+
+void ObjectBase::SetActive(bool active)
+{
+	m_IsActivated = active;
+
+	for (GameObject* pGameObject : m_pGameObjects)
+		pGameObject->SetActive(active);
+}
+
+void ObjectBase::ToggleActive()
+{
+	m_IsActivated = !m_IsActivated;
+
+	for (GameObject* pGameObject : m_pGameObjects)
+		pGameObject->SetActive(m_IsActivated);
 }

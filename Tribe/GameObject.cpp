@@ -14,6 +14,8 @@ GameObject::GameObject(ObjectBase* pParent, const std::string& objectName)
 	: ObjectBase(objectName)
 	, m_pParent(pParent)
 {
+	if (pParent)
+		SetActive(m_pParent->IsActive());
 }
 
 void GameObject::Remove()

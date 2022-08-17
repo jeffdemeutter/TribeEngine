@@ -36,6 +36,9 @@ TurretComponent::~TurretComponent()
 
 void TurretComponent::SpawnBullet() const
 {
+	if (!GetParent()->IsActive())
+		return;
+
 	m_pBulletConfig->SetPos(m_pTransform->GetAbsolutePosition() - glm::vec2{ -9, -23 });
 	m_pBulletConfig->SetDirection(m_Direction);
 

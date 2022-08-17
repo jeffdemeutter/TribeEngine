@@ -5,6 +5,7 @@
 
 #include "BulletConfigComponent.h"
 #include "BulletManagerComponent.h"
+#include "ButtonComponent.h"
 #include "EnemyTankComponent.h"
 #include "EventManager.h"
 #include "Font.h"
@@ -32,39 +33,88 @@
 void Game::LoadGame() const
 {
 	Font* pFont = ResourceManager::LoadFont("Lingua.otf", 36);
-
-	// persistant Objects
+	
+#pragma region PersistantObjects
+	// fps object
+	auto pFps = new GameObject(nullptr, "fps");
 	{
-		// fps object
-		{
-			auto pFps = m_GameContext.pSceneManager->AddPersistentObject("fps");
-			
-			const auto pTransform = pFps->AddComponent(new TransformComponent(pFps));
-			const auto pRender = pFps->AddComponent(new RenderComponent(pFps, pTransform));
-			const auto pText = pFps->AddComponent(new TextComponent(pFps, pRender, "", pFont, { 255,255,0,255 }));
-			pFps->AddComponent(new FpsComponent(pFps, pText));
-		}
-
-		// High Score
-		const auto pHighScore = m_GameContext.pSceneManager->AddPersistentObject("HighScore");
-		{
-			const auto pTransform = pHighScore->AddComponent(new TransformComponent(pHighScore, 410, 25));
-			const auto pRender = pHighScore->AddComponent(new RenderComponent(pHighScore, pTransform));
-			const auto pText = pHighScore->AddComponent(new TextComponent(pHighScore, pRender, "0", pFont));
-			pHighScore->AddComponent(new ScoreComponent(pHighScore, pText, "HighScores.txt"));
-		}
-
-		// lives
-		const auto pLivesObject = m_GameContext.pSceneManager->AddPersistentObject("Lives");
-		{
-			const auto pTransform = pLivesObject->AddComponent(new TransformComponent(pLivesObject, 320, 25));
-			const auto pRender = pLivesObject->AddComponent(new RenderComponent(pLivesObject, pTransform));
-			const auto pText = pLivesObject->AddComponent(new TextComponent(pLivesObject, pRender, " ", pFont, {255,0,0,255}));
-			pLivesObject->AddComponent(new LivesComponent(pLivesObject, pText, 3));
-		}
+		const auto pTransform = pFps->AddComponent(new TransformComponent(pFps));
+		const auto pRender = pFps->AddComponent(new RenderComponent(pFps, pTransform));
+		const auto pText = pFps->AddComponent(new TextComponent(pFps, pRender, "", pFont, { 255,255,0,255 }));
+		pFps->AddComponent(new FpsComponent(pFps, pText));
 	}
 
-	// main scene
+	// High Score
+	const auto pHighScore = new GameObject(nullptr, "HighScore");
+	{
+		const auto pTransform = pHighScore->AddComponent(new TransformComponent(pHighScore, 410, 25));
+		const auto pRender = pHighScore->AddComponent(new RenderComponent(pHighScore, pTransform));
+		const auto pText = pHighScore->AddComponent(new TextComponent(pHighScore, pRender, "0", pFont));
+		pHighScore->AddComponent(new ScoreComponent(pHighScore, pText, "HighScores.txt"));
+	}
+
+	// lives
+	const auto pLivesObject = new GameObject(nullptr, "Lives");
+	{
+		const auto pTransform = pLivesObject->AddComponent(new TransformComponent(pLivesObject, 320, 25));
+		const auto pRender = pLivesObject->AddComponent(new RenderComponent(pLivesObject, pTransform));
+		const auto pText = pLivesObject->AddComponent(new TextComponent(pLivesObject, pRender, " ", pFont, {255,0,0,255}));
+		pLivesObject->AddComponent(new LivesComponent(pLivesObject, pText, 3));
+	}
+#pragma endregion
+
+	// Main Menu
+	{
+		const auto& pMainMenu = m_GameContext.pSceneManager->AddScene("MainMenu");
+
+		// singleplayer button
+		{
+			const auto pSP = pMainMenu->AddGameObject("SinglePlayer");
+			const auto pTrans = pSP->AddComponent(new TransformComponent(pSP, 300, 200));
+			const auto pRender = pSP->AddComponent(new RenderComponent(pSP, pTrans));
+			pSP->AddComponent(new TextComponent(pSP, pRender, "SinglePlayer", pFont));
+
+			const auto pCollision = pSP->AddComponent(new CollisionComponent(pSP, pTrans, 100, 40));
+			const auto pButton = pSP->AddComponent(new ButtonComponent(pSP, pCollision, new Command([this]
+			{
+				m_GameContext.pSceneManager->ActivateScene("Scene1");
+				const auto& activeScene = m_GameContext.pSceneManager->GetActiveScene();
+				activeScene->GetGameObjectByName("Player2")->Deactivate();
+			})));
+
+			InputAction input(new Command([pButton]
+			{
+				pButton->CheckIfClicked();
+			}));
+			input.stroke = Stroke::released;
+			input.mouseButton = 0;
+			m_GameContext.pInput->AddInputAction(input);
+		}
+
+		// coop button
+		{
+			const auto pCoop = pMainMenu->AddGameObject("Coop");
+			const auto pTrans = pCoop->AddComponent(new TransformComponent(pCoop, 300, 250));
+			const auto pRender = pCoop->AddComponent(new RenderComponent(pCoop, pTrans));
+			pCoop->AddComponent(new TextComponent(pCoop, pRender, "Co-op", pFont));
+
+			const auto pCollision = pCoop->AddComponent(new CollisionComponent(pCoop, pTrans, 100, 40));
+			const auto pButton = pCoop->AddComponent(new ButtonComponent(pCoop, pCollision, new Command([this]
+			{
+				m_GameContext.pSceneManager->ActivateScene("Scene1");
+			})));
+
+			InputAction input(new Command([pButton]
+			{
+				pButton->CheckIfClicked();
+			}));
+			input.stroke = Stroke::released;
+			input.mouseButton = 0;
+			m_GameContext.pInput->AddInputAction(input);
+		}
+	}
+	
+	// scene
 	{ 
 		const auto pScene1 = m_GameContext.pSceneManager->AddScene("Scene1");
 		{
@@ -474,9 +524,13 @@ void Game::LoadGame() const
 				const auto pBulletManager = pScene1->AddGameObject("BulletManager");
 				const auto pBulletManagerComp = pBulletManager->AddComponent(new BulletManagerComponent(pBulletManager, pLevel->GetComponent<LevelComponent>()));
 
+				pScene1->AddGameObject(pFps);
+				pScene1->AddGameObject(pHighScore);
+				pScene1->AddGameObject(pLivesObject);
+
 	#pragma region players
 				// tank
-				const auto pTank = pScene1->AddGameObject("PlayerTank");
+				const auto pTank = pScene1->AddGameObject("Player1");
 				{
 					const auto pTransform = pTank->AddComponent(new TransformComponent(pTank, RenderManager::GetWindowCenter()));
 					const auto pRender = pTank->AddComponent(new RenderComponent(pTank, pTransform, "spritesheet.png"));
@@ -532,12 +586,78 @@ void Game::LoadGame() const
 					const auto pTransform = pTankTurret->AddComponent(new TransformComponent(pTankTurret, RenderManager::GetWindowCenter()));
 					const auto pRender = pTankTurret->AddComponent(new RenderComponent(pTankTurret, pTransform, "spritesheet.png"));
 					const auto pBulletConfig = pTankTurret->AddComponent(new BulletConfigComponent(pTankTurret));
-					const auto pTurret = pTankTurret->AddComponent(new TurretComponent(pTankTurret, m_Player, pTransform, pRender, pBulletConfig));
+					const auto pTurret = pTankTurret->AddComponent(new TurretComponent(pTankTurret, 0, pTransform, pRender, pBulletConfig));
 
 					InputAction ia(new Command([pTurret] {pTurret->SpawnBullet(); }));
 					ia.stroke = Stroke::released;
 					ia.keyboardKey = SDL_SCANCODE_SPACE;
 					ia.mouseButton = 0;
+					m_GameContext.pInput->AddInputAction(ia);
+				}
+
+				// tank2
+				const auto pTank2 = pScene1->AddGameObject("Player2");
+				{
+					const auto pTransform = pTank2->AddComponent(new TransformComponent(pTank2, RenderManager::GetWindowCenter()));
+					const auto pRender = pTank2->AddComponent(new RenderComponent(pTank2, pTransform, "spritesheet.png"));
+					const auto pCollision = pTank2->AddComponent(new CollisionComponent(pTank2, pTransform, 25, 25));
+					const auto pMovement = pTank2->AddComponent(new MovementComponent(pTank2, pTransform, pCollision));
+					const auto pPlayer = pTank2->AddComponent(new PlayerTankComponent(pTank2, pRender, pMovement));
+
+					// collision
+					pMovement->SetLevelComponent(pLevel->GetComponent<LevelComponent>());
+					pCollision->AddColliderCheck(
+						pReset->GetComponent<CollisionComponent>(),
+						new Command([pTransform, pLevel]
+						{
+							pTransform->SetAbsolutePosition(pLevel->GetComponent<LevelComponent>()->GetRandomPosition());
+						})
+					);
+					pBulletManagerComp->AddCollision(pTank2, new Command([pPlayer]
+					{
+						pPlayer->Kill();
+					}));
+
+					// tank inputs
+					{
+						InputAction right(new Command([pPlayer] { pPlayer->MoveRight(); }));
+						right.stroke = Stroke::held;
+						right.ControllerID = 1;
+						right.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_RIGHT;
+						m_GameContext.pInput->AddInputAction(right);
+
+						InputAction left(new Command([pPlayer] { pPlayer->MoveLeft(); }));
+						left.stroke = Stroke::held;
+						left.ControllerID = 1;
+						left.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_LEFT;
+						m_GameContext.pInput->AddInputAction(left);
+
+						InputAction up(new Command([pPlayer] { pPlayer->MoveUp(); }));
+						up.stroke = Stroke::held;
+						up.ControllerID = 1;
+						up.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_UP;
+						m_GameContext.pInput->AddInputAction(up);
+
+						InputAction down(new Command([pPlayer] { pPlayer->MoveDown(); }));
+						down.stroke = Stroke::held;
+						down.ControllerID = 1;
+						down.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_DOWN;
+						m_GameContext.pInput->AddInputAction(down);
+					}
+				}
+
+				// tank turret
+				const auto pTank2Turret = pTank2->AddGameObject("Turret");
+				{
+					const auto pTransform = pTank2Turret->AddComponent(new TransformComponent(pTank2Turret, RenderManager::GetWindowCenter()));
+					const auto pRender = pTank2Turret->AddComponent(new RenderComponent(pTank2Turret, pTransform, "spritesheet.png"));
+					const auto pBulletConfig = pTank2Turret->AddComponent(new BulletConfigComponent(pTank2Turret));
+					const auto pTurret = pTank2Turret->AddComponent(new TurretComponent(pTank2Turret, 1, pTransform, pRender, pBulletConfig));
+
+					InputAction ia(new Command([pTurret] {pTurret->SpawnBullet(); }));
+					ia.stroke = Stroke::released;
+					ia.ControllerID = 1;
+					ia.ControllerButton = SDL_CONTROLLER_BUTTON_A;
 					m_GameContext.pInput->AddInputAction(ia);
 				}
 	#pragma endregion
@@ -563,7 +683,9 @@ void Game::LoadGame() const
 				}
 			}
 		}
-
+		pScene1->Deactivate();
 
 	}
+
+	m_GameContext.pSceneManager->ActivateScene("MainMenu");
 }
