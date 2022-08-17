@@ -68,7 +68,6 @@ void BulletManagerComponent::Update(GameContext&)
 		// remove the bullet
 		if (pBulletComp->CanBeDestroyed())
 		{
-			std::cout << "Destroyed a bullet\n";
 			pBullet->Remove();
 			m_pBullets.erase(std::ranges::find(m_pBullets, pBullet));
 		}
