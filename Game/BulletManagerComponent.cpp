@@ -20,15 +20,15 @@ BulletManagerComponent::BulletManagerComponent(GameObject* pGo, LevelComponent* 
 		RemoveCollision(pObj);
 	});
 
-	ServiceLocator::GetEventManager()->AddEventHandle(EnemySpawnedBullet, [this](GameObject* pObj, int)
-	{
-		SpawnBullet(pObj->GetComponent<BulletConfigComponent>());
-	});
 
-	ServiceLocator::GetEventManager()->AddEventHandle(PlayerSpawnedBullet, [this](GameObject* pObj, int)
+	const auto spawnBulletLambda = [this](GameObject* pObj, int)
 	{
 		SpawnBullet(pObj->GetComponent<BulletConfigComponent>());
-	});
+	};
+	ServiceLocator::GetEventManager()->AddEventHandle(EnemySpawnedBullet, spawnBulletLambda);
+	ServiceLocator::GetEventManager()->AddEventHandle(PlayerSpawnedBullet, spawnBulletLambda);
+
+
 }
 
 BulletManagerComponent::~BulletManagerComponent()
