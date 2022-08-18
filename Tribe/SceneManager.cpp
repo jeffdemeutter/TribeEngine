@@ -6,6 +6,11 @@
 #include "Scene.h"
 
 
+SceneManager::SceneManager()
+{
+	m_pScenes.reserve(10);
+}
+
 SceneManager::~SceneManager()
 {
 }
