@@ -9,8 +9,6 @@
 #include "CollisionComponent.h"
 #include "ServiceLocator.h"
 #include "TransformComponent.h"
-#include "Raycast.h"
-#include "LevelComponent.h"
 #include "Command.h"
 #include "PlayerTankComponent.h"
 
@@ -76,8 +74,7 @@ void EnemyTankComponent::MovementAI() const
 	// just in case the values are same, keep going in same direction
 	if (fabs(dir.x) == fabs(dir.y))
 		return;
-
-	glm::vec2 cornerPos{};
+	
 	MovementComponent::Direction setDirTo{};
 	if (fabs(dir.x) > fabs(dir.y)) // x is bigger than y
 	{
@@ -90,20 +87,10 @@ void EnemyTankComponent::MovementAI() const
 		}
 		else if (dir.y < 0.f) // target is above
 		{
-			if (dir.x < 0.f)	// target is left
-				cornerPos = m_pCollision->GetCornerPos(topLeft);
-			else				// target is right
-				cornerPos = m_pCollision->GetCornerPos(topRight);
-
 			setDirTo = MovementComponent::Direction::up;
 		}
 		else			// target is below
 		{
-			if (dir.x < 0.f)	// target is left
-				cornerPos = m_pCollision->GetCornerPos(bottomLeft);
-			else				// target is right
-				cornerPos = m_pCollision->GetCornerPos(bottomRight);
-
 			setDirTo = MovementComponent::Direction::down;
 		}
 
@@ -120,20 +107,10 @@ void EnemyTankComponent::MovementAI() const
 		}
 		else if (dir.x < 0.f) // target is left
 		{
-			if (dir.y < 0.f)	// target is upwards
-				cornerPos = m_pCollision->GetCornerPos(bottomLeft);
-			else				// target is downwards
-				cornerPos = m_pCollision->GetCornerPos(topLeft);
-
 			setDirTo = MovementComponent::Direction::left;
 		}
 		else			// target is right
 		{
-			if (dir.y < 0.f)	// target is upwards
-				cornerPos = m_pCollision->GetCornerPos(bottomRight);
-			else				// target is downwards
-				cornerPos = m_pCollision->GetCornerPos(topRight);
-
 			setDirTo = MovementComponent::Direction::right;
 		}
 
@@ -141,10 +118,6 @@ void EnemyTankComponent::MovementAI() const
 	}
 	// ensures we get a unitvector direction
 	dir = normalize(dir);
-
-	//RaycastInfo rcInfo{};
-	//if (Raycast::DoRaycast(cornerPos, dir, 40, m_pLevel->GetObstacles(), rcInfo))
-	//	return;
 
 	m_pMovement->SetDirection(setDirTo);
 	m_pRender->SetRotation(m_pMovement->GetDirectionVec());
@@ -156,7 +129,6 @@ void EnemyTankComponent::Hit()
 	if (m_Lives > 0)
 		return;
 
-	
 
 	const auto pTank = GetParent();
 

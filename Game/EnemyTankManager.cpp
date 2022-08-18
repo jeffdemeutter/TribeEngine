@@ -24,7 +24,6 @@ EnemyTankManager::EnemyTankManager(GameObject* pGo, LevelComponent* pLevel, Bull
 	{
 		RespawnEnemies(pGo);
 	});
-	
 }
 
 EnemyTankComponent* EnemyTankManager::AddEnemy(TankType type, bool initialSpawn)
