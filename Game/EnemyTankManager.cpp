@@ -10,16 +10,24 @@
 #include "LevelComponent.h"
 #include "EnemyTank2Component.h"
 #include "BulletManagerComponent.h"
+#include "ServiceLocator.h"
+#include "EventManager.h"
 
 EnemyTankManager::EnemyTankManager(GameObject* pGo, LevelComponent* pLevel, BulletManagerComponent* pBulletManager)
 	: Component(pGo)
+	, m_EnemyCountType1(0)
+	, m_EnemyCountType2(0)
 	, m_pLevel(pLevel)
 	, m_pBulletManager(pBulletManager)
 {
+	ServiceLocator::GetEventManager()->AddEventHandle(PlayerDied, [this](GameObject* pGo, int)
+	{
+		RespawnEnemies(pGo);
+	});
 	
 }
 
-EnemyTankComponent* EnemyTankManager::AddEnemy(TankType type)
+EnemyTankComponent* EnemyTankManager::AddEnemy(TankType type, bool initialSpawn)
 {
 	const auto pEnemy = GetParent()->AddGameObject("enemy");
 	{
@@ -33,9 +41,17 @@ EnemyTankComponent* EnemyTankManager::AddEnemy(TankType type)
 		{
 			const auto pBulletConfig = pEnemy->AddComponent(new BulletConfigComponent(pEnemy));
 			pEnemyTank = pEnemy->AddComponent(new EnemyTank2Component(pEnemy, pTransform, pRender, pCollision, pMovement, pBulletConfig));
+
+			if(initialSpawn)
+				m_EnemyCountType1++;
 		}
 		else
+		{
 			pEnemyTank = pEnemy->AddComponent(new EnemyTankComponent(pEnemy, pTransform, pRender, pCollision, pMovement));
+
+			if (initialSpawn)
+				m_EnemyCountType2++;
+		}
 
 		pMovement->SetLevelComponent(m_pLevel);
 
@@ -47,5 +63,24 @@ EnemyTankComponent* EnemyTankManager::AddEnemy(TankType type)
 
 
 		return pEnemyTank;
+	}
+}
+
+void EnemyTankManager::RespawnEnemies(GameObject* pPlayerTarget)
+{
+	const auto& objects = GetParent()->GetGameObjects();
+	for (GameObject* element : objects)
+		element->Remove();
+
+	for (int i = 0; i < m_EnemyCountType1; ++i)
+	{
+		const auto pEnemy = AddEnemy(TankType::blueTank, false);
+		pEnemy->SetTarget(pPlayerTarget);
+	}
+
+	for (int i = 0; i < m_EnemyCountType2; ++i)
+	{
+		const auto pEnemy = AddEnemy(TankType::recognizer, false);
+		pEnemy->SetTarget(pPlayerTarget);
 	}
 }
