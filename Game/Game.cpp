@@ -554,10 +554,13 @@ void Game::LoadGame() const
 						pPlayer->Kill();
 					}));
 
-					ServiceLocator::GetEventManager()->AddEventHandle(PlayerDied, [pTransform, pLevel](GameObject*, int)
+					const auto respawnPlayer = [pTransform, pLevel](GameObject*, int)
 					{
 						pTransform->SetAbsolutePosition(pLevel->GetComponent<LevelComponent>()->GetRandomPosition());
-					});
+					};
+
+					ServiceLocator::GetEventManager()->AddEventHandle(PlayerDied, respawnPlayer);
+					ServiceLocator::GetEventManager()->AddEventHandle(ReloadScene, respawnPlayer);
 
 					// tank inputs
 					{
@@ -606,16 +609,13 @@ void Game::LoadGame() const
 
 #pragma region Enemies
 				const auto pObject = pScene1->AddGameObject("enemyManager");
-				const auto pEnemyManager = pObject->AddComponent(new EnemyTankManager(pObject, pLevel->GetComponent<LevelComponent>(), pBulletManagerComp));
+				const auto pEnemyManager = pObject->AddComponent(new EnemyTankManager(pObject, pTank, pLevel->GetComponent<LevelComponent>(), pBulletManagerComp));
 				{
-					const auto pEnemy1 = pEnemyManager->AddEnemy(TankType::blueTank);
-					pEnemy1->SetTarget(pTank);
+					pEnemyManager->AddEnemy(TankType::blueTank);
 
-					const auto pEnemy2 = pEnemyManager->AddEnemy(TankType::blueTank);
-					pEnemy2->SetTarget(pTank);
+					pEnemyManager->AddEnemy(TankType::blueTank);
 
-					const auto pEnemy3 = pEnemyManager->AddEnemy(TankType::recognizer);
-					pEnemy3->SetTarget(pTank);
+					pEnemyManager->AddEnemy(TankType::recognizer);
 				}
 #pragma endregion
 			}

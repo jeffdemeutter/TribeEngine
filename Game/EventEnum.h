@@ -8,5 +8,6 @@ enum Events
 	RedRecognizerDied,
 	GameOver,
 	PlayerSpawnedBullet,
-	EnemySpawnedBullet
+	EnemySpawnedBullet,
+	ReloadScene
 };

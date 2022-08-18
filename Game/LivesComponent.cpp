@@ -18,7 +18,11 @@ LivesComponent::LivesComponent(GameObject* pGo, TextComponent* pText, int lives)
 
 void LivesComponent::DecreaseLive()
 {
-	--m_Lives;
+	if (m_Lives > 0)
+	{
+		--m_Lives;
+		ServiceLocator::GetEventManager()->Notify(GetParent(), ReloadScene);		
+	}
 
 	if (m_Lives == 0)
 	{

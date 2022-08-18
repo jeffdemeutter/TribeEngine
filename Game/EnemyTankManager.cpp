@@ -13,14 +13,15 @@
 #include "ServiceLocator.h"
 #include "EventManager.h"
 
-EnemyTankManager::EnemyTankManager(GameObject* pGo, LevelComponent* pLevel, BulletManagerComponent* pBulletManager)
+EnemyTankManager::EnemyTankManager(GameObject* pGo, GameObject* pTarget, LevelComponent* pLevel, BulletManagerComponent* pBulletManager)
 	: Component(pGo)
+	, m_pTarget(pTarget)
 	, m_pLevel(pLevel)
 	, m_pBulletManager(pBulletManager)
 {
-	ServiceLocator::GetEventManager()->AddEventHandle(PlayerDied, [this](GameObject* pGo, int)
+	ServiceLocator::GetEventManager()->AddEventHandle(ReloadScene, [this](GameObject*, int)
 	{
-		RespawnEnemies(pGo);
+		RespawnEnemies();
 	});
 }
 
@@ -28,10 +29,10 @@ void EnemyTankManager::Update(GameContext&)
 {
 	const size_t childCount = GetParent()->GetGameObjects().size();
 	if (childCount <= 0)
-		ServiceLocator::GetEventManager()->Notify(GetParent(), GameOver);
+		ServiceLocator::GetEventManager()->Notify(GetParent(), ReloadScene);
 }
 
-EnemyTankComponent* EnemyTankManager::AddEnemy(TankType type)
+EnemyTankComponent* EnemyTankManager::AddEnemy(TankType type, bool initial)
 {
 	const auto pEnemy = GetParent()->AddGameObject("enemy");
 	{
@@ -45,13 +46,21 @@ EnemyTankComponent* EnemyTankManager::AddEnemy(TankType type)
 		{
 			const auto pBulletConfig = pEnemy->AddComponent(new BulletConfigComponent(pEnemy));
 			pEnemyTank = pEnemy->AddComponent(new EnemyTank2Component(pEnemy, pTransform, pRender, pCollision, pMovement, pBulletConfig));
+
+			if (initial)
+				++m_BlueTankCount;
 		}
 		else
+		{
 			pEnemyTank = pEnemy->AddComponent(new EnemyTankComponent(pEnemy, pTransform, pRender, pCollision, pMovement));
+
+			if (initial)
+				++m_RecognizerCount;
+		}
 		
 
 		pMovement->SetLevelComponent(m_pLevel);
-
+		pEnemyTank->SetTarget(m_pTarget);
 
 		m_pBulletManager->AddCollision(pEnemy, new Command([pEnemyTank]
 		{
@@ -63,8 +72,23 @@ EnemyTankComponent* EnemyTankManager::AddEnemy(TankType type)
 	}
 }
 
-void EnemyTankManager::RespawnEnemies(GameObject*)
+void EnemyTankManager::RespawnEnemies()
 {
+	const auto pEnemyManager = GetParent();
+	const auto& pEnemies = pEnemyManager->GetGameObjects();
 
-	
+	if (!pEnemies.empty())
+	{
+		for (GameObject* pEnemy : pEnemies)
+			pEnemy->Remove();
+	}
+	else
+	{
+		for (int i = 0; i < m_BlueTankCount; ++i)
+			AddEnemy(TankType::blueTank, false);
+
+
+		for (int i = 0; i < m_RecognizerCount; ++i)
+			AddEnemy(TankType::recognizer, false);
+	}
 }

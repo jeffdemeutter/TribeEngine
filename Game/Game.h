@@ -1,6 +1,8 @@
 #pragma once
 #include <Tribe.h>
 
+class Scene;
+
 class Game final : public Tribe
 {
 public:
