@@ -556,6 +556,11 @@ void Game::LoadGame() const
 						pPlayer->Kill();
 					}));
 
+					ServiceLocator::GetEventManager()->AddEventHandle(PlayerDied, [pTransform, pLevel](GameObject*, int)
+					{
+						pTransform->SetAbsolutePosition(pLevel->GetComponent<LevelComponent>()->GetRandomPosition());
+					});
+
 					// tank inputs
 					{
 						InputAction right(new Command([pPlayer] { pPlayer->MoveRight(); }));
@@ -690,6 +695,29 @@ void Game::LoadGame() const
 		}
 		pScene1->Deactivate();
 
+
+		//const auto pGameOverScreen = m_GameContext.pSceneManager->AddScene("GameOver");
+		//{
+		//	int height = 40;
+		//	for (int i = 0; i < 10; ++i)
+		//	{
+		//		const auto pHighScoreList = pGameOverScreen->AddGameObject("Highscore" + std::to_string(i));
+
+		//		const auto pTrans = pHighScoreList->AddComponent(new TransformComponent(pHighScoreList, 350, float(200 + i * height)));
+		//		const auto pRender = pHighScoreList->AddComponent(new RenderComponent(pHighScoreList, pTrans));
+		//		const auto pText = pHighScoreList->AddComponent(new TextComponent(pHighScoreList, pRender, " ", pFont));
+
+		//		const int score = pHighScore->GetComponent<ScoreComponent>()->GetScore(i);
+		//		pText->SetText(std::to_string(i) + ": " + std::to_string(score));
+		//	}
+		//}
+
+		//ServiceLocator::GetEventManager()->AddEventHandle(GameOver, [this, &pGameOverScreen](GameObject*, int)
+		//{
+		//	pGameOverScreen->Activate();
+		//	RenderManager::SetBackgroundColor({ 0,0,0,0 });
+		//	m_GameContext.pSceneManager->ActivateScene("GameOver");
+		//});
 	}
 
 	m_GameContext.pSceneManager->ActivateScene("MainMenu");

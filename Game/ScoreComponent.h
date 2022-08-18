@@ -19,12 +19,14 @@ public:
 	void UpdateScore(GameObject* go, int type);
 	void SaveScore();
 
+	int GetScore(int i);
+
 private:
 	TextComponent* m_pTextComponent = nullptr;
 	int m_Score = 0;
 	std::string m_Prefix = "Score: ";
 
-	std::vector<int> m_HighScores {0,0,0,0,0,0,0,0,0,0};
+	std::vector<int> m_HighScores {0,0,0,0,0,0,0,0,0,0,0};
 	std::string m_HighScorePath;
 	void HighScoreParser();
 };

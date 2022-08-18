@@ -56,6 +56,17 @@ void ScoreComponent::SaveScore()
 	of.close();
 }
 
+int ScoreComponent::GetScore(int i)
+{
+	if (i > 10)
+		return 0;
+
+	if (i < 0)
+		return 0;
+
+	return m_HighScores[i];
+}
+
 void ScoreComponent::HighScoreParser()
 {
 	std::ifstream in{ m_HighScorePath, std::ios::in | std::ios::binary };
