@@ -9,6 +9,7 @@
 #include "TransformComponent.h"
 #include "RenderComponent.h"
 #include "ServiceLocator.h"
+#include "SoundManager.h"
 
 TurretComponent::TurretComponent(GameObject* pGo, int player, TransformComponent* pTrans, RenderComponent* pRender, BulletConfigComponent* pBulletConfig)
 	: Component(pGo)
@@ -42,7 +43,9 @@ void TurretComponent::SpawnBullet() const
 	m_pBulletConfig->SetPos(m_pTransform->GetAbsolutePosition() - glm::vec2{ -9, -23 });
 	m_pBulletConfig->SetDirection(m_Direction);
 
+
 	ServiceLocator::GetEventManager()->Notify(GetParent(), PlayerSpawnedBullet);
+	ServiceLocator::GetSoundManager()->QueueEffect(shot);
 }
 
 void TurretComponent::Update(GameContext& gc)

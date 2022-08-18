@@ -3,6 +3,7 @@
 
 #include "EventManager.h"
 #include "ServiceLocator.h"
+#include "SoundManager.h"
 #include "TextComponent.h"
 
 LivesComponent::LivesComponent(GameObject* pGo, TextComponent* pText, int lives)
@@ -21,6 +22,7 @@ void LivesComponent::DecreaseLive()
 	if (m_Lives > 0)
 	{
 		--m_Lives;
+		ServiceLocator::GetSoundManager()->QueueEffect(hit);
 		ServiceLocator::GetEventManager()->Notify(GetParent(), ReloadScene);		
 	}
 
@@ -28,6 +30,7 @@ void LivesComponent::DecreaseLive()
 	{
 		m_pTextComponent->SetText(" ");
 		ServiceLocator::GetEventManager()->Notify(GetParent(), GameOver);
+		ServiceLocator::GetSoundManager()->QueueEffect(GameEnd);
 		return;
 	}
 

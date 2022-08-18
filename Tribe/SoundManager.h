@@ -2,9 +2,9 @@
 
 enum SoundEvent
 {
-	playerHit,
-	enemyHit,
-	pointsChanged
+	hit,
+	GameEnd,
+	shot
 };
 
 class SoundManager final

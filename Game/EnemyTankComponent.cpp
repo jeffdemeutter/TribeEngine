@@ -11,6 +11,7 @@
 #include "TransformComponent.h"
 #include "Command.h"
 #include "PlayerTankComponent.h"
+#include "SoundManager.h"
 
 EnemyTankComponent::EnemyTankComponent(GameObject* pGo, TransformComponent* pTrans, RenderComponent* pRender, CollisionComponent* pCollision, MovementComponent* pMovement, TankType tankType, int lives)
 	: Component(pGo)
@@ -126,6 +127,7 @@ void EnemyTankComponent::MovementAI() const
 void EnemyTankComponent::Hit()
 {
 	--m_Lives;
+	ServiceLocator::GetSoundManager()->QueueEffect(hit);
 	if (m_Lives > 0)
 		return;
 

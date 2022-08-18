@@ -27,5 +27,7 @@ private:
 
 	glm::vec2 m_Direction = {1.f, 0.f};
 	int m_Player = 0;
+
+	
 };
 

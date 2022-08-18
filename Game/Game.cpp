@@ -30,10 +30,18 @@
 #include "MovementComponent.h"
 #include "ScoreComponent.h"
 #include "ServiceLocator.h"
+#include "SoundManager.h"
 #include "TurretComponent.h"
 
 void Game::LoadGame() const
 {
+	// sound effects
+	ServiceLocator::GetSoundManager()->SetVolume(20);
+	ServiceLocator::GetSoundManager()->LoadEffect(shot, "../Data/Sound/Shot.wav");
+	ServiceLocator::GetSoundManager()->LoadEffect(GameEnd, "../Data/Sound/EndGame.wav");
+	ServiceLocator::GetSoundManager()->LoadEffect(hit, "../Data/Sound/Hit.wav");
+
+
 	Font* pFont = ResourceManager::LoadFont("Lingua.otf", 36);
 	
 #pragma region PersistantObjects
