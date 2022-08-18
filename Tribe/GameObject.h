@@ -24,7 +24,7 @@ public:
 
 	ObjectBase* GetParent() const { return m_pParent; }
 
-	void Remove();
+	void Remove(bool immediate = false);
 
 protected:
 	friend class SceneManager;

@@ -130,12 +130,12 @@ void EnemyTankComponent::Hit()
 		return;
 
 
-	const auto pTank = GetParent();
+	const auto pEnemy = GetParent();
 
 	if (m_Type == TankType::blueTank)
-		ServiceLocator::GetEventManager()->Notify(pTank, BlueTankDied);
+		ServiceLocator::GetEventManager()->Notify(pEnemy, BlueTankDied);
 	else if (m_Type == TankType::recognizer)
-		ServiceLocator::GetEventManager()->Notify(pTank, RedRecognizerDied);
+		ServiceLocator::GetEventManager()->Notify(pEnemy, RedRecognizerDied);
 
-	pTank->Remove();
+	pEnemy->Remove();
 }

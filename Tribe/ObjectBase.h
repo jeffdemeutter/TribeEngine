@@ -17,8 +17,9 @@ public:
 
 	GameObject* AddGameObject(const std::string& objectName);
 	GameObject* AddGameObject(GameObject* pObject);
+	GameObject* AddSharedObject(GameObject* pObject);
 	[[nodiscard]] GameObject* GetGameObjectByName(const std::string& objectName) const;
-	void RemoveChild(GameObject* pGameObject);
+	void RemoveChild(GameObject* pGameObject, bool immediate = false);
 	const std::string& GetName() const { return m_Name; }
 	const std::vector<GameObject*>& GetGameObjects() const { return m_pGameObjects; }
 
@@ -29,11 +30,14 @@ public:
 	void ToggleActive();
 
 protected:
+	std::vector<GameObject*> m_pSharedObjects;
 	std::vector<GameObject*> m_pGameObjects;
 	std::vector<GameObject*> m_pGameObjectsToDelete;
 	std::string m_Name = "Default";
 
 private:
 	bool m_IsActivated = true;
+
+	void DeleteObject(GameObject* pGameObject);
 };
 

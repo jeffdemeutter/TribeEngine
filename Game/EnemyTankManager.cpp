@@ -15,8 +15,6 @@
 
 EnemyTankManager::EnemyTankManager(GameObject* pGo, LevelComponent* pLevel, BulletManagerComponent* pBulletManager)
 	: Component(pGo)
-	, m_EnemyCountType1(0)
-	, m_EnemyCountType2(0)
 	, m_pLevel(pLevel)
 	, m_pBulletManager(pBulletManager)
 {
@@ -26,7 +24,14 @@ EnemyTankManager::EnemyTankManager(GameObject* pGo, LevelComponent* pLevel, Bull
 	});
 }
 
-EnemyTankComponent* EnemyTankManager::AddEnemy(TankType type, bool initialSpawn)
+void EnemyTankManager::Update(GameContext&)
+{
+	const size_t childCount = GetParent()->GetGameObjects().size();
+	if (childCount <= 0)
+		ServiceLocator::GetEventManager()->Notify(GetParent(), GameOver);
+}
+
+EnemyTankComponent* EnemyTankManager::AddEnemy(TankType type)
 {
 	const auto pEnemy = GetParent()->AddGameObject("enemy");
 	{
@@ -40,17 +45,10 @@ EnemyTankComponent* EnemyTankManager::AddEnemy(TankType type, bool initialSpawn)
 		{
 			const auto pBulletConfig = pEnemy->AddComponent(new BulletConfigComponent(pEnemy));
 			pEnemyTank = pEnemy->AddComponent(new EnemyTank2Component(pEnemy, pTransform, pRender, pCollision, pMovement, pBulletConfig));
-
-			if(initialSpawn)
-				m_EnemyCountType1++;
 		}
 		else
-		{
 			pEnemyTank = pEnemy->AddComponent(new EnemyTankComponent(pEnemy, pTransform, pRender, pCollision, pMovement));
-
-			if (initialSpawn)
-				m_EnemyCountType2++;
-		}
+		
 
 		pMovement->SetLevelComponent(m_pLevel);
 
@@ -65,21 +63,8 @@ EnemyTankComponent* EnemyTankManager::AddEnemy(TankType type, bool initialSpawn)
 	}
 }
 
-void EnemyTankManager::RespawnEnemies(GameObject* pPlayerTarget)
+void EnemyTankManager::RespawnEnemies(GameObject*)
 {
-	const auto& objects = GetParent()->GetGameObjects();
-	for (GameObject* element : objects)
-		element->Remove();
 
-	for (int i = 0; i < m_EnemyCountType1; ++i)
-	{
-		const auto pEnemy = AddEnemy(TankType::blueTank, false);
-		pEnemy->SetTarget(pPlayerTarget);
-	}
-
-	for (int i = 0; i < m_EnemyCountType2; ++i)
-	{
-		const auto pEnemy = AddEnemy(TankType::recognizer, false);
-		pEnemy->SetTarget(pPlayerTarget);
-	}
+	
 }

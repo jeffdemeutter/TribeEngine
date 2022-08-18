@@ -9,6 +9,8 @@ ObjectBase::~ObjectBase()
 {
 	for (GameObject* pChild : m_pGameObjects)
 		SafeDelete(pChild);
+
+	m_pSharedObjects.clear();
 }
 
 void ObjectBase::Update(GameContext& gc)
@@ -17,6 +19,8 @@ void ObjectBase::Update(GameContext& gc)
 		if (pGameObject->IsActive())
 			pGameObject->Update(gc);
 
+	for (GameObject* pSharedObject : m_pSharedObjects)
+		pSharedObject->Update(gc);
 
 	// deleting oobjects
 	if (m_pGameObjectsToDelete.empty())
@@ -24,13 +28,7 @@ void ObjectBase::Update(GameContext& gc)
 	
 	for (auto& pGameObjectToDelete : m_pGameObjectsToDelete)
 	{
-		if (auto it = 	std::ranges::find(m_pGameObjects, pGameObjectToDelete); 
-			it != m_pGameObjects.cend())
-		{
-			ServiceLocator::GetEventManager()->Notify(*it, GameobjectDeleted);
-			SafeDelete(*it);
-			m_pGameObjects.erase(it);
-		}
+		DeleteObject(pGameObjectToDelete);
 	}
 
 	m_pGameObjectsToDelete.clear();
@@ -41,6 +39,9 @@ void ObjectBase::Render() const
 	for (const auto pGameObject : m_pGameObjects)
 		if (pGameObject->IsActive())
 			pGameObject->Render();
+
+	for (GameObject* pSharedObject : m_pSharedObjects)
+		pSharedObject->Render();
 }
 
 GameObject* ObjectBase::AddGameObject(const std::string& objectName)
@@ -53,6 +54,11 @@ GameObject* ObjectBase::AddGameObject(GameObject* pObject)
 	return m_pGameObjects.emplace_back(pObject);	
 }
 
+GameObject* ObjectBase::AddSharedObject(GameObject* pObject)
+{
+	return m_pSharedObjects.emplace_back(pObject);	
+}
+
 GameObject* ObjectBase::GetGameObjectByName(const std::string& objectName) const
 {
 	auto findIt = std::ranges::find_if(m_pGameObjects, [&objectName](GameObject* pGo) { return objectName == pGo->GetName(); });
@@ -63,9 +69,12 @@ GameObject* ObjectBase::GetGameObjectByName(const std::string& objectName) const
 	return *findIt;
 }
 
-void ObjectBase::RemoveChild(GameObject* pGameObject)
+void ObjectBase::RemoveChild(GameObject* pGameObject, bool immediate)
 {
-	m_pGameObjectsToDelete.emplace_back(pGameObject);
+	if (immediate)
+		DeleteObject(pGameObject);
+	else 
+		m_pGameObjectsToDelete.emplace_back(pGameObject);
 }
 
 void ObjectBase::Activate()
@@ -98,4 +107,15 @@ void ObjectBase::ToggleActive()
 
 	for (GameObject* pGameObject : m_pGameObjects)
 		pGameObject->SetActive(m_IsActivated);
+}
+
+void ObjectBase::DeleteObject(GameObject* pGameObject)
+{
+	if (auto it = std::ranges::find(m_pGameObjects, pGameObject);
+		it != m_pGameObjects.cend())
+	{
+		ServiceLocator::GetEventManager()->Notify(*it, GameobjectDeleted);
+		SafeDelete(*it);
+		m_pGameObjects.erase(it);
+	}
 }

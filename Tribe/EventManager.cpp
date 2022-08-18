@@ -3,6 +3,8 @@
 
 void EventManager::Notify(GameObject* go, int type)
 {
+	std::cout << "Event: '" + std::to_string(type) + "' called \n";
+
 	for (EventHandler& eh : m_Events)
 		if (eh.type == type)
 			eh.handle(go, type);

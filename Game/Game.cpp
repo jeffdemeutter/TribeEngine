@@ -80,8 +80,6 @@ void Game::LoadGame() const
 			const auto pButton = pSP->AddComponent(new ButtonComponent(pSP, pCollision, new Command([this]
 			{
 				m_GameContext.pSceneManager->ActivateScene("Scene1");
-				const auto& activeScene = m_GameContext.pSceneManager->GetActiveScene();
-				activeScene->GetGameObjectByName("Player2")->Deactivate();
 			})));
 
 			InputAction input(new Command([pButton]
@@ -603,77 +601,6 @@ void Game::LoadGame() const
 					ia.mouseButton = 0;
 					m_GameContext.pInput->AddInputAction(ia);
 				}
-
-				// tank2
-				const auto pTank2 = pScene1->AddGameObject("Player2");
-				{
-					const auto pTransform = pTank2->AddComponent(new TransformComponent(pTank2, RenderManager::GetWindowCenter()));
-					const auto pRender = pTank2->AddComponent(new RenderComponent(pTank2, pTransform, "spritesheet.png"));
-					const auto pCollision = pTank2->AddComponent(new CollisionComponent(pTank2, pTransform, 25, 25));
-					const auto pMovement = pTank2->AddComponent(new MovementComponent(pTank2, pTransform, pCollision));
-					const auto pPlayer = pTank2->AddComponent(new PlayerTankComponent(pTank2, pRender, pMovement));
-					pRender->SetSrcRect(SDL_Rect{ 32,64,32,32 });
-
-					// collision
-					pMovement->SetLevelComponent(pLevel->GetComponent<LevelComponent>());
-					pCollision->AddColliderCheck(
-						pReset->GetComponent<CollisionComponent>(),
-						new Command([pTransform, pLevel]
-						{
-							pTransform->SetAbsolutePosition(pLevel->GetComponent<LevelComponent>()->GetRandomPosition());
-						})
-					);
-					pBulletManagerComp->AddCollision(pTank2, new Command([pPlayer]
-					{
-						pPlayer->Kill();
-					}));
-
-					// tank inputs
-					{
-						InputAction right(new Command([pPlayer] { pPlayer->MoveRight(); }));
-						right.stroke = Stroke::held;
-						right.ControllerID = 1;
-						right.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_RIGHT;
-						right.keyboardKey = SDL_SCANCODE_RIGHT;
-						m_GameContext.pInput->AddInputAction(right);
-
-						InputAction left(new Command([pPlayer] { pPlayer->MoveLeft(); }));
-						left.stroke = Stroke::held;
-						left.ControllerID = 1;
-						left.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_LEFT;
-						left.keyboardKey = SDL_SCANCODE_LEFT;
-						m_GameContext.pInput->AddInputAction(left);
-
-						InputAction up(new Command([pPlayer] { pPlayer->MoveUp(); }));
-						up.stroke = Stroke::held;
-						up.ControllerID = 1;
-						up.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_UP;
-						up.keyboardKey = SDL_SCANCODE_UP;
-						m_GameContext.pInput->AddInputAction(up);
-
-						InputAction down(new Command([pPlayer] { pPlayer->MoveDown(); }));
-						down.stroke = Stroke::held;
-						down.ControllerID = 1;
-						down.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_DOWN;
-						down.keyboardKey = SDL_SCANCODE_DOWN;
-						m_GameContext.pInput->AddInputAction(down);
-					}
-				}
-
-				// tank turret
-				const auto pTank2Turret = pTank2->AddGameObject("Turret");
-				{
-					const auto pTransform = pTank2Turret->AddComponent(new TransformComponent(pTank2Turret, RenderManager::GetWindowCenter()));
-					const auto pRender = pTank2Turret->AddComponent(new RenderComponent(pTank2Turret, pTransform, "spritesheet.png"));
-					const auto pBulletConfig = pTank2Turret->AddComponent(new BulletConfigComponent(pTank2Turret));
-					const auto pTurret = pTank2Turret->AddComponent(new TurretComponent(pTank2Turret, 1, pTransform, pRender, pBulletConfig));
-
-					InputAction ia(new Command([pTurret] {pTurret->SpawnBullet(); }));
-					ia.stroke = Stroke::released;
-					ia.ControllerID = 1;
-					ia.ControllerButton = SDL_CONTROLLER_BUTTON_A;
-					m_GameContext.pInput->AddInputAction(ia);
-				}
 	#pragma endregion
 
 
@@ -698,6 +625,8 @@ void Game::LoadGame() const
 
 		const auto pGameOverScreen = m_GameContext.pSceneManager->AddScene("GameOver");
 		{
+			pGameOverScreen->AddSharedObject(pHighScore);
+
 			int height = 40;
 			for (int i = 0; i < 10; ++i)
 			{
@@ -712,11 +641,10 @@ void Game::LoadGame() const
 			}
 		}
 
-		ServiceLocator::GetEventManager()->AddEventHandle(GameOver, [this, &pGameOverScreen](GameObject*, int)
+		ServiceLocator::GetEventManager()->AddEventHandle(GameOver, [this, &pHighScore](GameObject*, int)
 		{
-			pGameOverScreen->Activate();
-			RenderManager::SetBackgroundColor({ 0,0,0,0 });
 			m_GameContext.pSceneManager->ActivateScene("GameOver");
+			RenderManager::SetBackgroundColor({ 0,0,0,0 });
 		});
 	}
 
