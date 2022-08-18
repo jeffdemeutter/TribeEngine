@@ -32,6 +32,7 @@ public:
 	void SetMovementSpeed(float speed) { m_MoveSpeed = speed; }
 	void SetDirection(Direction movement);
 	glm::vec2 GetDirectionVec() const;
+	Direction GetDirection() const;
 	void SetMoving(bool isMoving) { m_IsMoving = isMoving; }
 
 private:

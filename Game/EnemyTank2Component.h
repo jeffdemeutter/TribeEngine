@@ -11,7 +11,7 @@ class TransformComponent;
 class EnemyTank2Component : public EnemyTankComponent
 {
 public:
-	EnemyTank2Component(GameObject* pGo, TransformComponent* pTrans, RenderComponent* pRender, CollisionComponent* pCollision, MovementComponent* pMovement, BulletConfigComponent* pBulletConfig, LevelComponent* pLevel);
+	EnemyTank2Component(GameObject* pGo, TransformComponent* pTrans, RenderComponent* pRender, CollisionComponent* pCollision, MovementComponent* pMovement, BulletConfigComponent* pBulletConfig);
 	~EnemyTank2Component() override = default;
 	EnemyTank2Component(const EnemyTank2Component&) = delete;
 	EnemyTank2Component(EnemyTank2Component&&) noexcept = delete;
@@ -24,9 +24,10 @@ public:
 
 private:
 	BulletConfigComponent* m_pBulletConfig = nullptr;
-
-	bool m_CanShoot = false;
+	
 	float m_Timer = 0.f;
 	float m_TimerMax = 2.f;
+
+	bool CanShoot() const;
 };
 

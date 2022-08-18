@@ -78,3 +78,8 @@ glm::vec2 MovementComponent::GetDirectionVec() const
 	}
 	return {0,0};
 }
+
+MovementComponent::Direction MovementComponent::GetDirection() const
+{
+	return m_Movement;
+}

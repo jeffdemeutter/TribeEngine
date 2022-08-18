@@ -46,3 +46,10 @@ void RenderComponent::Render() const
 
 	m_pTexture->Draw(pos, m_Pivot, m_Rotation, m_Flip);
 }
+
+void RenderComponent::SetRotation(glm::vec2 dir)
+{
+	constexpr static float pi = 3.141592f;
+
+	m_Rotation = atan2f(dir.y, dir.x) * 180 / pi;
+}

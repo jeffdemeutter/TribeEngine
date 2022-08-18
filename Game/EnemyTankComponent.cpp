@@ -14,13 +14,12 @@
 #include "Command.h"
 #include "PlayerTankComponent.h"
 
-EnemyTankComponent::EnemyTankComponent(GameObject* pGo, TransformComponent* pTrans, RenderComponent* pRender, CollisionComponent* pCollision, MovementComponent* pMovement, LevelComponent* pLevel, TankType tankType, int lives)
+EnemyTankComponent::EnemyTankComponent(GameObject* pGo, TransformComponent* pTrans, RenderComponent* pRender, CollisionComponent* pCollision, MovementComponent* pMovement, TankType tankType, int lives)
 	: Component(pGo)
 	, m_pTransform(pTrans)
 	, m_pMovement(pMovement)
 	, m_pRender(pRender)
 	, m_pCollision(pCollision)
-	, m_pLevel(pLevel)
 	, m_Lives(lives)
 	, m_Type(tankType)
 {
@@ -66,7 +65,7 @@ void EnemyTankComponent::SetTarget(GameObject* ptarget)
 
 void EnemyTankComponent::MovementAI() const
 {
-	static float margin = 0.01f;
+	static const float margin = 0.01f;
 	// allows next frame to move
 	m_pMovement->SetMoving(true);
 
@@ -143,11 +142,12 @@ void EnemyTankComponent::MovementAI() const
 	// ensures we get a unitvector direction
 	dir = normalize(dir);
 
-	RaycastInfo rcInfo{};
-	if (Raycast::DoRaycast(cornerPos, dir, 40, m_pLevel->GetObstacles(), rcInfo))
-		return;
+	//RaycastInfo rcInfo{};
+	//if (Raycast::DoRaycast(cornerPos, dir, 40, m_pLevel->GetObstacles(), rcInfo))
+	//	return;
 
 	m_pMovement->SetDirection(setDirTo);
+	m_pRender->SetRotation(m_pMovement->GetDirectionVec());
 }
 
 void EnemyTankComponent::Hit()

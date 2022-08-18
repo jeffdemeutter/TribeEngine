@@ -8,6 +8,7 @@
 #include "ButtonComponent.h"
 #include "EnemyTank2Component.h"
 #include "EnemyTankComponent.h"
+#include "EnemyTankManager.h"
 #include "EventManager.h"
 #include "Font.h"
 #include "FpsComponent.h"
@@ -670,62 +671,21 @@ void Game::LoadGame() const
 				}
 	#pragma endregion
 
-				// enemies
-				const auto pEnemy1 = pScene1->AddGameObject("enemy");
+
+#pragma region Enemies
+				const auto pObject = pScene1->AddGameObject("enemyManager");
+				const auto pEnemyManager = pObject->AddComponent(new EnemyTankManager(pObject, pLevel->GetComponent<LevelComponent>(), pBulletManagerComp));
 				{
-					const auto pTransform = pEnemy1->AddComponent(new TransformComponent(pEnemy1, pLevel->GetComponent<LevelComponent>()->GetRandomPosition()));
-					const auto pRender = pEnemy1->AddComponent(new RenderComponent(pEnemy1, pTransform, "spritesheet.png"));
-					const auto pCollision = pEnemy1->AddComponent(new CollisionComponent(pEnemy1, pTransform, 25, 25));
-					const auto pMovement = pEnemy1->AddComponent(new MovementComponent(pEnemy1, pTransform, pCollision));
-					const auto pBulletConfig = pEnemy1->AddComponent(new BulletConfigComponent(pEnemy1));
-					const auto pEnemyTank = pEnemy1->AddComponent(new EnemyTank2Component(pEnemy1, pTransform, pRender, pCollision, pMovement, pBulletConfig, pLevel->GetComponent<LevelComponent>()));
+					const auto pEnemy1 = pEnemyManager->AddEnemy(TankType::blueTank);
+					pEnemy1->SetTarget(pTank);
 
-					pMovement->SetLevelComponent(pLevel->GetComponent<LevelComponent>());
+					const auto pEnemy2 = pEnemyManager->AddEnemy(TankType::blueTank);
+					pEnemy2->SetTarget(pTank);
 
-					pEnemyTank->SetTarget(pTank);
-
-					pBulletManagerComp->AddCollision(pEnemy1, new Command([pEnemyTank]
-					{
-						pEnemyTank->Hit();
-					}));
+					const auto pEnemy3 = pEnemyManager->AddEnemy(TankType::recognizer);
+					pEnemy3->SetTarget(pTank);
 				}
-
-				{
-				const auto pEnemy2 = pScene1->AddGameObject("enemy");
-					const auto pTransform = pEnemy2->AddComponent(new TransformComponent(pEnemy2, pLevel->GetComponent<LevelComponent>()->GetRandomPosition()));
-					const auto pRender = pEnemy2->AddComponent(new RenderComponent(pEnemy2, pTransform, "spritesheet.png"));
-					const auto pCollision = pEnemy2->AddComponent(new CollisionComponent(pEnemy2, pTransform, 25, 25));
-					const auto pMovement = pEnemy2->AddComponent(new MovementComponent(pEnemy2, pTransform, pCollision));
-					const auto pBulletConfig = pEnemy2->AddComponent(new BulletConfigComponent(pEnemy2));
-					const auto pEnemyTank = pEnemy2->AddComponent(new EnemyTank2Component(pEnemy2, pTransform, pRender, pCollision, pMovement, pBulletConfig, pLevel->GetComponent<LevelComponent>()));
-
-					pMovement->SetLevelComponent(pLevel->GetComponent<LevelComponent>());
-
-					pEnemyTank->SetTarget(pTank);
-
-					pBulletManagerComp->AddCollision(pEnemy2, new Command([pEnemyTank]
-					{
-						pEnemyTank->Hit();
-					}));
-				}
-
-				const auto pEnemy2 = pScene1->AddGameObject("enemy");
-				{
-					const auto pTransform = pEnemy2->AddComponent(new TransformComponent(pEnemy2, pLevel->GetComponent<LevelComponent>()->GetRandomPosition()));
-					const auto pRender = pEnemy2->AddComponent(new RenderComponent(pEnemy2, pTransform, "spritesheet.png"));
-					const auto pCollision = pEnemy2->AddComponent(new CollisionComponent(pEnemy2, pTransform, 25, 25));
-					const auto pMovement = pEnemy2->AddComponent(new MovementComponent(pEnemy2, pTransform, pCollision));
-					const auto pEnemyTank = pEnemy2->AddComponent(new EnemyTankComponent(pEnemy2, pTransform, pRender, pCollision, pMovement, pLevel->GetComponent<LevelComponent>()));
-
-					pMovement->SetLevelComponent(pLevel->GetComponent<LevelComponent>());
-
-					pEnemyTank->SetTarget(pTank);
-
-					pBulletManagerComp->AddCollision(pEnemy2, new Command([pEnemyTank]
-					{
-						pEnemyTank->Hit();
-					}));
-				}
+#pragma endregion
 			}
 		}
 		pScene1->Deactivate();

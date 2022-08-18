@@ -40,6 +40,9 @@
     <ClCompile Include="EnemyTank2Component.cpp">
       <Filter>Components\TankComponents</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyTankManager.cpp">
+      <Filter>Components\TankComponents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
@@ -79,6 +82,9 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="EnemyTank2Component.h">
+      <Filter>Components\TankComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyTankManager.h">
       <Filter>Components\TankComponents</Filter>
     </ClInclude>
   </ItemGroup>

@@ -22,6 +22,7 @@ public:
 	void SetTexture(Texture2D* pTexture) { m_pTexture = pTexture; }
 	void SetSrcRect(const SDL_Rect& srcRect) { m_SrcRect = srcRect; }
 	void SetRotation(float rotation) { m_Rotation = rotation; }
+	void SetRotation(glm::vec2 dir); // intentional copy
 	void SetPivot(const glm::vec2& pivot) { m_Pivot = pivot; }
 	void SetCenter(const glm::vec2& center) { m_Center = center; }
 	void SetFlip(SDL_RendererFlip flip) { m_Flip = flip; }
