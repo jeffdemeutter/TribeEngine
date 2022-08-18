@@ -13,6 +13,7 @@
 #include "Font.h"
 #include "FpsComponent.h"
 #include "GameObject.h"
+#include "HighScoreComponent.h"
 #include "Scene.h"
 
 #include "InputManager.h"
@@ -55,12 +56,12 @@ void Game::LoadGame() const
 	}
 
 	// High Score
-	const auto pHighScore = new GameObject(nullptr, "HighScore");
+	const auto pScore = new GameObject(nullptr, "HighScore");
 	{
-		const auto pTransform = pHighScore->AddComponent(new TransformComponent(pHighScore, 410, 25));
-		const auto pRender = pHighScore->AddComponent(new RenderComponent(pHighScore, pTransform));
-		const auto pText = pHighScore->AddComponent(new TextComponent(pHighScore, pRender, "0", pFont));
-		pHighScore->AddComponent(new ScoreComponent(pHighScore, pText, "HighScores.txt"));
+		const auto pTransform = pScore->AddComponent(new TransformComponent(pScore, 410, 25));
+		const auto pRender = pScore->AddComponent(new RenderComponent(pScore, pTransform));
+		const auto pText = pScore->AddComponent(new TextComponent(pScore, pRender, "0", pFont));
+		pScore->AddComponent(new ScoreComponent(pScore, pText, "HighScores.txt"));
 	}
 
 	// lives
@@ -533,7 +534,7 @@ void Game::LoadGame() const
 				const auto pBulletManagerComp = pBulletManager->AddComponent(new BulletManagerComponent(pBulletManager, pLevel->GetComponent<LevelComponent>()));
 
 				pScene1->AddGameObject(pFps);
-				pScene1->AddGameObject(pHighScore);
+				pScene1->AddGameObject(pScore);
 				pScene1->AddGameObject(pLivesObject);
 
 	#pragma region players
@@ -633,23 +634,14 @@ void Game::LoadGame() const
 
 		const auto pGameOverScreen = m_GameContext.pSceneManager->AddScene("GameOver");
 		{
-			pGameOverScreen->AddSharedObject(pHighScore);
+			pGameOverScreen->AddSharedObject(pScore);
 
-			int height = 40;
-			for (int i = 0; i < 10; ++i)
-			{
-				const auto pHighScoreList = pGameOverScreen->AddGameObject("Highscore" + std::to_string(i));
-
-				const auto pTrans = pHighScoreList->AddComponent(new TransformComponent(pHighScoreList, 350, float(200 + i * height)));
-				const auto pRender = pHighScoreList->AddComponent(new RenderComponent(pHighScoreList, pTrans));
-				const auto pText = pHighScoreList->AddComponent(new TextComponent(pHighScoreList, pRender, " ", pFont));
-
-				const int score = pHighScore->GetComponent<ScoreComponent>()->GetScore(i);
-				pText->SetText(std::to_string(i) + ": " + std::to_string(score));
-			}
+			const auto pHighscores = pGameOverScreen->AddGameObject("HighScores");
+			pHighscores->AddComponent(new HighScoreComponent(pHighscores, pScore->GetComponent<ScoreComponent>(), pFont));
 		}
+		pGameOverScreen->Deactivate();
 
-		ServiceLocator::GetEventManager()->AddEventHandle(GameOver, [this, &pHighScore](GameObject*, int)
+		ServiceLocator::GetEventManager()->AddEventHandle(GameOver, [this, &pScore](GameObject*, int)
 		{
 			m_GameContext.pSceneManager->ActivateScene("GameOver");
 			RenderManager::SetBackgroundColor({ 0,0,0,0 });

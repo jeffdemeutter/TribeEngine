@@ -43,6 +43,9 @@
     <ClCompile Include="EnemyTankManager.cpp">
       <Filter>Components\TankComponents</Filter>
     </ClCompile>
+    <ClCompile Include="HighScoreComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
@@ -87,6 +90,7 @@
     <ClInclude Include="EnemyTankManager.h">
       <Filter>Components\TankComponents</Filter>
     </ClInclude>
+    <ClInclude Include="HighScoreComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">

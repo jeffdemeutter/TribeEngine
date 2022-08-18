@@ -12,17 +12,26 @@ ScoreComponent::ScoreComponent(GameObject* go, TextComponent* pText, const std::
 	, m_pTextComponent(pText)
 	, m_HighScorePath( "../Data/" + highScorePath)
 {
-	ServiceLocator::GetEventManager()->AddEventHandle(BlueTankDied, [this](GameObject* go, int type) { UpdateScore(go, type); });
-	ServiceLocator::GetEventManager()->AddEventHandle(RedRecognizerDied, [this](GameObject* go, int type) { UpdateScore(go, type); });
+	const auto& updateScoreLambda = [this](GameObject* go, int type)
+	{
+		UpdateScore(go, type);
+	};
+	ServiceLocator::GetEventManager()->AddEventHandle(BlueTankDied, updateScoreLambda );
+	ServiceLocator::GetEventManager()->AddEventHandle(RedRecognizerDied, updateScoreLambda);
+
+	ServiceLocator::GetEventManager()->AddEventHandle(GameOver, [this](GameObject*, int)
+	{
+		SaveScore();
+	});
 
 	m_pTextComponent->SetBackgroundColor(SDL_Color{ 0,0,0,255 });
 	m_pTextComponent->SetText(m_Prefix + std::to_string(m_Score));
 
 	HighScoreParser();
 }
+
 ScoreComponent::~ScoreComponent()
 {
-	SaveScore();
 
 	m_pTextComponent = nullptr;
 }
