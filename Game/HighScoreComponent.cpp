@@ -28,7 +28,7 @@ void HighScoreComponent::Update(GameContext&)
 {
 	for (size_t i = 0; i < m_pTexts.size(); ++i)
 	{
-		const int score = m_pScore->GetScore(i);
+		const int score = m_pScore->GetScore(int(i));
 
 		m_pTexts[i]->SetText(std::to_string(i + 1) + ": " + std::to_string(score));
 	}
