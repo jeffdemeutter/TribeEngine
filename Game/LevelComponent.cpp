@@ -24,7 +24,7 @@ LevelComponent::LevelComponent(GameObject* pGo, TransformComponent* pTrans, cons
 
 LevelComponent::~LevelComponent()
 {
-	//SaveFile("../Data/Level2.bLevel");
+	//SaveFile("../Data/Level3.bLevel");
 }
 
 #pragma region ColorStuff
@@ -163,18 +163,19 @@ void LevelComponent::ParseLevelFile(const std::string& levelFile)
 
 void LevelComponent::SaveFile(const std::string& levelFile)
 {
-	std::ofstream of{ levelFile, std::ios::out | std::ios::binary };
+	std::ofstream of{ levelFile, std::ios::out | std::ios::binary};
 	if (!of.is_open())
 		return;
+	
 
 	// write obstacle count
-	const size_t obstacleCount = m_Obstacles.size();
-	of.write((char*)&obstacleCount, sizeof(int));
+	size_t obstacleCount = m_Obstacles.size();
+	of.write((char*)&obstacleCount, sizeof(obstacleCount));
 
 	for (auto& pObstacle : m_Obstacles)
 	{
 		// write size of obstacle
-		const size_t splineCount = pObstacle.size();
+		size_t splineCount = pObstacle.size();
 		of.write((char*)&splineCount, sizeof(int));
 
 		for (glm::vec2& vertices : pObstacle)

@@ -25,7 +25,6 @@
 #include "RenderManager.h"
 #include "TextComponent.h"
 #include "TransformComponent.h"
-#include "SpriteAnimationComponent.h"
 #include "LevelComponent.h"
 #include "LivesComponent.h"
 #include "MovementComponent.h"
@@ -102,7 +101,7 @@ void Game::LoadGame()
 			const auto pCollision = pSP->AddComponent(new CollisionComponent(pSP, pTrans, 100, 40));
 			const auto pButton = pSP->AddComponent(new ButtonComponent(pSP, pCollision, new Command([this]
 			{
-				m_GameContext.pSceneManager->ActivateScene("Scene1");
+				m_GameContext.pSceneManager->ActivateScene("Scene3");
 			})));
 
 			InputAction input(new Command([pButton]
@@ -139,135 +138,264 @@ void Game::LoadGame()
 		}
 	}
 
+	// Level3
+	{
+		const auto pScene = m_GameContext.pSceneManager->AddScene("Scene3");
+		{
+#pragma region Level
+			const auto pBackground = pScene->AddGameObject("Background");
+			{
+				const auto pTrans = pBackground->AddComponent(new TransformComponent(pBackground, RenderManager::GetWindowCenter()));
+				const auto pRender = pBackground->AddComponent(new RenderComponent(pBackground, pTrans, "background.png"));
+				pRender->SetFullScreen(true);
+			}
+
+			const auto pLevel = pScene->AddGameObject("Level1");
+			{
+				const auto pTrans = pLevel->AddComponent(new TransformComponent(pLevel, 100, 100));
+				pLevel->AddComponent(new RenderComponent(pLevel, pTrans, "level3.png"));
+				pLevel->AddComponent(new LevelComponent(pLevel, pTrans, "../Data/Level3.bLevel"));
+			}
+
+			const auto pReset = pLevel->AddGameObject("Reset");
+			{
+				const auto pTrans = pReset->AddComponent(new TransformComponent(pReset, 300, 300));
+				pReset->AddComponent(new CollisionComponent(pReset, pTrans, 86, 24));
+			}
+#pragma endregion
+
+			const auto pBulletManager = pScene->AddGameObject("BulletManager");
+			const auto pBulletManagerComp = pBulletManager->AddComponent(new BulletManagerComponent(pBulletManager, pLevel->GetComponent<LevelComponent>()));
+
+			pScene->AddSharedObject(m_pFps);
+			pScene->AddSharedObject(m_pScore);
+			pScene->AddSharedObject(m_pLivesObject);
+
+#pragma region Player
+			// tank
+			const auto pTank = pScene->AddGameObject("Player1");
+			{
+				const auto pTransform = pTank->AddComponent(new TransformComponent(pTank, RenderManager::GetWindowCenter()));
+				const auto pRender = pTank->AddComponent(new RenderComponent(pTank, pTransform, "spritesheet.png"));
+				const auto pCollision = pTank->AddComponent(new CollisionComponent(pTank, pTransform, 25, 25));
+				const auto pMovement = pTank->AddComponent(new MovementComponent(pTank, pTransform, pCollision));
+				const auto pPlayer = pTank->AddComponent(new PlayerTankComponent(pTank, pRender, pMovement));
+				pRender->SetSrcRect(SDL_Rect{ 00,64,32,32 });
+
+
+				// collision
+				pMovement->SetLevelComponent(pLevel->GetComponent<LevelComponent>());
+				pCollision->AddColliderCheck(
+					pReset->GetComponent<CollisionComponent>(),
+					new Command([pTransform, pLevel]
+				{
+					pTransform->SetAbsolutePosition(pLevel->GetComponent<LevelComponent>()->GetRandomPosition());
+				})
+				);
+				pBulletManagerComp->AddCollision(pTank, new Command([pPlayer]
+				{
+					pPlayer->Kill();
+				}));
+
+
+				ServiceLocator::GetEventManager()->AddEventHandle(ReloadScene, [pTransform, pLevel](GameObject*, int)
+				{
+					pTransform->SetAbsolutePosition(pLevel->GetComponent<LevelComponent>()->GetRandomPosition());
+				});
+
+				// tank inputs
+				{
+					InputAction right(new Command([pPlayer] { pPlayer->MoveRight(); }));
+					right.stroke = Stroke::held;
+					right.keyboardKey = SDL_SCANCODE_D;
+					right.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_RIGHT;
+					m_GameContext.pInput->AddInputAction(right);
+
+					InputAction left(new Command([pPlayer] { pPlayer->MoveLeft(); }));
+					left.stroke = Stroke::held;
+					left.keyboardKey = SDL_SCANCODE_A;
+					left.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_LEFT;
+					m_GameContext.pInput->AddInputAction(left);
+
+					InputAction up(new Command([pPlayer] { pPlayer->MoveUp(); }));
+					up.stroke = Stroke::held;
+					up.keyboardKey = SDL_SCANCODE_W;
+					up.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_UP;
+					m_GameContext.pInput->AddInputAction(up);
+
+					InputAction down(new Command([pPlayer] { pPlayer->MoveDown(); }));
+					down.stroke = Stroke::held;
+					down.keyboardKey = SDL_SCANCODE_S;
+					down.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_DOWN;
+					m_GameContext.pInput->AddInputAction(down);
+				}
+			}
+
+			// tank turret
+			const auto pTankTurret = pTank->AddGameObject("Turret");
+			{
+				const auto pTransform = pTankTurret->AddComponent(new TransformComponent(pTankTurret, RenderManager::GetWindowCenter()));
+				const auto pRender = pTankTurret->AddComponent(new RenderComponent(pTankTurret, pTransform, "spritesheet.png"));
+				const auto pBulletConfig = pTankTurret->AddComponent(new BulletConfigComponent(pTankTurret));
+				const auto pTurret = pTankTurret->AddComponent(new TurretComponent(pTankTurret, 0, pTransform, pRender, pBulletConfig));
+
+				InputAction ia(new Command([pTurret] {pTurret->SpawnBullet(); }));
+				ia.stroke = Stroke::released;
+				ia.keyboardKey = SDL_SCANCODE_SPACE;
+				ia.useMouse = true;
+				ia.mouseButton = 0;
+				ia.ControllerID = 0;
+				ia.ControllerButton = SDL_CONTROLLER_BUTTON_RIGHTSHOULDER;
+				m_GameContext.pInput->AddInputAction(ia);
+			}
+
+			const auto pObject = pScene->AddGameObject("enemyManager");
+			const auto pEnemyManager = pObject->AddComponent(new EnemyTankManager(pObject, pTank, pLevel->GetComponent<LevelComponent>(), pBulletManagerComp));
+			{
+				pEnemyManager->AddEnemy(TankType::blueTank);
+				pEnemyManager->AddEnemy(TankType::blueTank);
+				pEnemyManager->AddEnemy(TankType::blueTank);
+				pEnemyManager->AddEnemy(TankType::blueTank);
+				pEnemyManager->AddEnemy(TankType::blueTank);
+
+				pEnemyManager->AddEnemy(TankType::recognizer);
+				pEnemyManager->AddEnemy(TankType::recognizer);
+				pEnemyManager->AddEnemy(TankType::recognizer);
+			}
+#pragma endregion
+		}
+		pScene->Deactivate();
+	}
+
 	// Level2
 	{
 		const auto pScene = m_GameContext.pSceneManager->AddScene("Scene2");
-
+		{
 #pragma region Level
-		const auto pBackground = pScene->AddGameObject("Background");
-		{
-			const auto pTrans = pBackground->AddComponent(new TransformComponent(pBackground, RenderManager::GetWindowCenter()));
-			const auto pRender = pBackground->AddComponent(new RenderComponent(pBackground, pTrans, "background.png"));
-			pRender->SetFullScreen(true);
-		}
+			const auto pBackground = pScene->AddGameObject("Background");
+			{
+				const auto pTrans = pBackground->AddComponent(new TransformComponent(pBackground, RenderManager::GetWindowCenter()));
+				const auto pRender = pBackground->AddComponent(new RenderComponent(pBackground, pTrans, "background.png"));
+				pRender->SetFullScreen(true);
+			}
 
-		const auto pLevel = pScene->AddGameObject("Level1");
-		{
-			const auto pTrans = pLevel->AddComponent(new TransformComponent(pLevel, 100, 100));
-			pLevel->AddComponent(new RenderComponent(pLevel, pTrans, "level2.png"));
-			pLevel->AddComponent(new LevelComponent(pLevel, pTrans, "../Data/Level2.bLevel"));
-		}
+			const auto pLevel = pScene->AddGameObject("Level1");
+			{
+				const auto pTrans = pLevel->AddComponent(new TransformComponent(pLevel, 100, 100));
+				pLevel->AddComponent(new RenderComponent(pLevel, pTrans, "level2.png"));
+				pLevel->AddComponent(new LevelComponent(pLevel, pTrans, "../Data/Level2.bLevel"));
+			}
 
-		const auto pReset = pLevel->AddGameObject("Reset");
-		{
-			const auto pTrans = pReset->AddComponent(new TransformComponent(pReset, 300, 300));
-			pReset->AddComponent(new CollisionComponent(pReset, pTrans, 86, 24));
-		}
+			const auto pReset = pLevel->AddGameObject("Reset");
+			{
+				const auto pTrans = pReset->AddComponent(new TransformComponent(pReset, 300, 300));
+				pReset->AddComponent(new CollisionComponent(pReset, pTrans, 86, 24));
+			}
 #pragma endregion
-		const auto pBulletManager = pScene->AddGameObject("BulletManager");
-		const auto pBulletManagerComp = pBulletManager->AddComponent(new BulletManagerComponent(pBulletManager, pLevel->GetComponent<LevelComponent>()));
 
-		pScene->AddSharedObject(m_pFps);
-		pScene->AddSharedObject(m_pScore);
-		pScene->AddSharedObject(m_pLivesObject);
+			const auto pBulletManager = pScene->AddGameObject("BulletManager");
+			const auto pBulletManagerComp = pBulletManager->AddComponent(new BulletManagerComponent(pBulletManager, pLevel->GetComponent<LevelComponent>()));
+
+			pScene->AddSharedObject(m_pFps);
+			pScene->AddSharedObject(m_pScore);
+			pScene->AddSharedObject(m_pLivesObject);
 
 #pragma region Player
-		// tank
-		const auto pTank = pScene->AddGameObject("Player1");
-		{
-			const auto pTransform = pTank->AddComponent(new TransformComponent(pTank, RenderManager::GetWindowCenter()));
-			const auto pRender = pTank->AddComponent(new RenderComponent(pTank, pTransform, "spritesheet.png"));
-			const auto pCollision = pTank->AddComponent(new CollisionComponent(pTank, pTransform, 25, 25));
-			const auto pMovement = pTank->AddComponent(new MovementComponent(pTank, pTransform, pCollision));
-			const auto pPlayer = pTank->AddComponent(new PlayerTankComponent(pTank, pRender, pMovement));
-			pRender->SetSrcRect(SDL_Rect{ 00,64,32,32 });
-
-
-			// collision
-			pMovement->SetLevelComponent(pLevel->GetComponent<LevelComponent>());
-			pCollision->AddColliderCheck(
-				pReset->GetComponent<CollisionComponent>(),
-				new Command([pTransform, pLevel]
+			// tank
+			const auto pTank = pScene->AddGameObject("Player1");
 			{
-				pTransform->SetAbsolutePosition(pLevel->GetComponent<LevelComponent>()->GetRandomPosition());
-			})
-			);
-			pBulletManagerComp->AddCollision(pTank, new Command([pPlayer]
-			{
-				pPlayer->Kill();
-			}));
-			
-			
-			ServiceLocator::GetEventManager()->AddEventHandle(ReloadScene, [pTransform, pLevel](GameObject*, int)
-			{
-				pTransform->SetAbsolutePosition(pLevel->GetComponent<LevelComponent>()->GetRandomPosition());
-			});
+				const auto pTransform = pTank->AddComponent(new TransformComponent(pTank, RenderManager::GetWindowCenter()));
+				const auto pRender = pTank->AddComponent(new RenderComponent(pTank, pTransform, "spritesheet.png"));
+				const auto pCollision = pTank->AddComponent(new CollisionComponent(pTank, pTransform, 25, 25));
+				const auto pMovement = pTank->AddComponent(new MovementComponent(pTank, pTransform, pCollision));
+				const auto pPlayer = pTank->AddComponent(new PlayerTankComponent(pTank, pRender, pMovement));
+				pRender->SetSrcRect(SDL_Rect{ 00,64,32,32 });
 
-			// tank inputs
-			{
-				InputAction right(new Command([pPlayer] { pPlayer->MoveRight(); }));
-				right.stroke = Stroke::held;
-				right.keyboardKey = SDL_SCANCODE_D;
-				right.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_RIGHT;
-				m_GameContext.pInput->AddInputAction(right);
 
-				InputAction left(new Command([pPlayer] { pPlayer->MoveLeft(); }));
-				left.stroke = Stroke::held;
-				left.keyboardKey = SDL_SCANCODE_A;
-				left.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_LEFT;
-				m_GameContext.pInput->AddInputAction(left);
+				// collision
+				pMovement->SetLevelComponent(pLevel->GetComponent<LevelComponent>());
+				pCollision->AddColliderCheck(
+					pReset->GetComponent<CollisionComponent>(),
+					new Command([pTransform, pLevel]
+				{
+					pTransform->SetAbsolutePosition(pLevel->GetComponent<LevelComponent>()->GetRandomPosition());
+				})
+				);
+				pBulletManagerComp->AddCollision(pTank, new Command([pPlayer]
+				{
+					pPlayer->Kill();
+				}));
 
-				InputAction up(new Command([pPlayer] { pPlayer->MoveUp(); }));
-				up.stroke = Stroke::held;
-				up.keyboardKey = SDL_SCANCODE_W;
-				up.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_UP;
-				m_GameContext.pInput->AddInputAction(up);
 
-				InputAction down(new Command([pPlayer] { pPlayer->MoveDown(); }));
-				down.stroke = Stroke::held;
-				down.keyboardKey = SDL_SCANCODE_S;
-				down.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_DOWN;
-				m_GameContext.pInput->AddInputAction(down);
+				ServiceLocator::GetEventManager()->AddEventHandle(ReloadScene, [pTransform, pLevel](GameObject*, int)
+				{
+					pTransform->SetAbsolutePosition(pLevel->GetComponent<LevelComponent>()->GetRandomPosition());
+				});
+
+				// tank inputs
+				{
+					InputAction right(new Command([pPlayer] { pPlayer->MoveRight(); }));
+					right.stroke = Stroke::held;
+					right.keyboardKey = SDL_SCANCODE_D;
+					right.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_RIGHT;
+					m_GameContext.pInput->AddInputAction(right);
+
+					InputAction left(new Command([pPlayer] { pPlayer->MoveLeft(); }));
+					left.stroke = Stroke::held;
+					left.keyboardKey = SDL_SCANCODE_A;
+					left.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_LEFT;
+					m_GameContext.pInput->AddInputAction(left);
+
+					InputAction up(new Command([pPlayer] { pPlayer->MoveUp(); }));
+					up.stroke = Stroke::held;
+					up.keyboardKey = SDL_SCANCODE_W;
+					up.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_UP;
+					m_GameContext.pInput->AddInputAction(up);
+
+					InputAction down(new Command([pPlayer] { pPlayer->MoveDown(); }));
+					down.stroke = Stroke::held;
+					down.keyboardKey = SDL_SCANCODE_S;
+					down.ControllerButton = SDL_CONTROLLER_BUTTON_DPAD_DOWN;
+					m_GameContext.pInput->AddInputAction(down);
+				}
 			}
-		}
 
-		// tank turret
-		const auto pTankTurret = pTank->AddGameObject("Turret");
-		{
-			const auto pTransform = pTankTurret->AddComponent(new TransformComponent(pTankTurret, RenderManager::GetWindowCenter()));
-			const auto pRender = pTankTurret->AddComponent(new RenderComponent(pTankTurret, pTransform, "spritesheet.png"));
-			const auto pBulletConfig = pTankTurret->AddComponent(new BulletConfigComponent(pTankTurret));
-			const auto pTurret = pTankTurret->AddComponent(new TurretComponent(pTankTurret, 0, pTransform, pRender, pBulletConfig));
+			// tank turret
+			const auto pTankTurret = pTank->AddGameObject("Turret");
+			{
+				const auto pTransform = pTankTurret->AddComponent(new TransformComponent(pTankTurret, RenderManager::GetWindowCenter()));
+				const auto pRender = pTankTurret->AddComponent(new RenderComponent(pTankTurret, pTransform, "spritesheet.png"));
+				const auto pBulletConfig = pTankTurret->AddComponent(new BulletConfigComponent(pTankTurret));
+				const auto pTurret = pTankTurret->AddComponent(new TurretComponent(pTankTurret, 0, pTransform, pRender, pBulletConfig));
 
-			InputAction ia(new Command([pTurret] {pTurret->SpawnBullet(); }));
-			ia.stroke = Stroke::released;
-			ia.keyboardKey = SDL_SCANCODE_SPACE;
-			ia.useMouse = true;
-			ia.mouseButton = 0;
-			ia.ControllerID = 0;
-			ia.ControllerButton = SDL_CONTROLLER_BUTTON_RIGHTSHOULDER;
-			m_GameContext.pInput->AddInputAction(ia);
+				InputAction ia(new Command([pTurret] {pTurret->SpawnBullet(); }));
+				ia.stroke = Stroke::released;
+				ia.keyboardKey = SDL_SCANCODE_SPACE;
+				ia.useMouse = true;
+				ia.mouseButton = 0;
+				ia.ControllerID = 0;
+				ia.ControllerButton = SDL_CONTROLLER_BUTTON_RIGHTSHOULDER;
+				m_GameContext.pInput->AddInputAction(ia);
+			}
+#pragma endregion
+
+#pragma region Enemies
+			const auto pObject = pScene->AddGameObject("enemyManager");
+			const auto pEnemyManager = pObject->AddComponent(new EnemyTankManager(pObject, pTank, pLevel->GetComponent<LevelComponent>(), pBulletManagerComp));
+			{
+				pEnemyManager->AddEnemy(TankType::blueTank);
+
+				pEnemyManager->AddEnemy(TankType::blueTank);
+
+				pEnemyManager->AddEnemy(TankType::blueTank);
+
+				pEnemyManager->AddEnemy(TankType::recognizer);
+
+				pEnemyManager->AddEnemy(TankType::recognizer);
+			}
+#pragma endregion
 		}
 		pScene->Deactivate();
-#pragma endregion
-
-#pragma region Enemies
-#pragma region Enemies
-		const auto pObject = pScene->AddGameObject("enemyManager");
-		const auto pEnemyManager = pObject->AddComponent(new EnemyTankManager(pObject, pTank, pLevel->GetComponent<LevelComponent>(), pBulletManagerComp));
-		{
-			pEnemyManager->AddEnemy(TankType::blueTank);
-
-			pEnemyManager->AddEnemy(TankType::blueTank);
-
-			pEnemyManager->AddEnemy(TankType::blueTank);
-
-			pEnemyManager->AddEnemy(TankType::recognizer);
-
-			pEnemyManager->AddEnemy(TankType::recognizer);
-		}
-#pragma endregion
-#pragma endregion
 	}
 
 	// Level1
@@ -304,7 +432,7 @@ void Game::LoadGame()
 				pScene1->AddSharedObject(m_pScore);
 				pScene1->AddSharedObject(m_pLivesObject);
 
-	#pragma region players
+#pragma region players
 				// tank
 				const auto pTank = pScene1->AddGameObject("Player1");
 				{
@@ -314,7 +442,7 @@ void Game::LoadGame()
 					const auto pMovement = pTank->AddComponent(new MovementComponent(pTank, pTransform, pCollision));
 					const auto pPlayer = pTank->AddComponent(new PlayerTankComponent(pTank, pRender, pMovement));
 					pRender->SetSrcRect(SDL_Rect{ 00,64,32,32 });
-					
+
 
 					// collision
 					pMovement->SetLevelComponent(pLevel->GetComponent<LevelComponent>());
@@ -380,7 +508,7 @@ void Game::LoadGame()
 					ia.ControllerButton = SDL_CONTROLLER_BUTTON_RIGHTSHOULDER;
 					m_GameContext.pInput->AddInputAction(ia);
 				}
-	#pragma endregion
+#pragma endregion
 
 
 #pragma region Enemies
@@ -388,17 +516,20 @@ void Game::LoadGame()
 				const auto pEnemyManager = pObject->AddComponent(new EnemyTankManager(pObject, pTank, pLevel->GetComponent<LevelComponent>(), pBulletManagerComp));
 				{
 					pEnemyManager->AddEnemy(TankType::blueTank);
-
+					pEnemyManager->AddEnemy(TankType::blueTank);
 					pEnemyManager->AddEnemy(TankType::blueTank);
 
+					pEnemyManager->AddEnemy(TankType::recognizer);
 					pEnemyManager->AddEnemy(TankType::recognizer);
 				}
 #pragma endregion
 			}
 		}
 		pScene1->Deactivate();
+	}
 
-
+	// game over screen
+	{
 		const auto pGameOverScreen = m_GameContext.pSceneManager->AddScene("GameOver");
 		{
 			pGameOverScreen->AddSharedObject(m_pScore);
@@ -407,13 +538,13 @@ void Game::LoadGame()
 			pHighscores->AddComponent(new HighScoreComponent(pHighscores, m_pScore->GetComponent<ScoreComponent>(), pFont));
 		}
 		pGameOverScreen->Deactivate();
-
-		ServiceLocator::GetEventManager()->AddEventHandle(GameOver, [this](GameObject*, int)
-		{
-			m_GameContext.pSceneManager->ActivateScene("GameOver");
-			RenderManager::SetBackgroundColor({ 0,0,0,0 });
-		});
 	}
+
+	ServiceLocator::GetEventManager()->AddEventHandle(GameOver, [this](GameObject*, int)
+	{
+		m_GameContext.pSceneManager->ActivateScene("GameOver");
+		RenderManager::SetBackgroundColor({ 0,0,0,0 });
+	});
 
 	ServiceLocator::GetEventManager()->AddEventHandle(ReloadScene, [this](GameObject*, int)
 	{
@@ -422,6 +553,8 @@ void Game::LoadGame()
 		if (activeSceneName == "Scene1")
 			pSceneManager->ActivateScene("Scene2");
 		else if (activeSceneName == "Scene2")
+			pSceneManager->ActivateScene("Scene3");
+		else if (activeSceneName == "Scene3")
 			pSceneManager->ActivateScene("Scene1");
 	});
 
