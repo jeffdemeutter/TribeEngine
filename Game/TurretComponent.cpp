@@ -51,11 +51,24 @@ void TurretComponent::SpawnBullet() const
 void TurretComponent::Update(GameContext& gc)
 {
 	if (m_Player == 0)
-		m_Direction = gc.pInput->GetMousePosition() - m_pTransform->GetAbsolutePosition();
+	{
+		if (gc.pInput->IsControllerConnected())
+		{
+			glm::vec2 controllerPos = {gc.pInput->GetJoystickAxis(m_Player, SDL_CONTROLLER_AXIS_RIGHTX), gc.pInput->GetJoystickAxis(m_Player, SDL_CONTROLLER_AXIS_RIGHTY)};
+			if (length(controllerPos) >= 0.4f)
+			{
+				m_Direction = controllerPos;
+			}
+		}
+		else
+		{
+			m_Direction = InputManager::GetMousePosition() - m_pTransform->GetAbsolutePosition();
+		}
+	}
 	else
 	{
-		m_Direction.x = gc.pInput->GetJoystickAxis(m_Player, SDL_CONTROLLER_AXIS_LEFTX);
-		m_Direction.y = gc.pInput->GetJoystickAxis(m_Player, SDL_CONTROLLER_AXIS_LEFTY);
+		m_Direction.x = gc.pInput->GetJoystickAxis(m_Player, SDL_CONTROLLER_AXIS_RIGHTX);
+		m_Direction.y = gc.pInput->GetJoystickAxis(m_Player, SDL_CONTROLLER_AXIS_RIGHTY);
 	}
 
 	const float rotRad = atan2(-m_Direction.x, m_Direction.y);

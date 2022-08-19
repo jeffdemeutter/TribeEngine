@@ -43,6 +43,11 @@ float InputManager::GetJoystickAxis(int controllerID, SDL_GameControllerAxis axi
 	return normVal;
 }
 
+bool InputManager::IsControllerConnected() const
+{
+	return m_ControllerCount != 0;
+}
+
 glm::vec2 InputManager::GetMousePosition()
 {
 	int x, y;
@@ -91,17 +96,19 @@ bool InputManager::ProcessInput()
 
 		case SDL_MOUSEBUTTONUP:
 			for (InputAction& input : m_Commands)
-				if (input.stroke == Stroke::released)
-					if (input.mouseButton, int(e.button.button))
-						input.pCommand->Execute();
+				if (input.useMouse)
+					if (input.stroke == Stroke::released)
+						if (input.mouseButton, int(e.button.button))
+							input.pCommand->Execute();
 			break;
 					
 
 		case SDL_MOUSEBUTTONDOWN:
 			for (InputAction& input : m_Commands)
-				if (input.stroke == Stroke::pressed)
-					if (input.mouseButton, int(e.button.button))
-						input.pCommand->Execute();
+				if (input.useMouse)
+					if (input.stroke == Stroke::pressed)
+						if (input.mouseButton, int(e.button.button))
+							input.pCommand->Execute();
 			break;
 #pragma endregion
 

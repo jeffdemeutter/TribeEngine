@@ -22,7 +22,8 @@ struct InputAction
 	SDL_Scancode keyboardKey = SDL_SCANCODE_UNKNOWN;
 	Stroke stroke = Stroke::pressed;
 
-	Uint32 mouseButton = 0;
+	bool useMouse = false;
+	Uint32 mouseButton = UINT32_MAX;
 
 private:
 	Command* pCommand = nullptr;
@@ -46,6 +47,7 @@ public:
 		return keyState[scancode];
 	}
 	float GetJoystickAxis(int controllerID, SDL_GameControllerAxis axis) const;
+	bool IsControllerConnected() const;
 	bool IsControllerButtonDown(int controllerID, SDL_GameControllerButton controllerButton) const
 	{
 		return SDL_GameControllerGetButton(m_pControllers[controllerID], controllerButton);

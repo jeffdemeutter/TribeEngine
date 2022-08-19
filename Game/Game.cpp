@@ -42,6 +42,13 @@ void Game::LoadGame() const
 	ServiceLocator::GetSoundManager()->LoadEffect(GameEnd, "../Data/Sound/EndGame.wav");
 	ServiceLocator::GetSoundManager()->LoadEffect(hit, "../Data/Sound/Hit.wav");
 
+	InputAction reloadScene(new Command([]
+	{
+		ServiceLocator::GetEventManager()->Notify(nullptr, ReloadScene);
+	}));
+	reloadScene.stroke = Stroke::released;
+	reloadScene.keyboardKey = SDL_SCANCODE_F1;
+	m_GameContext.pInput->AddInputAction(reloadScene);
 
 	Font* pFont = ResourceManager::LoadFont("Lingua.otf", 36);
 	
@@ -96,6 +103,7 @@ void Game::LoadGame() const
 				pButton->CheckIfClicked();
 			}));
 			input.stroke = Stroke::released;
+			input.useMouse = true;
 			input.mouseButton = 0;
 			m_GameContext.pInput->AddInputAction(input);
 		}
@@ -118,6 +126,7 @@ void Game::LoadGame() const
 				pButton->CheckIfClicked();
 			}));
 			input.stroke = Stroke::released;
+			input.useMouse = true;
 			input.mouseButton = 0;
 			m_GameContext.pInput->AddInputAction(input);
 		}
@@ -610,7 +619,10 @@ void Game::LoadGame() const
 					InputAction ia(new Command([pTurret] {pTurret->SpawnBullet(); }));
 					ia.stroke = Stroke::released;
 					ia.keyboardKey = SDL_SCANCODE_SPACE;
+					ia.useMouse = true;
 					ia.mouseButton = 0;
+					ia.ControllerID = 0;
+					ia.ControllerButton = SDL_CONTROLLER_BUTTON_RIGHTSHOULDER;
 					m_GameContext.pInput->AddInputAction(ia);
 				}
 	#pragma endregion
@@ -648,5 +660,5 @@ void Game::LoadGame() const
 		});
 	}
 
-	m_GameContext.pSceneManager->ActivateScene("MainMenu");
+	m_GameContext.pSceneManager->ActivateScene("MainMenu");  
 }
