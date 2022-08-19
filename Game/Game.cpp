@@ -34,7 +34,14 @@
 #include "SoundManager.h"
 #include "TurretComponent.h"
 
-void Game::LoadGame() const
+Game::~Game()
+{
+	SafeDelete(m_pFps);
+	SafeDelete(m_pScore);
+	SafeDelete(m_pLivesObject);
+}
+
+void Game::LoadGame()
 {
 	// sound effects
 	ServiceLocator::GetSoundManager()->SetVolume(20);
@@ -54,30 +61,30 @@ void Game::LoadGame() const
 	
 #pragma region PersistantObjects
 	// fps object
-	auto pFps = new GameObject(nullptr, "fps");
+	m_pFps = new GameObject(nullptr, "fps");
 	{
-		const auto pTransform = pFps->AddComponent(new TransformComponent(pFps));
-		const auto pRender = pFps->AddComponent(new RenderComponent(pFps, pTransform));
-		const auto pText = pFps->AddComponent(new TextComponent(pFps, pRender, "", pFont, { 255,255,0,255 }));
-		pFps->AddComponent(new FpsComponent(pFps, pText));
+		const auto pTransform = m_pFps->AddComponent(new TransformComponent(m_pFps));
+		const auto pRender = m_pFps->AddComponent(new RenderComponent(m_pFps, pTransform));
+		const auto pText = m_pFps->AddComponent(new TextComponent(m_pFps, pRender, "", pFont, { 255,255,0,255 }));
+		m_pFps->AddComponent(new FpsComponent(m_pFps, pText));
 	}
 
 	// High Score
-	const auto pScore = new GameObject(nullptr, "HighScore");
+	m_pScore = new GameObject(nullptr, "HighScore");
 	{
-		const auto pTransform = pScore->AddComponent(new TransformComponent(pScore, 410, 25));
-		const auto pRender = pScore->AddComponent(new RenderComponent(pScore, pTransform));
-		const auto pText = pScore->AddComponent(new TextComponent(pScore, pRender, "0", pFont));
-		pScore->AddComponent(new ScoreComponent(pScore, pText, "HighScores.txt"));
+		const auto pTransform = m_pScore->AddComponent(new TransformComponent(m_pScore, 410, 25));
+		const auto pRender = m_pScore->AddComponent(new RenderComponent(m_pScore, pTransform));
+		const auto pText = m_pScore->AddComponent(new TextComponent(m_pScore, pRender, "0", pFont));
+		m_pScore->AddComponent(new ScoreComponent(m_pScore, pText, "HighScores.txt"));
 	}
 
 	// lives
-	const auto pLivesObject = new GameObject(nullptr, "Lives");
+	m_pLivesObject = new GameObject(nullptr, "Lives");
 	{
-		const auto pTransform = pLivesObject->AddComponent(new TransformComponent(pLivesObject, 320, 25));
-		const auto pRender = pLivesObject->AddComponent(new RenderComponent(pLivesObject, pTransform));
-		const auto pText = pLivesObject->AddComponent(new TextComponent(pLivesObject, pRender, " ", pFont, {255,0,0,255}));
-		pLivesObject->AddComponent(new LivesComponent(pLivesObject, pText, 3));
+		const auto pTransform = m_pLivesObject->AddComponent(new TransformComponent(m_pLivesObject, 320, 25));
+		const auto pRender = m_pLivesObject->AddComponent(new RenderComponent(m_pLivesObject, pTransform));
+		const auto pText = m_pLivesObject->AddComponent(new TextComponent(m_pLivesObject, pRender, " ", pFont, {255,0,0,255}));
+		m_pLivesObject->AddComponent(new LivesComponent(m_pLivesObject, pText, 3));
 	}
 #pragma endregion
 
@@ -160,9 +167,9 @@ void Game::LoadGame() const
 		const auto pBulletManager = pScene->AddGameObject("BulletManager");
 		const auto pBulletManagerComp = pBulletManager->AddComponent(new BulletManagerComponent(pBulletManager, pLevel->GetComponent<LevelComponent>()));
 
-		pScene->AddSharedObject(pFps);
-		pScene->AddSharedObject(pScore);
-		pScene->AddSharedObject(pLivesObject);
+		pScene->AddSharedObject(m_pFps);
+		pScene->AddSharedObject(m_pScore);
+		pScene->AddSharedObject(m_pLivesObject);
 
 #pragma region Player
 		// tank
@@ -293,9 +300,9 @@ void Game::LoadGame() const
 				const auto pBulletManager = pScene1->AddGameObject("BulletManager");
 				const auto pBulletManagerComp = pBulletManager->AddComponent(new BulletManagerComponent(pBulletManager, pLevel->GetComponent<LevelComponent>()));
 
-				pScene1->AddGameObject(pFps);
-				pScene1->AddGameObject(pScore);
-				pScene1->AddGameObject(pLivesObject);
+				pScene1->AddSharedObject(m_pFps);
+				pScene1->AddSharedObject(m_pScore);
+				pScene1->AddSharedObject(m_pLivesObject);
 
 	#pragma region players
 				// tank
@@ -394,14 +401,14 @@ void Game::LoadGame() const
 
 		const auto pGameOverScreen = m_GameContext.pSceneManager->AddScene("GameOver");
 		{
-			pGameOverScreen->AddSharedObject(pScore);
+			pGameOverScreen->AddSharedObject(m_pScore);
 
 			const auto pHighscores = pGameOverScreen->AddGameObject("HighScores");
-			pHighscores->AddComponent(new HighScoreComponent(pHighscores, pScore->GetComponent<ScoreComponent>(), pFont));
+			pHighscores->AddComponent(new HighScoreComponent(pHighscores, m_pScore->GetComponent<ScoreComponent>(), pFont));
 		}
 		pGameOverScreen->Deactivate();
 
-		ServiceLocator::GetEventManager()->AddEventHandle(GameOver, [this, &pScore](GameObject*, int)
+		ServiceLocator::GetEventManager()->AddEventHandle(GameOver, [this](GameObject*, int)
 		{
 			m_GameContext.pSceneManager->ActivateScene("GameOver");
 			RenderManager::SetBackgroundColor({ 0,0,0,0 });

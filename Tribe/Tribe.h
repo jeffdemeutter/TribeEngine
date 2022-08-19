@@ -14,7 +14,7 @@ public:
 	void Run();
 
 protected:
-	virtual void LoadGame() const = 0;
+	virtual void LoadGame() = 0;
 
 	GameContext m_GameContext{};
 };

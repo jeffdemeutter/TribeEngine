@@ -26,11 +26,11 @@ EnemyTankComponent::EnemyTankComponent(GameObject* pGo, TransformComponent* pTra
 	{
 	case TankType::blueTank:
 		m_pRender->SetSrcRect(SDL_Rect{ 00,96,32,32 });
-		m_pMovement->SetMovementSpeed(125);
+		m_pMovement->SetMovementSpeed(100);
 		break;
 	case TankType::recognizer:
 		m_pRender->SetSrcRect(SDL_Rect{ 64,64,32,32 });
-		m_pMovement->SetMovementSpeed(250);
+		m_pMovement->SetMovementSpeed(200);
 		break;
 	}
 
