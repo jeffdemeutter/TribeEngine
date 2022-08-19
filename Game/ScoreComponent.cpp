@@ -17,7 +17,7 @@ ScoreComponent::ScoreComponent(GameObject* go, TextComponent* pText, const std::
 		UpdateScore(go, type);
 	};
 	ServiceLocator::GetEventManager()->AddEventHandle(BlueTankDied, updateScoreLambda );
-	ServiceLocator::GetEventManager()->AddEventHandle(RedRecognizerDied, updateScoreLambda);
+	ServiceLocator::GetEventManager()->AddEventHandle(RecognizerDied, updateScoreLambda);
 
 	ServiceLocator::GetEventManager()->AddEventHandle(GameOver, [this](GameObject*, int)
 	{
@@ -43,7 +43,7 @@ void ScoreComponent::UpdateScore(GameObject*, int type)
 	case BlueTankDied:
 		m_Score += 100;
 		break;
-	case RedRecognizerDied:
+	case RecognizerDied:
 		m_Score += 250;
 		break;
 	}

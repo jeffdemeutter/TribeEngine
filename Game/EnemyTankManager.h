@@ -22,13 +22,14 @@ public:
 	EnemyTankComponent* AddEnemy(TankType type, bool initial = true);
 
 private:
-	int m_RecognizerCount;
-	int m_BlueTankCount;
+	int m_RecognizerCount{};
+	int m_BlueTankCount{};
 
 	GameObject* m_pTarget = nullptr;
 	LevelComponent* m_pLevel = nullptr;
 	BulletManagerComponent* m_pBulletManager = nullptr;
 
+	void DeleteEnemies();
 	void RespawnEnemies();
 };
 

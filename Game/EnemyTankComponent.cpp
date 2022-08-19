@@ -137,7 +137,7 @@ void EnemyTankComponent::Hit()
 	if (m_Type == TankType::blueTank)
 		ServiceLocator::GetEventManager()->Notify(pEnemy, BlueTankDied);
 	else if (m_Type == TankType::recognizer)
-		ServiceLocator::GetEventManager()->Notify(pEnemy, RedRecognizerDied);
+		ServiceLocator::GetEventManager()->Notify(pEnemy, RecognizerDied);
 
 	pEnemy->Remove();
 }

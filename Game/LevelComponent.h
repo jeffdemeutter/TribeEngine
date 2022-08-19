@@ -11,8 +11,8 @@ class Texture2D;
 class LevelComponent : public Component
 {
 public:
-	LevelComponent(GameObject* pGo, TransformComponent* pTrans);
-	~LevelComponent() override = default;
+	LevelComponent(GameObject* pGo, TransformComponent* pTrans, const std::string& levelFile);
+	~LevelComponent() override;
 	LevelComponent(const LevelComponent&) = delete;
 	LevelComponent(LevelComponent&&) noexcept = delete;
 	LevelComponent& operator=(const LevelComponent&) = delete;
@@ -40,5 +40,9 @@ private:
 
 	glm::vec3 m_BackGroundColor = { 1.f,0.f,0.f };
 	float m_ColorChangeSpeed = 2.f;
+
+
+	void ParseLevelFile(const std::string& levelFile);
+	void SaveFile(const std::string& levelFile);
 };
 

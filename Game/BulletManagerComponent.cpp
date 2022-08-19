@@ -23,7 +23,8 @@ BulletManagerComponent::BulletManagerComponent(GameObject* pGo, LevelComponent* 
 
 	const auto spawnBulletLambda = [this](GameObject* pObj, int)
 	{
-		SpawnBullet(pObj->GetComponent<BulletConfigComponent>());
+		if (GetParent()->IsActive())
+			SpawnBullet(pObj->GetComponent<BulletConfigComponent>());
 	};
 	ServiceLocator::GetEventManager()->AddEventHandle(EnemySpawnedBullet, spawnBulletLambda);
 	ServiceLocator::GetEventManager()->AddEventHandle(PlayerSpawnedBullet, spawnBulletLambda);

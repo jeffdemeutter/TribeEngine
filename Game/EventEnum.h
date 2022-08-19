@@ -5,7 +5,7 @@ enum Events
 {
 	PlayerDied,
 	BlueTankDied,
-	RedRecognizerDied,
+	RecognizerDied,
 	GameOver,
 	PlayerSpawnedBullet,
 	EnemySpawnedBullet,

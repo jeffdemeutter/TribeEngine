@@ -7,6 +7,7 @@
 #include "TransformComponent.h"
 
 #include "RenderManager.h"
+#include <fstream>
 
 
 std::string stringKey(int x, int y)
@@ -14,10 +15,16 @@ std::string stringKey(int x, int y)
 	return std::to_string(x) + " - " + std::to_string(y);
 }
 
-LevelComponent::LevelComponent(GameObject* pGo, TransformComponent* pTrans)
+LevelComponent::LevelComponent(GameObject* pGo, TransformComponent* pTrans, const std::string& levelFile)
 	: Component(pGo)
 	, m_pTransform(pTrans)
-{	
+{
+	ParseLevelFile(levelFile);
+}
+
+LevelComponent::~LevelComponent()
+{
+	//SaveFile("../Data/Level2.bLevel");
 }
 
 #pragma region ColorStuff
@@ -122,3 +129,61 @@ glm::vec2 LevelComponent::GetRandomPosition() const
 
 	return { float(GetRand(10, 590)) + pos.x, float(GetRand(10, 590)) + pos.y };
 }
+
+void LevelComponent::ParseLevelFile(const std::string& levelFile)
+{
+	std::ifstream in{ levelFile, std::ios::in | std::ios::binary };
+	if (!in.is_open())
+		return;
+
+	// read obstacle count
+	size_t obstacleCount{};
+	in.read((char*)&obstacleCount, sizeof(int));
+	m_Obstacles.reserve(obstacleCount);
+
+	for (size_t i = 0; i < obstacleCount; ++i)
+	{
+		std::vector<glm::vec2>& Obstacle = m_Obstacles.emplace_back();
+
+		// read size of obstacle
+		size_t splineCount{};
+		in.read((char*)&splineCount, sizeof(int));
+		Obstacle.reserve(splineCount);
+
+		for (size_t j = 0; j < splineCount; ++j)
+		{
+			// read vertex and store it
+			glm::vec2& vertex = Obstacle.emplace_back();
+			in.read((char*)&vertex, sizeof(glm::vec2));
+		}
+	}
+
+	in.close();
+}
+
+void LevelComponent::SaveFile(const std::string& levelFile)
+{
+	std::ofstream of{ levelFile, std::ios::out | std::ios::binary };
+	if (!of.is_open())
+		return;
+
+	// write obstacle count
+	const size_t obstacleCount = m_Obstacles.size();
+	of.write((char*)&obstacleCount, sizeof(int));
+
+	for (auto& pObstacle : m_Obstacles)
+	{
+		// write size of obstacle
+		const size_t splineCount = pObstacle.size();
+		of.write((char*)&splineCount, sizeof(int));
+
+		for (glm::vec2& vertices : pObstacle)
+		{
+			// write all vertices
+			of.write((char*)&vertices, sizeof(glm::vec2));
+		}
+	}
+
+	of.close();
+}
+

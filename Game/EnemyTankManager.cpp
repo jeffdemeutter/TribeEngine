@@ -19,17 +19,31 @@ EnemyTankManager::EnemyTankManager(GameObject* pGo, GameObject* pTarget, LevelCo
 	, m_pLevel(pLevel)
 	, m_pBulletManager(pBulletManager)
 {
-	ServiceLocator::GetEventManager()->AddEventHandle(ReloadScene, [this](GameObject*, int)
+	ServiceLocator::GetEventManager()->AddEventHandle(PlayerDied, [this](GameObject*, int)
 	{
-		RespawnEnemies();
+		DeleteEnemies();
 	});
+
+
+	const auto& CheckRemainingEnemies = [this](GameObject*, int)
+	{
+		if (!GetParent()->IsActive())
+			return;
+		
+		const size_t childCount = GetParent()->GetGameObjects().size();
+		// we check for 1 or lower, because the enemy calling this event, might not be deleted yet
+		if (childCount <= 1)
+			ServiceLocator::GetEventManager()->Notify(nullptr, ReloadScene);
+	};
+	ServiceLocator::GetEventManager()->AddEventHandle(BlueTankDied, CheckRemainingEnemies);
+	ServiceLocator::GetEventManager()->AddEventHandle(RecognizerDied, CheckRemainingEnemies);
 }
 
 void EnemyTankManager::Update(GameContext&)
 {
 	const size_t childCount = GetParent()->GetGameObjects().size();
 	if (childCount <= 0)
-		ServiceLocator::GetEventManager()->Notify(GetParent(), ReloadScene);
+		RespawnEnemies();
 }
 
 EnemyTankComponent* EnemyTankManager::AddEnemy(TankType type, bool initial)
@@ -72,7 +86,7 @@ EnemyTankComponent* EnemyTankManager::AddEnemy(TankType type, bool initial)
 	}
 }
 
-void EnemyTankManager::RespawnEnemies()
+void EnemyTankManager::DeleteEnemies()
 {
 	const auto pEnemyManager = GetParent();
 	const auto& pEnemies = pEnemyManager->GetGameObjects();
@@ -82,13 +96,15 @@ void EnemyTankManager::RespawnEnemies()
 		for (GameObject* pEnemy : pEnemies)
 			pEnemy->Remove();
 	}
-	else
-	{
-		for (int i = 0; i < m_BlueTankCount; ++i)
-			AddEnemy(TankType::blueTank, false);
+}
+
+void EnemyTankManager::RespawnEnemies()
+{
+	for (int i = 0; i < m_BlueTankCount; ++i)
+		AddEnemy(TankType::blueTank, false);
 
 
-		for (int i = 0; i < m_RecognizerCount; ++i)
-			AddEnemy(TankType::recognizer, false);
-	}
+	for (int i = 0; i < m_RecognizerCount; ++i)
+		AddEnemy(TankType::recognizer, false);
+	
 }
