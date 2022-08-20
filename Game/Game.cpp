@@ -44,9 +44,9 @@ void Game::LoadGame()
 {
 	// sound effects
 	ServiceLocator::GetSoundManager()->SetVolume(20);
-	ServiceLocator::GetSoundManager()->LoadEffect(shot, "../Data/Sound/Shot.wav");
-	ServiceLocator::GetSoundManager()->LoadEffect(GameEnd, "../Data/Sound/EndGame.wav");
-	ServiceLocator::GetSoundManager()->LoadEffect(hit, "../Data/Sound/Hit.wav");
+	ServiceLocator::GetSoundManager()->LoadEffect(shot, "/Data/Sound/Shot.wav");
+	ServiceLocator::GetSoundManager()->LoadEffect(GameEnd, "/Data/Sound/EndGame.wav");
+	ServiceLocator::GetSoundManager()->LoadEffect(hit, "/Data/Sound/Hit.wav");
 
 	InputAction reloadScene(new Command([]
 	{
@@ -154,7 +154,7 @@ void Game::LoadGame()
 			{
 				const auto pTrans = pLevel->AddComponent(new TransformComponent(pLevel, 100, 100));
 				pLevel->AddComponent(new RenderComponent(pLevel, pTrans, "level3.png"));
-				pLevel->AddComponent(new LevelComponent(pLevel, pTrans, "../Data/Level3.bLevel"));
+				pLevel->AddComponent(new LevelComponent(pLevel, pTrans, "/Data/Level3.bLevel"));
 			}
 
 			const auto pReset = pLevel->AddGameObject("Reset");
@@ -283,7 +283,7 @@ void Game::LoadGame()
 			{
 				const auto pTrans = pLevel->AddComponent(new TransformComponent(pLevel, 100, 100));
 				pLevel->AddComponent(new RenderComponent(pLevel, pTrans, "level2.png"));
-				pLevel->AddComponent(new LevelComponent(pLevel, pTrans, "../Data/Level2.bLevel"));
+				pLevel->AddComponent(new LevelComponent(pLevel, pTrans, "/Data/Level2.bLevel"));
 			}
 
 			const auto pReset = pLevel->AddGameObject("Reset");
@@ -415,7 +415,7 @@ void Game::LoadGame()
 				{
 					const auto pTrans = pLevel->AddComponent(new TransformComponent(pLevel, 100, 100));
 					pLevel->AddComponent(new RenderComponent(pLevel, pTrans, "level1.png"));
-					pLevel->AddComponent(new LevelComponent(pLevel, pTrans, "../Data/Level1.bLevel"));
+					pLevel->AddComponent(new LevelComponent(pLevel, pTrans, "/Data/Level1.bLevel"));
 				}
 
 				const auto pReset = pLevel->AddGameObject("Reset");

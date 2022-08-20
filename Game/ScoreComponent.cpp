@@ -10,7 +10,7 @@
 ScoreComponent::ScoreComponent(GameObject* go, TextComponent* pText, const std::string& highScorePath)
 	: Component(go)
 	, m_pTextComponent(pText)
-	, m_HighScorePath( "../Data/" + highScorePath)
+	, m_HighScorePath( "/Data/" + highScorePath)
 {
 	const auto& updateScoreLambda = [this](GameObject* go, int type)
 	{
