@@ -111,7 +111,7 @@ void Game::LoadGame()
 			const auto pRender = pSP->AddComponent(new RenderComponent(pSP, pTrans));
 			pSP->AddComponent(new TextComponent(pSP, pRender, "SinglePlayer", pFont));
 
-			const auto pCollision = pSP->AddComponent(new CollisionComponent(pSP, pTrans, 100, 40));
+			const auto pCollision = pSP->AddComponent(new CollisionComponent(pSP, pTrans, 250, 40));
 			const auto pButton = pSP->AddComponent(new ButtonComponent(pSP, pCollision, new Command([this]
 			{
 				m_GameContext.pSceneManager->ActivateScene("Scene3");
@@ -134,7 +134,7 @@ void Game::LoadGame()
 			const auto pRender = pCoop->AddComponent(new RenderComponent(pCoop, pTrans));
 			pCoop->AddComponent(new TextComponent(pCoop, pRender, "Co-op", pFont));
 
-			const auto pCollision = pCoop->AddComponent(new CollisionComponent(pCoop, pTrans, 100, 40));
+			const auto pCollision = pCoop->AddComponent(new CollisionComponent(pCoop, pTrans, 250, 40));
 			const auto pButton = pCoop->AddComponent(new ButtonComponent(pCoop, pCollision, new Command([this]
 			{
 				m_GameContext.pSceneManager->ActivateScene("Scene1");
