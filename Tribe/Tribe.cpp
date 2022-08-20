@@ -18,7 +18,7 @@ void Tribe::Run()
 	srand(static_cast <unsigned> (time(0)));
 
 	RenderManager::Init();
-	ResourceManager::Init("/Data/");
+	ResourceManager::Init("Data/");
 
 	ServiceLocator::SetSoundManager(new SoundManager());
 	ServiceLocator::SetEventManager(new EventManager());

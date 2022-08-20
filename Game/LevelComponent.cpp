@@ -24,7 +24,7 @@ LevelComponent::LevelComponent(GameObject* pGo, TransformComponent* pTrans, cons
 
 LevelComponent::~LevelComponent()
 {
-	//SaveFile("/Data/Level3.bLevel");
+	//SaveFile("Data/Level3.bLevel");
 }
 
 #pragma region ColorStuff

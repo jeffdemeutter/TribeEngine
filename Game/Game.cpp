@@ -32,6 +32,7 @@
 #include "ServiceLocator.h"
 #include "SoundManager.h"
 #include "TurretComponent.h"
+#include "InfoScreenComponent.h"
 
 Game::~Game()
 {
@@ -44,9 +45,9 @@ void Game::LoadGame()
 {
 	// sound effects
 	ServiceLocator::GetSoundManager()->SetVolume(20);
-	ServiceLocator::GetSoundManager()->LoadEffect(shot, "/Data/Sound/Shot.wav");
-	ServiceLocator::GetSoundManager()->LoadEffect(GameEnd, "/Data/Sound/EndGame.wav");
-	ServiceLocator::GetSoundManager()->LoadEffect(hit, "/Data/Sound/Hit.wav");
+	ServiceLocator::GetSoundManager()->LoadEffect(shot, "Data/Sound/Shot.wav");
+	ServiceLocator::GetSoundManager()->LoadEffect(GameEnd, "Data/Sound/EndGame.wav");
+	ServiceLocator::GetSoundManager()->LoadEffect(hit, "Data/Sound/Hit.wav");
 
 	InputAction reloadScene(new Command([]
 	{
@@ -86,6 +87,18 @@ void Game::LoadGame()
 		m_pLivesObject->AddComponent(new LivesComponent(m_pLivesObject, pText, 3));
 	}
 #pragma endregion
+
+	// Explanation screen
+	{
+		const auto& pInfoScreen = m_GameContext.pSceneManager->AddScene("InfoScreen");
+		{
+			const auto pScreen = pInfoScreen->AddGameObject("Screen");
+			const auto pTrans = pScreen->AddComponent(new TransformComponent(pScreen));
+			const auto pRender = pScreen->AddComponent(new RenderComponent(pScreen, pTrans, "InfoScreen.png"));
+			pRender->SetFullScreen(true);
+			pScreen->AddComponent(new InfoScreenComponent(pScreen, 5.f, "MainMenu"));
+		}
+	}
 
 	// Main Menu
 	{
@@ -136,6 +149,7 @@ void Game::LoadGame()
 			input.mouseButton = 0;
 			m_GameContext.pInput->AddInputAction(input);
 		}
+		pMainMenu->Deactivate();
 	}
 
 	// Level3
@@ -154,7 +168,7 @@ void Game::LoadGame()
 			{
 				const auto pTrans = pLevel->AddComponent(new TransformComponent(pLevel, 100, 100));
 				pLevel->AddComponent(new RenderComponent(pLevel, pTrans, "level3.png"));
-				pLevel->AddComponent(new LevelComponent(pLevel, pTrans, "/Data/Level3.bLevel"));
+				pLevel->AddComponent(new LevelComponent(pLevel, pTrans, "Data/Level3.bLevel"));
 			}
 
 			const auto pReset = pLevel->AddGameObject("Reset");
@@ -283,7 +297,7 @@ void Game::LoadGame()
 			{
 				const auto pTrans = pLevel->AddComponent(new TransformComponent(pLevel, 100, 100));
 				pLevel->AddComponent(new RenderComponent(pLevel, pTrans, "level2.png"));
-				pLevel->AddComponent(new LevelComponent(pLevel, pTrans, "/Data/Level2.bLevel"));
+				pLevel->AddComponent(new LevelComponent(pLevel, pTrans, "Data/Level2.bLevel"));
 			}
 
 			const auto pReset = pLevel->AddGameObject("Reset");
@@ -415,7 +429,7 @@ void Game::LoadGame()
 				{
 					const auto pTrans = pLevel->AddComponent(new TransformComponent(pLevel, 100, 100));
 					pLevel->AddComponent(new RenderComponent(pLevel, pTrans, "level1.png"));
-					pLevel->AddComponent(new LevelComponent(pLevel, pTrans, "/Data/Level1.bLevel"));
+					pLevel->AddComponent(new LevelComponent(pLevel, pTrans, "Data/Level1.bLevel"));
 				}
 
 				const auto pReset = pLevel->AddGameObject("Reset");
@@ -558,5 +572,5 @@ void Game::LoadGame()
 			pSceneManager->ActivateScene("Scene1");
 	});
 
-	m_GameContext.pSceneManager->ActivateScene("MainMenu");  
+	m_GameContext.pSceneManager->ActivateScene("InfoScreen");  
 }
