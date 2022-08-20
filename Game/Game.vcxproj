@@ -150,7 +150,7 @@
       <AdditionalLibraryDirectories>$(OutputPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy Data $(SolutionDir)$(Configuration)\Data /E /H /C /I /Y</Command>
+      <Command>xcopy Data $(SolutionDir)x64\$(Configuration)\Data /E /H /C /I /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -176,7 +176,7 @@
       <AdditionalLibraryDirectories>$(OutputPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy Data $(SolutionDir)$(Configuration)\Data /E /H /C /I /Y</Command>
+      <Command>xcopy Data $(SolutionDir)x64\$(Configuration)\Data /E /H /C /I /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -195,6 +195,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="HighScoreComponent.cpp" />
+    <ClCompile Include="InfoScreenComponent.cpp" />
     <ClCompile Include="LevelComponent.cpp" />
     <ClCompile Include="LivesComponent.cpp" />
     <ClCompile Include="main.cpp">
@@ -220,6 +221,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GamePCH.h" />
     <ClInclude Include="HighScoreComponent.h" />
+    <ClInclude Include="InfoScreenComponent.h" />
     <ClInclude Include="LevelComponent.h" />
     <ClInclude Include="LivesComponent.h" />
     <ClInclude Include="MovementComponent.h" />
